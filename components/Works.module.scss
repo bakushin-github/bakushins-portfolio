@@ -1,0 +1,21 @@
+@import "../app/styles/variables.module";
+
+.works {
+  height: 800px;
+  background-image: url("../public/About/PC/About_bg.webp");
+  max-width: 3000px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+
+}
+
+.works__inner{
+  div,h2{
+    color: $base-color-white;
+  }
+}
+
+.works__title{
+
+}

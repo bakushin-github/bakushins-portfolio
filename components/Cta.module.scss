@@ -1,0 +1,76 @@
+@import "../app/styles/variables.module";
+
+.cta {
+  position: relative;
+  background-image: url(../public/Cta/PC/cta_background.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  // max-width: 1440px;
+  width: 100%;
+max-height: 230px;
+height: auto;
+  padding-top: 80px;
+  padding-bottom: 77px;
+  overflow: hidden;
+}
+
+.cta__image_left {
+  position: absolute;
+  top: 111px;
+  left: calc(1440px - 1406.2px);
+  max-width: 206.0705207976327px;
+  max-height: 206.0705207976327px;
+  width: 100%;
+  height: auto;
+}
+
+.cta__image_center {
+  position: absolute;
+  top: 0;
+  left: calc(1440px - (1440px - 569.58px));
+  width: 100%;
+  height: auto;
+  max-width: 155.000010949514px;
+max-height: 154.99999569072537px;
+}
+
+.cta__image_right{
+  position: absolute;
+  top: 18px;
+  right: -128px;
+  width: 100%;
+  height: auto;;
+  max-width: 480.34326171875px;
+  max-height: 480.34326171875px;
+  overflow: hidden;
+}
+
+.cta__inner {
+  display: flex;
+  justify-content: space-between;
+  margin-right: calc(167px + (100vw - 1440px) * 167 / 1440);
+}
+
+.cta_text {
+  font-family: "Noto Sans JP";
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 170%;
+  letter-spacing: 0%;
+  color: $base-color-white;
+  margin-left: calc(167px + (100vw - 1440px) * 167 / 1440);
+  max-width: 439.48828125px;
+  height: 73px;
+}
+
+.cta__buttons{
+display: flex;
+align-items: center;
+gap: 16px;
+z-index: 2;
+}
+
+.cta_contact{
+  box-shadow: none;
+}

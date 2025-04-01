@@ -1,0 +1,16 @@
+@import "../app/styles/variables.module";
+
+.footer {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 170%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: $base-color-white;
+  background-color: $text-black;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
