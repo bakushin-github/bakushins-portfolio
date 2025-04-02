@@ -45,3 +45,8 @@
   gap: 32px;
 }
 
+.header__contact{
+  &:hover{
+    cursor: pointer;
+  }
+}

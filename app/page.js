@@ -12,6 +12,7 @@ import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Header_after from "@/components/Header_after";
+import Drawer_menu from "@/components/Drawer_menu";
 
 export default function Home() {
   const [showHeaderAfter, setShowHeaderAfter] = useState(false);
@@ -33,7 +34,7 @@ export default function Home() {
     <>
       {!showHeaderAfter && <Header />} {/* 最初に表示するHeader */}
       {showHeaderAfter && <Header_after />} {/* Works 以降のヘッダー */}
-
+<Drawer_menu />
       <Fv />
       <div id="works">
         <Works />

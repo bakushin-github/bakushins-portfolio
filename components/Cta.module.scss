@@ -23,6 +23,21 @@ height: auto;
   max-height: 206.0705207976327px;
   width: 100%;
   height: auto;
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes y-loop {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .cta__image_center {
@@ -33,6 +48,22 @@ height: auto;
   height: auto;
   max-width: 155.000010949514px;
 max-height: 154.99999569072537px;
+animation-name: y--loop;
+animation-duration: 6s;
+animation-iteration-count: infinite;
+
+}
+
+@keyframes y--loop {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .cta__image_right{
@@ -44,6 +75,9 @@ max-height: 154.99999569072537px;
   max-width: 480.34326171875px;
   max-height: 480.34326171875px;
   overflow: hidden;
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
 }
 
 .cta__inner {
@@ -71,6 +105,6 @@ gap: 16px;
 z-index: 2;
 }
 
-.cta_contact{
-  box-shadow: none;
+.cta_contact {
+  
 }
