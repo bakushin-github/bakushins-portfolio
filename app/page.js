@@ -16,13 +16,23 @@ import Drawer_menu from "@/components/Drawer_menu";
 
 export default function Home() {
   const [showHeaderAfter, setShowHeaderAfter] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       const worksSection = document.getElementById("works");
       if (worksSection) {
         const worksTop = worksSection.getBoundingClientRect().top;
-        setShowHeaderAfter(worksTop <= 0); // Worksが画面上部に来たらHeader_afterを表示
+        // Worksセクションが画面上部に来たときにHeader_afterを表示
+        setShowHeaderAfter(worksTop <= 0);
       }
     };
 
@@ -32,9 +42,19 @@ export default function Home() {
 
   return (
     <>
-      {!showHeaderAfter && <Header />} {/* 最初に表示するHeader */}
-      {showHeaderAfter && <Header_after />} {/* Works 以降のヘッダー */}
-<Drawer_menu />
+      {!showHeaderAfter && (
+        <Header toggleMenu={toggleMenu} />
+      )}
+      {showHeaderAfter && (
+        <Header_after toggleMenu={toggleMenu} />
+      )}
+      
+      <Drawer_menu
+        isOpen={isDrawerOpen}
+        closeDrawer={closeDrawer}
+        toggleMenu={toggleMenu}
+      />
+      
       <Fv />
       <div id="works">
         <Works />

@@ -17,7 +17,7 @@ import H2 from "../components/H2"
 function Works() {
   return (
     <>
-      <div className={styles.works}>
+      <div id='Works' className={styles.works}>
       <div className={styles.works__inner}>
        <H2 subText="制作実績" mainText="Works" className={styles.works__title}></H2>
       </div>

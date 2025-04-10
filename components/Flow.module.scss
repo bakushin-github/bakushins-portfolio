@@ -2,6 +2,29 @@
 
 .flow {
   height: 800px;
+  background-image: url("../public/Works/PC/Works_bg.webp");
+  background-size: cover;
   max-width: 3000px;
   width: 100%;
+  margin: 0 auto;
+  position: relative;
+  // 透明度を背景だけにかけたいなら、overlayで対応する
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.7); // 半透明の白
+    z-index: 1;
+  }
+
+  // 中身を前面に出す
+  &__inner {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.flow__title{
+  position: relative;
+  z-index: 2;
 }

@@ -3,10 +3,20 @@ import styles from "./Drawer_menu.module.scss";
 import Image from "next/image";
 import Faq from "./Faq";
 import Contact_button from "./Contact_button";
+import Link from "next/link";
+import Drawer_button from "./Drawer_button";
+import classNames from "classnames";
 
-function Drawer_menu() {
+function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
   return (
-    <div className={styles.Drawer_menu}>
+    <div className={classNames(styles.Drawer_menu, {
+      [styles.open]: isOpen
+    })}>
+      <Drawer_button
+        className={styles.Drawer_button}
+        isOpen={isOpen}
+        toggleDrawer={toggleMenu}
+      />
       <div className={styles.Drawer_flexLeft}>
         <Image
           src={"/DrawerMenu/PC/1st.webp"}
@@ -39,35 +49,51 @@ function Drawer_menu() {
       </div>
       <div className={styles.Drawer_flexRight}>
         <ul className={styles.Drawer_menu__boxInner}>
-          <li className={styles.Drawer_menu__list}>
-            <span>Top</span>
-            <span>→</span>
-          </li>
-          <li className={styles.Drawer_menu__list}>
-            <span>Works</span>
-            <span>→</span>
-          </li>
-          <li className={styles.Drawer_menu__list}>
-            <span>About</span>
-            <span>→</span>
-          </li>
-          <li className={styles.Drawer_menu__list}>
-            <span>Service</span>
-            <span>→</span>
-          </li>
-          <li className={styles.Drawer_menu__list}>
-            <span>Flow</span>
-            <span>→</span>
-          </li>
-          <li className={styles.Drawer_menu__list}>
-            <span>Blog</span>
-            <span>→</span>
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#Fv" onClick={closeDrawer} className={styles.Drawer_menu__list}>
+              <span>Top</span>
+              <span>→</span>{" "}
+            </Link>
           </li>
 
-        <div className={styles.Drawer_menu__buttons}>
-          <Faq className={styles.Drawer_menu__faq} />
-          <Contact_button className={styles.Drawer_menu__contact} />
-        </div>
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#Works" onClick={closeDrawer}  className={styles.Drawer_menu__list}>
+              <span>Works</span>
+              <span>→</span>
+            </Link>
+          </li>
+
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#About" onClick={closeDrawer}  className={styles.Drawer_menu__list}>
+              <span>About</span>
+              <span>→</span>
+            </Link>
+          </li>
+
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#Service" onClick={closeDrawer}  className={styles.Drawer_menu__list}>
+              <span>Service</span>
+              <span>→</span>
+            </Link>
+          </li>
+
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#Flow" onClick={closeDrawer}  className={styles.Drawer_menu__list}>
+              <span>Flow</span>
+              <span>→</span>
+            </Link>
+          </li>
+
+          <li className={styles.Drawer_menu__List}>
+            <Link href="#Blogs" onClick={closeDrawer}  className={styles.Drawer_menu__list}>
+              <span>Blog</span>
+              <span>→</span>
+            </Link>
+          </li>
+          <div className={styles.Drawer_menu__buttons}>
+            <Faq className={styles.Drawer_menu__faq} />
+            <Contact_button className={styles.Drawer_menu__contact} />
+          </div>
         </ul>
       </div>
     </div>

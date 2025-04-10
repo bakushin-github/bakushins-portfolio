@@ -1,13 +1,31 @@
 @import "../app/styles/variables.module";
 
 .Drawer_menu {
-  position: relative;
+  position: fixed;
   background-image: url(../public/Works/PC/Works_bg.webp);
   background-size: cover;
   z-index: 4;
-  display: flex;
   flex-direction: row;
   height: 100vh;
+  display: flex; /* 常に表示されるようにする */
+  opacity: 0; /* 初期状態では透明 */
+  pointer-events: none; /* 初期状態ではクリック不可 */
+  transition: opacity 0.5s ease-in-out; /* 透明度の変化を0.5秒かけて行う */
+  
+  
+  &.open{
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
+.Drawer_button {
+  position: absolute;
+  top: 29px;
+  right: 74px;
+  z-index: 4;
 }
 
 .Drawer_flexLeft {
@@ -23,9 +41,8 @@
   top: 84px;
   left: 23px;
   animation-name: y-loop;
-animation-duration: 6s;
-animation-iteration-count: infinite;
-
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
 }
 
 .Drawer_menu__2 {
@@ -33,21 +50,22 @@ animation-iteration-count: infinite;
   top: 138.47px;
   left: 385.9px;
   animation-name: y-loop;
-animation-duration: 6s;
-animation-iteration-count: infinite;
-
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
 }
 
 .Drawer_menu__3 {
   position: absolute;
   bottom: 0;
   left: 273px;
+  width: 100%;
+  height: auto;
+  max-width: 280px;
+  max-height: 214px;
   animation-name: y--loop;
-animation-duration: 6s;
-animation-iteration-count: infinite;
-
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
 }
-
 
 @keyframes y-loop {
   0% {
@@ -97,13 +115,18 @@ animation-iteration-count: infinite;
   transform: translate(-50%, -50%);
   height: 100vh;
   padding-top: 118px;
+  padding-bottom: 118px;
   padding-left: 173px;
+}
+
+.Drawer_menu__List {
+  list-style: none;
 }
 
 .Drawer_menu__list {
   display: flex;
   width: 410px;
-  height: 62px;
+  height: 61px;
   font-size: 22px;
   font-family: "Noto Sans JP";
   font-weight: 400;
@@ -111,8 +134,8 @@ animation-iteration-count: infinite;
   letter-spacing: 3%;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-bottom-width: 0.5px;
   border-bottom: 0.5px solid #adaeae;
 }
@@ -127,11 +150,15 @@ animation-iteration-count: infinite;
 .Drawer_menu__faq {
   color: $main-color-blue;
   border: solid 1px $main-color-blue;
-  width: 212px !important;
-  height: 64px !important;
+  width: 212px;
+  height: 64px;
+  max-width: 212px;
+  max-height: 64px;
 }
 
 .Drawer_menu__contact {
-  width: 212px !important;
-  height: 64px !important;
+  width: 212px;
+  height: 64px;
+  max-width: 212px;
+  max-height: 64px;
 }

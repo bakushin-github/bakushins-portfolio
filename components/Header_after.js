@@ -7,7 +7,8 @@ import Link from "next/link";
 import Contact_button from "../components/Contact_button";
 import Drawer_button from "../components/Drawer_button";
 
-function Header_after() {
+// toggleMenuプロパティを受け取るようにする
+function Header_after({ toggleMenu }) {
   return (
     <div className={styles.headerAfter}>
       <div className={styles.headerAfter__inner}>
@@ -21,7 +22,11 @@ function Header_after() {
         ></Image>
         <div className={styles.headerAfter__buttons}>
           <Contact_button className={styles.headerAfter__contact} />
-          <Drawer_button />
+          {/* toggleDrawerプロパティにtoggleMenu関数を渡す */}
+          <Drawer_button 
+            toggleDrawer={toggleMenu} 
+            className={styles.headerAfter__drawerButton}
+          />
         </div>
       </div>
     </div>
