@@ -1,8 +1,108 @@
 @import "../app/styles/variables.module";
 
 .service {
+  position: relative;
   background: $base-color-off_white;
-  height: 800px;
   max-width: 3000px;
   width: 100%;
+}
+
+.service__inner{
+position: relative;
+padding-bottom: 96px;
+padding-inline: 170px;
+margin: auto;
+}
+
+.line {
+  position: absolute;
+  top: 772.82px;
+  left: 0;
+  width: 256px;
+  height: 700px;
+  object-fit: cover;
+}
+
+.polygon1{
+  position: absolute;
+  top: 1260.82px;
+  left: 175.11PX;
+}
+
+.polygon2{
+  position: absolute;
+  top: 1358.6px;
+  left: 175PX;
+}
+
+.h2Content{
+H2{
+  margin-bottom: 0;
+}
+}
+
+.service__title{
+  height: 114px;
+  margin-left: 0;
+  padding-bottom: 40.13px;
+}
+
+.service__text{
+padding-left: 4px;
+width: 770px;
+font-family: "Noto Sans JP";
+font-weight: 400;
+font-size: 16px;
+line-height: 180%;
+letter-spacing: 0%;
+margin: 0;
+}
+
+.figure{
+  width: 391px;
+  height: 447px;
+  margin: auto;
+
+}
+
+.image{
+  max-width: 391px;
+  max-height: 252px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.service__content{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-row-gap: 96px;
+  grid-column-gap: 80px;
+  padding-left: 222px;
+  padding-bottom: 38px;
+  margin-top: 72px;
+  figure {
+    &:nth-child(2),
+    &:nth-child(4) {
+      margin-top: 0; // 明示的に 0 に設定
+    }
+    &:first-child,
+    &:nth-child(3) {
+      margin-top: 52px;
+    }
+  }
+}
+
+.figcaption{
+
+}
+
+.title{
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.caption{
+  margin: auto;
 }
