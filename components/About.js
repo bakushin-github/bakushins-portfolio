@@ -45,6 +45,20 @@ const contentItemVariants = {
   },
 };
 
+// about__2nd用の遅延付きバリアント
+const secondSectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      delay: 1.8, // 1.5秒の遅延を追加
+    },
+  },
+};
+
 function About() {
   // lineアニメーションが完了したらtrueになる状態
   const [lineAnimationComplete, setLineAnimationComplete] = useState(false);
@@ -135,10 +149,10 @@ function About() {
               </div>
             </motion.div>
 
-            {/* 第2セクションをモーションでラップ */}
+            {/* 第2セクションをモーションでラップ - 遅延付きバリアントを使用 */}
             <motion.div
               className={styles.about__2nd}
-              variants={contentItemVariants}
+              variants={secondSectionVariants} // 遅延付きバリアントを適用
             >
               <div className={styles.about__coding}>
                 <Image

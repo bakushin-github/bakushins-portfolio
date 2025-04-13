@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FvTextImage from "./animation/Fv_text_image.js";
 import styles from "./FV.module.scss";
-// import Header from "./Header.js";
+
 
 function Fv() {
   const [aElementsComplete, setAElementsComplete] = useState(false);

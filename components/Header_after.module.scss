@@ -1,4 +1,4 @@
-@import "../app/styles/variables.module";
+@use "../app/styles/variables.module" as *;
 
 .headerAfter {
   position: fixed;
