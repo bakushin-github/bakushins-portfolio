@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Cta.module.scss";
 import Image from "next/image";
 import Faq from "./Faq";
-import Contact_button from "./Contact_button";
+import Contact_button from "./CtaContact";
 function Cta() {
   return (
     <div className={styles.cta}>

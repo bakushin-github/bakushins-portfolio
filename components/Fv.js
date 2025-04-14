@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FvTextImage from "./animation/Fv_text_image.js";
 import styles from "./FV.module.scss";
+import Image from "next/image.js";
 
 
 function Fv() {
@@ -52,7 +53,7 @@ function Fv() {
         // top: "110",
       }}>
       {/* Initially hidden images */}
-      <img
+      <Image
         className={styles.fv_header_ball}
         src="/Fv/header_ball.webp"
         alt="header_ball"
@@ -60,7 +61,7 @@ function Fv() {
         height="44"
         style={{ display: "none" }}
       />
-      <img
+      <Image
         className={styles.fv_header_line}
         src="/Fv/header_line.webp"
         alt="header_line"
@@ -68,7 +69,7 @@ function Fv() {
         height="178"
         style={{ display: "none" }}
       />
-      <img
+      <Image
         className={styles.fv_left_line}
         src="/Fv/left_line.webp"
         alt="left_line"
@@ -76,7 +77,7 @@ function Fv() {
         height="197"
         style={{ display: "none" }}
       />
-      <img
+      <Image
         className={styles.fv_right_line}
         src="/Fv/right_line.webp"
         alt="right_line"
@@ -84,7 +85,7 @@ function Fv() {
         height="215"
         style={{ display: "none" }}
       />
-      <img
+      <Image
         className={styles.fv_right_polygon_left}
         src="/Fv/right_polygon_left.webp"
         alt="right_polygon_left"
@@ -92,7 +93,7 @@ function Fv() {
         height="79"
         style={{ display: "none" }}
       />
-      <img
+      <Image
         className={styles.fv_right_polygon_right}
         src="/Fv/right_polygon_right.webp"
         alt="right_polygon_right"
@@ -187,10 +188,11 @@ function Fv() {
               borderRadius: "9.74px",
             }}
           >
-            <img
+            <Image
               src="/Fv/fv_image.webp"
               alt="fv_image"
-              style={{ width: "100%", height: "100%" }}
+              width= "420"
+              height= "467"
             />
           </motion.div>
 

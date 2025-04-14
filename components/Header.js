@@ -21,22 +21,22 @@ function Header() {
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>
             <li>
-              <Link href="/">Top</Link>
+              <Link href="#Fv">Top</Link>
             </li>
             <li>
-              <Link href="/works">Works</Link>
+              <Link href="#Works">Works</Link>
             </li>
             <li>
-              <Link href="/about">About</Link>
+              <Link href="#About">About</Link>
             </li>
             <li>
-              <Link href="/service">Service</Link>
+              <Link href="#Service">Service</Link>
             </li>
             <li>
-              <Link href="/flow">Flow</Link>
+              <Link href="#Flow">Flow</Link>
             </li>
             <li>
-              <Link href="/blog">Blog</Link>
+              <Link href="#Blogs">Blog</Link>
             </li>
           </ul>
           <Contact_button className={styles.header__contact} />
