@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Header_after from "@/components/Header_after";
 import Drawer_menu from "@/components/Drawer_menu";
+import ScrollToHash from "@/components/ScrollToHash";
 
 export default function Home() {
   const [showHeaderAfter, setShowHeaderAfter] = useState(false);
@@ -42,6 +43,7 @@ export default function Home() {
 
   return (
     <>
+    <ScrollToHash />
       {!showHeaderAfter && (
         <Header toggleMenu={toggleMenu} />
       )}
@@ -64,7 +66,6 @@ export default function Home() {
       <Flow />
       <Blogs />
       <Cta />
-      <Footer />
     </>
   );
 }

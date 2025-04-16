@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 function CtaContact({className}) {
   return (
-    <Link href="https://bakushin.blog/contact/" className={styles.contact__link}>
+    <Link href="/contact/" className={styles.contact__link}>
       <div className={`${styles.contact__button} ${className || ''}`}>
         <div className={styles.default_content}>
           <Image src="/Header/PC/mail.webp" alt="contact" width={20} height={20} />

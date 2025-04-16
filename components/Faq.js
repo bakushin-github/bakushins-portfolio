@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 function Faq({ className }) {
   return (
-    <Link href="https://bakushin.blog/contact/">
+    <Link href="/faq">
     <button className={`${styles.faq} ${className || ''}`}>
       よくある質問
     </button></Link>
