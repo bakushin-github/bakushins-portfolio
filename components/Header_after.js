@@ -12,6 +12,7 @@ function Header_after({ toggleMenu }) {
   return (
     <div className={styles.headerAfter}>
       <div className={styles.headerAfter__inner}>
+      <Link href="#Fv">
         <Image
           className={styles.headerAfter__logo}
           src="/Header/PC/Logo.webp"
@@ -19,7 +20,7 @@ function Header_after({ toggleMenu }) {
           height={47.99}
           alt="ロゴ"
           priority={true}
-        ></Image>
+        ></Image></Link>
         <div className={styles.headerAfter__buttons}>
           <Contact_button className={styles.headerAfter__contact} />
           {/* toggleDrawerプロパティにtoggleMenu関数を渡す */}

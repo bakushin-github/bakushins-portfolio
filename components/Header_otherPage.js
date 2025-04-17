@@ -10,6 +10,7 @@ function Header_otherPage() {
   return (
     <div className={styles.header}>
       <div className={styles.header__inner}>
+      <Link href="/#Fv">
         <Image
           className={styles.header__logo}
           src="/Header/PC/Logo.webp"
@@ -17,7 +18,7 @@ function Header_otherPage() {
           height={47.99}
           alt="ロゴ"
           priority={true}
-        ></Image>
+        ></Image></Link>
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>
             <li>

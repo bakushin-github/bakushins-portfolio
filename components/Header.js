@@ -10,14 +10,15 @@ function Header() {
   return (
     <div className={styles.header}>
       <div className={styles.header__inner}>
-        <Image
+       <Link href="#Fv">
+       <Image
           className={styles.header__logo}
           src="/Header/PC/Logo.webp"
           width={170.18}
           height={47.99}
           alt="ロゴ"
           priority={true}
-        ></Image>
+        ></Image></Link>
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>
             <li>
