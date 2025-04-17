@@ -2,8 +2,42 @@
 
 .thanks{
   width: 100vw;
-  height: 100vh;
-text-align: center;
+  height: calc(100vh - 60px);
+position: relative;
+overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.left_1stLine,.left_2ndLine,.right_2ndLine,.right_polygon1,.right_polygon2{
+  position: absolute;
+}
+
+.left_1stLine{
+top: -437px;
+z-index: -1;
+}
+
+.left_2ndLine{
+  bottom: -125px;
+  z-index: -1;
+}
+
+.right_2ndLine{
+  top: 283.07px;
+right: -10px;
+z-index: -1;
+}
+
+
+.right_polygon1{
+  top: 438px;
+  right: 467px;
+  z-index: -1;
+}
+.right_polygon2{
+  top: 265px;
+  right: 467px;
+  z-index: -1;
 }
 
 .thanksHeader{
