@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         {/* OGP・Twitterカード */}
         <meta property="og:title" content="bakushin's portfolio" />
         <meta property="og:description" content="bakushin's portfolio" />
-        <meta property="og:image" content="/Header/PC/Logo.webp" />
+        <meta property="og:image" content="/OGP.webp" />
         <meta property="og:url" content="https://bakushin.blog" />
         <meta name="twitter:card" content="summary_large_image" />
       </head>

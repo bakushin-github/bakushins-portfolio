@@ -1,0 +1,76 @@
+@use '../../app/styles/variables.module.scss' as *;
+
+.faq {
+
+}
+
+.faq__inner {
+  padding-top: 110px;
+}
+
+.faq__title {
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-bottom: 72px;
+}
+
+.faq__h1 {
+  position: relative;
+  font-family: "Noto Sans JP";
+  color: $main-color-dark_blue;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 170%;
+  letter-spacing: 4%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 26px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border: solid 2px $accent-color-red;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    color: $accent-color-red;
+  }
+}
+
+.faq__h2 {
+padding-left: 26px;
+   margin-top: 4px;
+   margin-bottom: 0;
+   height: 96px;
+  color: $main-color-dark_blue;
+  font-family: "DM Sans";
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: bottom;
+}
+
+.faq__items{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  margin-bottom: 96px;
+}
+
+.faq__itemsToggle{
+
+}
+
+.toggle__button{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}

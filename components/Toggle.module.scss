@@ -1,0 +1,58 @@
+@use "../app/styles/variables.module" as *;
+
+.faq__toggle {
+  width: 600px;
+  padding: 24px 32px;
+  border-radius: 6px;
+  border: solid 1px #CACCD3;
+  box-shadow: 0px 2px 10px 0px #19213D0D;
+  position: relative;
+  margin-bottom: 16px; // トグル間のスペース
+}
+
+.toggle__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.toggle__title {
+  margin: 0;
+  font-family: "Noto Sans JP";
+  font-weight: 600;
+  font-size: 16px;
+  color: $main-color-dark_blue;
+  flex-grow: 1;
+  padding-right: 40px; // ボタンのためのスペースを確保
+}
+
+.toggle__button {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 20px;
+  position: absolute;
+  right: 32px; // 右端から32px
+  top: 24px; // 上端から24px
+  cursor: pointer;
+  color: $main-color-dark_blue;
+}
+
+.toggle__content {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #EAEAEA;
+}
+
+.toggle__explanation {
+  margin: 0;
+  font-family: "Noto Sans JP";
+  font-size: 14px;
+  line-height: 1.7;
+  color: $main-color-dark_blue;
+}
