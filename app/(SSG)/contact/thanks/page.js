@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "../components/SSG/not-found.module.scss";
+import styles from "./page.module.scss";
 import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
 import Image from "next/image";
 
-function not_found() {
+function page() {
   return (
-    <div className={styles.not_found}>
+    <div className={styles.thanks}>
       <Image
         className={styles.left_1stLine}
         src="/LowerLayer/PC/left_1stLine.webp"
@@ -41,15 +41,15 @@ function not_found() {
         width={239}
         height={120}
       />
-      <Header_otherPage className={styles.not_foundHeader} />
-      <h1 className={styles.not_found404}>404</h1>
-      <p className={styles.not_foundP}>
-        お探しのページが見つかりません。
+      <Header_otherPage className={styles.thanksHeader} />
+      <h1 className={styles.thanks404}>Thank you !</h1>
+      <p className={styles.thanksP}>
+        お問い合わせいただきありがとうございました。
         <br />
-        一時的にアクセスできない状況にあるか、移動もしくは削除された可能性があります。
+        当日、または翌営業日までにご連絡差し上げます。
       </p>
     </div>
   );
 }
 
-export default not_found;
+export default page;

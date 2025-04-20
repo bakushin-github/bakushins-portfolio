@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/globals.scss";
-import Footer from "@/components/Footer";
+import Footer from "@/components/SSG/Footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +20,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-            <head>
+      <head>
         {/* index メタタグ（デフォルト設定） */}
         <meta name="robots" content="index, follow" />
-        
+
         {/* ファビコン関連 */}
         <link rel="icon" type="image/webp" sizes="64x62" href="/favicon.webp" />
         <meta name="theme-color" content="#ffffff" />

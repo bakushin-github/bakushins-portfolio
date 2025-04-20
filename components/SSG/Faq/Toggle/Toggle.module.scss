@@ -1,0 +1,94 @@
+@use "../../../../app/styles/variables.module" as *;
+
+.qa_box {
+  width: 600px;
+  border-radius: 6px;
+  border: solid 1px #CACCD3;
+  box-shadow: 0px 2px 10px 0px #19213D0D;
+  overflow: hidden;
+}
+
+.qa_box__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  cursor: pointer;
+  position: relative;
+  background-color: $base-color-white;
+}
+
+.qa_box__head_wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.qa_box__head_text {
+  font-family: "Noto Sans JP";
+  font-weight: 600;
+  font-size: 16px;
+  color: $text-black;
+}
+
+.qa_box__move {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.qa_box__dash, 
+.qa_box__dash2 {
+  position: absolute;
+  background-color: $main-color-blue;;
+  border-radius: 2px;
+}
+
+.qa_box__dash {
+  width: 16px;
+  height: 2px;
+  top: 9px;
+  left: 2px;
+  transition: transform 0.3s ease;
+
+}
+
+.qa_box__dash2 {
+  width: 2px;
+  height: 16px;
+  top: 2px;
+  left: 9px;
+  transition: transform 0.3s ease;
+}
+
+.is_open .qa_box__dash {
+  transform: rotate(-180deg);
+}
+.is_open .qa_box__dash2 {
+  transform: rotate(90deg);
+}
+
+.qa_box__body {
+  background-color: $base-color-white;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.is_open .qa_box__body {
+  max-height: 500px; // 十分な高さを設定（超えるならJS対応が必要）
+  opacity: 1;
+}
+
+.qa_box__a {
+  padding: 0 65px 24px 32px ;
+}
+
+.qa_box__a_text {
+  margin: 0;
+  font-family: "Noto Sans JP";
+  font-size: 14px;
+  line-height: 1.7;
+  color: $accent-color-gray;
+}

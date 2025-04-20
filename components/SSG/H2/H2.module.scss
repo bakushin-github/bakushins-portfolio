@@ -1,0 +1,38 @@
+@use "../../../app/styles/variables.module" as *;
+
+.h2 {
+  padding-top: 96px;
+  max-width: 1100px;
+  width: 100%;
+  color: $main-color-dark_blue;
+  margin-left: calc(170px + (100vw - 1440px) * 170 / 1440);
+}
+
+.h2_subText {
+  position: relative;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 170%;
+  letter-spacing: 4%;
+  padding-left: 26px;
+  color: $main-color-dark_blue;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border: solid 2px $accent-color-red;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    color: $accent-color-red;
+  }
+}
+
+.h2_mainText {
+  margin-top: 4px;
+  height: 96px;
+  color: $main-color-dark_blue;
+}

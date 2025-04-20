@@ -1,0 +1,72 @@
+@use "../../app/styles/_variables.module" as *;
+
+.not_found{
+  width: 100vw;
+  height: calc(100vh - 60px);
+position: relative;
+overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.95);
+
+}
+
+.left_1stLine,.left_2ndLine,.right_2ndLine,.right_polygon1,.right_polygon2{
+  position: absolute;
+}
+
+.left_1stLine{
+top: -437px;
+z-index: -1;
+}
+
+.left_2ndLine{
+  bottom: -125px;
+  z-index: -1;
+}
+
+.right_2ndLine{
+  top: 283.07px;
+right: -10px;
+z-index: -1;
+}
+
+
+.right_polygon1{
+  top: 438px;
+  right: 467px;
+  z-index: -1;
+}
+.right_polygon2{
+  top: 265px;
+  right: 467px;
+  z-index: -1;
+}
+
+.not_foundHeader{
+
+}
+.not_found404{
+  font-family: "DM Sans";
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: bottom;
+  margin-block: 0;
+  padding-top: 350px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $main-color-dark_blue
+}
+
+.not_foundP{
+  font-family: "Noto Sans JP";
+font-weight: 400;
+font-size: 16px;
+line-height: 180%;
+letter-spacing: 0%;
+text-align: center;
+margin-top: 56px;
+margin-bottom: 0;
+}
