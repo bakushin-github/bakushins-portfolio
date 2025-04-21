@@ -1,57 +1,6 @@
-@use '../../styles/variables.module' as *;
+@use "../../styles/variables.module" as *;
 
-.faq {
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.left_1stLine,.left_2ndLine,.right_1stLine,.ball,.right_2ndLine,.right_polygon1,.right_polygon2{
-  position: absolute;
-}
-
-.left_1stLine{
-  top: -60px;
-  z-index: -1;
-}
-
-.left_2ndLine{
-  bottom: 280px;
-  z-index: -1;
-
-}
-
-.right_1stLine{
-  right: 95px;
-  top: -75px;
-  z-index: -1;
-}
-
-.ball{
-  right: 470px;
-  top: 230px;
-  z-index: -1;
-}
-
-.right_2ndLine{
-  top: 600px;
-right: -10px;
-z-index: -1;
-}
-
-
-.right_polygon1{
-  top: 850px;
-  right: 467px;
-  z-index: -1;
-}
-.right_polygon2{
-  top: 640px;
-  right: 467px;
-  z-index: -1;
-}
-
-.faq__inner {
+.contact__inner {
   padding-top: 110px;
   padding-bottom: 96px;
 }
@@ -62,7 +11,7 @@ z-index: -1;
   left: 170px;
   }
 
-.faq__title {
+.contact__title {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +19,7 @@ z-index: -1;
   margin-top: 66px;
 }
 
-.faq__h1 {
+.contact__h1 {
   position: relative;
   font-family: "Noto Sans JP";
   color: $main-color-dark_blue;
@@ -94,7 +43,7 @@ z-index: -1;
   }
 }
 
-.faq__h2 {
+.contact__h2 {
   padding-left: 26px;
   margin-top: 4px;
   margin-bottom: 0;
@@ -108,16 +57,15 @@ z-index: -1;
   vertical-align: bottom;
 }
 
-.faq__items {
-  margin-top: 72px;
+.contact__click{
   display: flex;
-  gap: 24px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
-.faq__itemsToggle {
-  
+.contact__pp{
+  text-decoration: underline;
+  color: $main-color-dark_blue;
+
 }

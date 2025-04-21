@@ -4,6 +4,12 @@ import styles from "./page.module.scss";
 import Cta from "@/components/SSG/Cta/Cta";
 import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
 import Image from "next/image";
+import Breadcrumb from "@/components/Breadcrumb/index";
+import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
+
+// パスを静的に渡して生成
+const breadcrumbItems = generateBreadcrumb('/faq');
+
 
 // 複数の質問データを取得（静的にビルド時に実行される）
 async function getData() {
@@ -92,7 +98,9 @@ export default async function FaqPage() {
       />
       <Header_otherPage />
       <div className={styles.faq__inner}>
-        <div className={styles.breadcrumb}>パンくず</div>{" "}
+      <div className={styles.Breadcrumb}>
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
         <div className={styles.faq__title}>
           <h1 className={styles.faq__h1}>よくある質問</h1>
           <h2 className={styles.faq__h2}>FAQ</h2>
