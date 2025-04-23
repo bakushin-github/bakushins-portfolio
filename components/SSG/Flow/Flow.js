@@ -3,6 +3,7 @@ import H2 from "../H2/H2";
 import styles from "./Flow.module.scss";
 import Image from "next/image";
 import { motion, useAnimation, useInView } from "framer-motion";
+import Link from "next/link";
 
 function Flow() {
   // セクションの参照を作成
@@ -105,7 +106,7 @@ function Flow() {
                         <br />
                         お見積りをご提案します。
                       </p>
-                      <p className={styles.price}>費用のめやすはこちら </p>
+                      <Link href={"/price"} className={styles.price__link}><p className={styles.price}>費用のめやすはこちら {'>'} </p></Link>
                     </>
                   )}
                   {index === 2 && (

@@ -1,0 +1,159 @@
+@use "../../styles/variables.module" as *;
+
+.price {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.left_1stLine,
+.left_2ndLine,
+.right_1stLine,
+.ball,
+.right_polygon1 {
+  position: absolute;
+}
+
+.left_1stLine {
+  top: 0px;
+  z-index: -1;
+}
+
+.left_2ndLine {
+  bottom: 280px;
+  z-index: -1;
+}
+
+.right_1stLine {
+  right: 0;
+  top: 0px;
+  z-index: -1;
+}
+
+.ball {
+  right: 470px;
+  top: 300px;
+  z-index: -1;
+}
+
+.right_polygon1 {
+  bottom: 0;
+  right: 420px;
+  z-index: -1;
+}
+
+.price__inner {
+  padding-top: 110px;
+  padding-bottom: 96px;
+}
+
+.Breadcrumb {
+  position: absolute;
+  top: 140px;
+  left: 170px;
+  margin: 0;
+}
+
+.price__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 105px;
+}
+
+.price__h1 {
+  position: relative;
+  font-family: "Noto Sans JP";
+  color: $main-color-dark_blue;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 170%;
+  letter-spacing: 4%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 26px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border: solid 2px $accent-color-red;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    color: $accent-color-red;
+  }
+}
+
+.price__h2 {
+  padding-left: 26px;
+  margin-top: 4px;
+  margin-bottom: 0;
+  height: 96px;
+  color: $main-color-dark_blue;
+  font-family: "DM Sans";
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: bottom;
+}
+
+.price__text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 72px;
+  margin-bottom: 62px;
+}
+
+.price__explanation {
+  width: 528px;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 180%;
+  letter-spacing: 0%;
+  color: $text-black;
+}
+
+
+.price__tableContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.price_table {
+  border-collapse: collapse;
+  border: 1px solid #CACCD3;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px 0px #19213D0D;
+  overflow: hidden;
+ }
+
+.visually_hidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+
+
+.price__tableBody{
+
+  background: $base-color_white;
+  tr{
+    border-bottom: 1px solid #CACCD3;
+    padding: 22px 29px;
+      width: 528px;
+    display: flex;
+    justify-content: space-between;
+    td{
+      text-align: left;
+      &:nth-child(2){
+        text-align: right;
+        font-weight: 700;
+      }
+    }
+  }
+
+}
