@@ -5,6 +5,7 @@ import Image from "next/image";
 import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
+import Cta from "@/components/SSG/Cta/Cta";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/price");
@@ -19,13 +20,6 @@ export default function Price() {
         width={439}
         height={565}
         priority
-      />
-      <Image
-        className={styles.left_2ndLine}
-        src="/LowerLayer/PC/left_2ndLine.webp"
-        alt="left_2ndLine"
-        width={547}
-        height={350}
       />
       <Image
         className={styles.right_1stLine}
@@ -92,6 +86,7 @@ export default function Price() {
           </table>
         </div>
       </div>
+      <Cta />
     </div>
   );
 }

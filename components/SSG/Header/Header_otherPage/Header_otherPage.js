@@ -1,7 +1,7 @@
 import React from "react";
 import { Noto_Sans_JP } from "next/font/google";
 import variablestyles from "../../../../app/styles/_variables.module.scss";
-import styles from "../Header/Header.module.scss";
+import styles from "../Header_otherPage/Header_otherPage.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Contact_button from "../../Contact_button/Contact_button";

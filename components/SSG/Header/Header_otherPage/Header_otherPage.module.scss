@@ -1,13 +1,26 @@
-@use "../app/styles/variables.module" as *;
+@use "../../../../app/styles/variables.module" as *;
 
 .header {
   position: fixed;
   z-index: 3;
-  max-width: 100vw;
-  font-family: "Noto Sans JP";
-  color: $text-black;
+  width: 100%;
   padding: 29px 72px;
-  margin-top: 0 !important;
+  color: $text-black;
+  font-family: "Noto Sans JP";
+  // 背景を擬似要素で敷く
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0; // top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1); // ← ここで透明感調整
+    z-index: -1;
+  }
+  nav{
+    background: $base-color-white;
+    padding: 50px;
+    border-radius: 16px;
+    transform: translateY(-50px);
+  }
   ul {
     list-style-type: none;
     font-weight: 400;
