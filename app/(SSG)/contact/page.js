@@ -6,12 +6,10 @@ import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import Image from "next/image";
 
-<script src="https://www.google.com/recaptcha/api.js?render=あなたのサイトキー" />;
-
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
 
-function page() {
+function Page() {
   return (
     <>
       <div className={styles.contact}>
@@ -50,114 +48,119 @@ function page() {
           width={644}
           height={1009}
         />
+
         <Header_otherPage />
+
         <div className={styles.contact__inner}>
           <div className={styles.Breadcrumb}>
             <Breadcrumb items={breadcrumbItems} />
           </div>
+
           <div className={styles.contact__title}>
             <h1 className={styles.contact__h1}>お問い合わせ</h1>
             <h2 className={styles.contact__h2}>Contact</h2>
           </div>
+
           <p className={styles.contact____explanation}>
-            依無料でご相談、お見積もりを承っております。
+            無料でご相談、お見積もりを承っております。
             <br />
             お気軽にご相談ください。
           </p>
+
           <form className={styles.contact__form}>
             <div className={styles.form__contentWrap}>
-            <div className={styles.form__content}>
-              <label className={styles.labelName}  htmlFor="name">会社名</label>
-              <input
-                className={styles.contact__input}
-                type="text"
-                id="name"
-                placeholder=""
-              />
-            </div>
-            <div className={styles.form__content}>
-              <label className={styles.labelName} htmlFor="name">
-                お名前<span className={styles.required}>必須</span>
-              </label>
-              <input
-                className={styles.contact__input}
-                type="text"
-                id="name"
-                placeholder=""
-              />
-            </div>
-            <div className={styles.form__content}>
-              <label className={styles.labelName}  htmlFor="name">
-                メールアドレス<span className={styles.required}>必須</span>
-              </label>
-              <input
-                className={styles.contact__input}
-                type="text"
-                id="name"
-                placeholder=""
-              />
-            </div>
-            <div className={styles.form__content}>
-              <label className={styles.labelName} htmlFor="name">
-                お問い合わせ内容<span className={styles.required}>必須</span>
-                <label className={styles.radio}>
-                  <span className={styles.radioCheck}></span>
-                  <input
-                    className={styles.contact__input}
-                    type="radio"
-                    id="HP"
-                    text="ホームページ制作"
-                    placeholder=""
-                  />ホームページ制作
+              <div className={styles.form__content}>
+                <label className={styles.labelName} htmlFor="company">
+                  会社名
                 </label>
-                <label className={styles.radio}>
-                  <span className={styles.radioCheck}></span>
-                  <input
-                    className={styles.contact__input}
-                    type="radio"
-                    id="HPCustomize"
-                  />ホームページ修正
+                <input
+                  className={styles.contact__personalInformation}
+                  type="text"
+                  id="company"
+                  name="company"
+                  placeholder="会社名"
+                />
+              </div>
+
+              <div className={styles.form__content}>
+                <label className={styles.labelName} htmlFor="name">
+                  お名前<span className={styles.required}>必須</span>
                 </label>
-                <label className={styles.radio}>
-                  <span className={styles.radioCheck}></span>
-                  <input
-                    className={styles.contact__input}
-                    type="radio"
-                    id="EC"
-                  />ECサイト制作・修正
+                <input
+                  className={styles.contact__personalInformation
+                  }
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="お名前"
+                />
+              </div>
+
+              <div className={styles.form__content}>
+                <label className={styles.labelName} htmlFor="email">
+                  メールアドレス<span className={styles.required}>必須</span>
                 </label>
-                <label className={styles.radio}>
-                  <span className={styles.radioCheck}></span>
-                  <input
-                    className={styles.contact__input}
-                    type="radio"
-                    id="others"
-                  />その他
+                <input
+                  className={styles.contact__personalInformation}
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email@address"
+                />
+              </div>
+
+              <div className={styles.form__content}>
+                <label className={styles.labelName} htmlFor="inquiry">
+                  お問い合わせ内容<span className={styles.required}>必須</span>
                 </label>
+
+                <div className={styles.radioWrap}>
+                  <label className={styles.radio}>
+                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ホームページ制作" required checked />
+                    ホームページ制作
+                  </label>
+
+                  <label className={styles.radio}>
+                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ホームページ修正" required />
+                    ホームページ修正
+                  </label>
+
+                  <label className={styles.radio}>
+                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ECサイト制作・修正"  required/>
+                    ECサイト制作・修正
+                  </label>
+
+                  <label className={styles.radio}>
+                    <input className={styles.contact__radio} type="radio" name="inquiry" value="その他" required />
+                    その他
+                  </label>
+                </div>
+
                 <textarea
                   id="text"
+                  name="detail"
                   placeholder="お問い合わせ内容の詳細をご記入ください"
+                  className={styles.contact__textarea}
                 />
-              </label>
-            </div>
-            <div className={styles.form__pp}>
-              <label className={styles.form__ppLabel}>
-                <Link className={styles.contact__pp} href={"/privacy_policy"}>
-                  プライバシーポリシーに同意する
-                </Link>
-                <input
-                  className={styles.contact__input}
-                  type="checkbox"
-                  id="pp"
-                />
-              </label>
-            </div>
-            <div className={styles.contact__click}>
-              <br />
-              <Link href="/contact/thanks">
-                <button>送信する →</button>
-              </Link>
-            </div>
+              </div>
+
+              <div className={styles.form__pp}>
+                <label className={styles.form__ppLabel}>
+                  <input
+                    className={styles.contact__checkbox}
+                    type="checkbox"
+                    id="pp"
+                    name="privacy"
+                  />
+                  <Link className={styles.contact__pp} href="/privacy_policy">
+                    プライバシーポリシーに同意する
+                  </Link>
+                </label>
+              </div>
+
+              <div className={styles.contact__click}>
+                <button type="submit">送信する →</button>
+              </div>
             </div>
           </form>
         </div>
@@ -166,4 +169,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
