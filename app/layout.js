@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/globals.scss";
 import Footer from "@/components/SSG/Footer/Footer";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +35,17 @@ export default function RootLayout({ children }) {
         <meta property="og:image" content="/OGP.webp" />
         <meta property="og:url" content="https://bakushin.blog" />
         <meta name="twitter:card" content="summary_large_image" />
+            {/* Google reCAPTCHA v3 */}
+            <script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          async
+          defer
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
-      </body>
       <Footer />
+      </body>
     </html>
   );
 }

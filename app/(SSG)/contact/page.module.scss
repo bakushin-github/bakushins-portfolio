@@ -160,13 +160,13 @@
   margin-left: 5px;
 }
 
-.radioWrap{
+.checkboxWrap{
   display: inline-block;
   width: 536px;
   box-sizing: border-box;
 }
 
-.radio {
+.checkbox {
   position: relative;
   font-weight: 400;
   font-size: 15px;
@@ -174,49 +174,57 @@
   letter-spacing: 0px;
   vertical-align: middle;
   padding-left: 28px;
+  cursor: pointer;
   &:not(:nth-child(3)){
     padding-right: 24px;
   }
-
-  &::before,&::after{
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    border:2px solid $main-color-blue ;
-    border-radius: 50%;
-    box-sizing: border-box;
-  }
-
-  &::before{
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    border:2px solid $main-color-blue ;
-    border-radius: 50%;
-    box-sizing: border-box;
-    }
-
-  &::after{
-    left: 4px;
-    width: 12px;
-    height: 12px;
-    background: $main-color-blue ;
-  }
 }
 
-.contact__radio{
+.contact__checkbox{
   width: 1px;
   height: 1px;
   position: absolute;
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
+}
+
+.custom__checkbox{
+  &::before,&::after{
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &::before {
+    width: 20px;
+    height: 20px;
+    left: 0;
+    border:2px solid #CACCD3 ;
+    border-radius: 50%;
+    }
+
+  &::after{
+    border:2px solid $main-color-blue ;
+    border-radius: 50%;
+    left: 4px;
+    width: 12px;
+    height: 12px;
+    background: $main-color-blue ;
+    opacity: 0;
+  }
 
 }
+
+.contact__checkbox:checked + .custom__checkbox::before {
+  border-color: $main-color-blue;
+}
+
+.contact__checkbox:checked + .custom__checkbox::after{
+  opacity: 1;
+}
+
+
 
 .contact__textarea {
   width: 624px;
@@ -253,7 +261,18 @@
 
 .form__ppLabel{
   position: relative;
-  &::before{
+}
+
+.contact__checkbox{
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+.custom__pp{
+  &::before,&::after{
     content: "";
     position: absolute;
     top: 50%;
@@ -265,18 +284,26 @@
   &::before {
     width: 20px;
     height: 20px;
-  
+    }
+
+  &::after{
+    opacity: 0;
   }
-
-
 }
 
-.contact__checkbox{
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  clip: rect(0, 0, 0, 0);
-  overflow: hidden;
+
+.contact__checkbox:checked + .custom__pp:before {
+  border:2px solid $main-color-blue;
+}
+
+.contact__checkbox:checked + .custom__pp:after{
+  width: 12px;
+  height: 12px;
+  background: $main-color-blue ;
+  border:2px solid $main-color-blue;
+
+  left: 4px;
+  opacity: 1;
 }
 
 .contact__click {

@@ -5,6 +5,8 @@ import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_ot
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import Image from "next/image";
+import ContactForm from "./contactForm";
+import useRecaptcha from "@/hooks/useRecaptcha";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
@@ -66,8 +68,8 @@ function Page() {
             <br />
             お気軽にご相談ください。
           </p>
-
-          <form className={styles.contact__form}>
+<ContactForm />
+          {/* <form className={styles.contact__form}>
             <div className={styles.form__contentWrap}>
               <div className={styles.form__content}>
                 <label className={styles.labelName} htmlFor="company">
@@ -87,8 +89,7 @@ function Page() {
                   お名前<span className={styles.required}>必須</span>
                 </label>
                 <input
-                  className={styles.contact__personalInformation
-                  }
+                  className={styles.contact__personalInformation}
                   type="text"
                   id="name"
                   name="name"
@@ -114,24 +115,49 @@ function Page() {
                   お問い合わせ内容<span className={styles.required}>必須</span>
                 </label>
 
-                <div className={styles.radioWrap}>
-                  <label className={styles.radio}>
-                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ホームページ制作" required checked />
+                <div className={styles.checkboxWrap}>
+                  <label className={styles.checkbox}>
+                    <input
+                      className={styles.contact__checkbox}
+                      type="checkbox"
+                      name="inquiry"
+                      value="ホームページ制作"
+                      defaultChecked
+                    />
+                    <span className={styles.custom__checkbox}></span>
                     ホームページ制作
                   </label>
 
-                  <label className={styles.radio}>
-                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ホームページ修正" required />
+                  <label className={styles.checkbox}>
+                    <input
+                      className={styles.contact__checkbox}
+                      type="checkbox"
+                      name="inquiry"
+                      value="ホームページ修正"
+                    />
+                    <span className={styles.custom__checkbox}></span>
                     ホームページ修正
                   </label>
 
-                  <label className={styles.radio}>
-                    <input className={styles.contact__radio} type="radio" name="select-only-one" value="ECサイト制作・修正"  required/>
+                  <label className={styles.checkbox}>
+                    <input
+                      className={styles.contact__checkbox}
+                      type="checkbox"
+                      name="inquiry"
+                      value="ECサイト制作・修正"
+                    />
+                    <span className={styles.custom__checkbox}></span>
                     ECサイト制作・修正
                   </label>
 
-                  <label className={styles.radio}>
-                    <input className={styles.contact__radio} type="radio" name="inquiry" value="その他" required />
+                  <label className={styles.checkbox}>
+                    <input
+                      className={styles.contact__checkbox}
+                      type="checkbox"
+                      name="inquiry"
+                      value="その他"
+                    />
+                    <span className={styles.custom__checkbox}></span>
                     その他
                   </label>
                 </div>
@@ -152,6 +178,7 @@ function Page() {
                     id="pp"
                     name="privacy"
                   />
+                  <span className={styles.custom__pp}></span>{" "}
                   <Link className={styles.contact__pp} href="/privacy_policy">
                     プライバシーポリシーに同意する
                   </Link>
@@ -159,10 +186,12 @@ function Page() {
               </div>
 
               <div className={styles.contact__click}>
-                <button type="submit">送信する →</button>
+                <Link href="/contact/thanks">
+                  <button type="submit">送信する →</button>
+                </Link>
               </div>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </>
