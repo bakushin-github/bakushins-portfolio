@@ -1,20 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import useRecaptcha from "@/hooks/useRecaptcha";
-import { useRouter } from "next/navigation"; // App Routerを使用
+import { useRouter } from "next/navigation";
+import HoneypotField from "@/components/HoneypotField/honeypotField";
 
 export default function ContactForm() {
-  const router = useRouter(); // Next.jsのルーターを追加
+  const router = useRouter();
   const [formData, setFormData] = useState({
     company: "",
     name: "",
     email: "",
-    inquiry: [],
+    inquiry: ["ホームページ制作"], // デフォルトで「ホームページ制作」をチェック
     detail: "",
     privacy: false,
+    website: "", // ← ハニーポットフィールド追加
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState(null);
@@ -41,97 +43,84 @@ export default function ContactForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitResult(null);
-    console.log('フォーム送信開始', formData);
 
     try {
-      // reCAPTCHAトークンを取得
-      const token = await executeRecaptcha('submit_contact');
-      
+      const token = await executeRecaptcha("submit_contact");
+
       if (!token) {
         setSubmitResult({
           success: false,
-          message: 'reCAPTCHAの検証に失敗しました。もう一度お試しください。'
+          message: "reCAPTCHAの検証に失敗しました。",
         });
         setIsSubmitting(false);
         return;
       }
 
-      // APIに送信するデータを構築
       const submitData = {
         name: formData.name,
         email: formData.email,
         company: formData.company,
         detail: formData.detail,
         inquiry: formData.inquiry,
-        recaptchaToken: token  // reCAPTCHAトークンを含める
+        website: formData.website, // これがハニーポットフィールド
+        recaptchaToken: token,
       };
-      
-      console.log('送信データ:', submitData);
 
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
       });
 
-      console.log('APIレスポンスステータス:', res.status);
-      
-      // レスポンステキストを取得
       const responseText = await res.text();
-      console.log('APIレスポンステキスト:', responseText);
-      
+
       let data;
       try {
         data = JSON.parse(responseText);
-      } catch (e) {
-        console.error('JSONパースエラー:', e);
+      } catch (err) {
         setSubmitResult({
           success: false,
-          message: 'レスポンスの解析に失敗しました'
+          message: "レスポンスの解析に失敗しました",
         });
         setIsSubmitting(false);
         return;
       }
-      
+
       if (data.success) {
-        // 成功したら即座にリダイレクト
-        router.push('/contact/thanks');
+        router.push("/contact/thanks"); // ✅ 遷移処理を復元
       } else {
         setSubmitResult({
           success: false,
-          message: data.message || '詳細不明のエラーが発生しました'
+          message: data.message || "送信に失敗しました",
         });
       }
     } catch (error) {
-      console.error("フォーム送信エラー:", error);
       setSubmitResult({
         success: false,
-        message: `エラーが発生しました: ${error.message}`
+        message: `エラーが発生しました: ${error.message}`,
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // reCAPTCHAの状態表示
-  const recaptchaStatus = recaptchaLoaded 
-    ? "reCAPTCHA保護が有効です" 
+  const recaptchaStatus = recaptchaLoaded
+    ? "reCAPTCHA保護が有効です"
     : "reCAPTCHA読み込み中...";
 
   return (
     <form className={styles.contact__form} onSubmit={handleSubmit}>
       <div className={styles.form__contentWrap}>
-        {/* 結果メッセージ表示 */}
         {submitResult && (
-          <div style={{ 
-            margin: '10px 0', 
-            padding: '10px', 
-            backgroundColor: submitResult.success ? '#e8f5e9' : '#ffebee',
-            borderRadius: '4px',
-            fontSize: '14px'
-          }}>
+          <div
+            style={{
+              margin: "10px 0",
+              padding: "10px",
+              backgroundColor: submitResult.success ? "#e8f5e9" : "#ffebee",
+              borderRadius: "4px",
+              fontSize: "14px",
+            }}
+          >
             <p>{submitResult.message}</p>
           </div>
         )}
@@ -189,7 +178,12 @@ export default function ContactForm() {
           </label>
 
           <div className={styles.checkboxWrap}>
-            {["ホームページ制作", "ホームページ修正", "ECサイト制作・修正", "その他"].map((label) => (
+            {[
+              "ホームページ制作",
+              "ホームページ修正",
+              "ECサイト制作・修正",
+              "その他",
+            ].map((label) => (
               <label key={label} className={styles.checkbox}>
                 <input
                   className={styles.contact__checkbox}
@@ -232,27 +226,63 @@ export default function ContactForm() {
             </Link>
           </label>
         </div>
-
-        {/* reCAPTCHA状態表示 */}
-        <div style={{ 
-          margin: '10px 0', 
-          padding: '5px', 
-          backgroundColor: recaptchaLoaded ? '#e8f5e9' : '#fff3e0',
-          borderRadius: '4px',
-          fontSize: '14px'
-        }}>
-          <p>{recaptchaStatus}</p>
-          <p style={{ fontSize: '12px', color: '#666' }}>このサイトはreCAPTCHA v3で保護されており、Googleの<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>と<a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">利用規約</a>が適用されます。</p>
-        </div>
-
         <div className={styles.contact__click}>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={isSubmitting || !formData.privacy || !recaptchaLoaded}
           >
             {isSubmitting ? "送信中..." : "送信する →"}
           </button>
         </div>
+
+        <div
+          style={{
+            margin: "10px 0",
+            padding: "5px",
+            backgroundColor: recaptchaLoaded ? "#e8f5e9" : "#fff3e0",
+            borderRadius: "4px",
+            fontSize: "14px",
+          }}
+        >
+          <p>{recaptchaStatus}</p>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#666",
+              whiteSpace: "normal",
+              lineHeight: "1.5",
+            }}
+          >
+            このフォームは、Googleの安全確認システムを使っています。
+            <br />
+            より快適に安心してご利用いただくため、Googleの
+            <a
+              style={{ textDecoration: "underline", color: "#2F4AB2" }}
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              プライバシーポリシー
+            </a>
+            と
+            <a
+              style={{ textDecoration: "underline", color: "#2F4AB2" }}
+              href="https://policies.google.com/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              利用規約
+            </a>
+            が適用されます。
+          </p>
+        </div>
+
+        <HoneypotField
+          value={formData.website}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, website: e.target.value }))
+          }
+        />
       </div>
     </form>
   );
