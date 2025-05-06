@@ -1,0 +1,49 @@
+@use "../../../app/styles/variables.module" as *;
+
+.worksContents {
+}
+
+.figure {
+  position: relative;
+  width: 353px;
+  height: 346px;
+  left: 190px;
+  gap: 10px;
+  border-radius: 8px;
+  background: $base-color-white;
+  text-align: center;
+  img {
+    height: 200px;
+    object-fit: cover;
+  }
+  .figcaption {
+    height: 146px;
+    padding-inline: 31.5px;
+    text-align: left;
+  }
+}
+
+.worksLink {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 31px;
+  bottom: 23px;
+  border: 1px solid;
+  // border-image-source: linear-gradient(
+  //   282.13deg,
+  //   #366195 10.86%,
+  //   #333398 77.59%
+  // );
+  border-image-slice: 1;
+  border-image-width: 1px;  // 任意
+  border-image-repeat: stretch; // 任意
+  border-radius: 8px;
+  color: #2f4ab2;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: $base-color-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

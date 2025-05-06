@@ -62,8 +62,8 @@ function Service() {
           <MotionImage
             className={styles.line}
             src="/Service/PC/line.webp"
-            width={128}
-            height={350}
+            width={256}
+            height={700}
             alt="line"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}

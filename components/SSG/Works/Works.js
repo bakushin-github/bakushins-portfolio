@@ -5,14 +5,9 @@ import variablestyles from "../../../app/styles/_variables.module.scss";
 import styles from "./Works.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-// core version + navigation, pagination modules:
-import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-// import Swiper and modules styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import H2 from "../H2/H2";
+import SplideGallery from "./SplideGallery";
+
 
 function Works() {
   return (
@@ -25,6 +20,7 @@ function Works() {
             className={styles.works__title}
           ></H2>
         </div>
+        <SplideGallery />
       </div>
     </>
   );

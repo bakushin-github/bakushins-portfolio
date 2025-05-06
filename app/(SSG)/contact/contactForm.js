@@ -1,69 +1,65 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
-import useRecaptcha from "@/hooks/useRecaptcha";
 import { useRouter } from "next/navigation";
 import HoneypotField from "@/components/HoneypotField/honeypotField";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import useRecaptcha from "@/hooks/useRecaptcha";
+
+// Zodでバリデーションスキーマを定義
+const contactSchema = z.object({
+  company: z.string().optional(),
+  name: z.string().min(1, "お名前がまだのようです。入力をお願いできますか？"),
+  email: z.string().email("メールアドレスが正しくないようです。もう一度ご確認ください。"),
+  inquiry: z.array(z.string()).min(1, "内容を選んでください。ピッタリじゃなくても大丈夫です！"),
+  detail: z.string().min(1, "空っぽみたいです◎ひとことでもいいので、わかる範囲で書いてもらえたら嬉しいです！").max(1000, "1000文字以内で入力してください"),
+  privacy: z.boolean().refine(val => val === true, {
+    message: "ごめんなさい、プライバシーポリシーへの同意が必要です。"
+  }),
+  website: z.string().optional() // ハニーポットフィールド
+});
 
 export default function ContactForm() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    company: "",
-    name: "",
-    email: "",
-    inquiry: ["ホームページ制作"], // デフォルトで「ホームページ制作」をチェック
-    detail: "",
-    privacy: false,
-    website: "", // ← ハニーポットフィールド追加
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState(null);
   const { recaptchaLoaded, executeRecaptcha } = useRecaptcha();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState(null);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (type === "checkbox" && name === "inquiry") {
-      setFormData((prev) => ({
-        ...prev,
-        inquiry: checked
-          ? [...prev.inquiry, value]
-          : prev.inquiry.filter((v) => v !== value),
-      }));
-    } else if (type === "checkbox") {
-      setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+  // React Hook Formの初期化
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      company: "",
+      name: "",
+      email: "",
+      inquiry: ["ホームページ制作"],
+      detail: "",
+      privacy: false,
+      website: "" // ハニーポットフィールド
     }
-  };
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // フォーム送信処理
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
-    setSubmitResult(null);
+    setSubmitError(null);
 
     try {
       const token = await executeRecaptcha("submit_contact");
 
       if (!token) {
-        setSubmitResult({
-          success: false,
-          message: "reCAPTCHAの検証に失敗しました。",
-        });
+        setSubmitError("reCAPTCHAの検証に失敗しました。");
         setIsSubmitting(false);
         return;
       }
 
       const submitData = {
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-        detail: formData.detail,
-        inquiry: formData.inquiry,
-        website: formData.website, // これがハニーポットフィールド
-        recaptchaToken: token,
+        ...data,
+        recaptchaToken: token
       };
 
       const res = await fetch("/api/contact", {
@@ -74,54 +70,52 @@ export default function ContactForm() {
 
       const responseText = await res.text();
 
-      let data;
+      let responseData;
       try {
-        data = JSON.parse(responseText);
+        responseData = JSON.parse(responseText);
       } catch (err) {
-        setSubmitResult({
-          success: false,
-          message: "レスポンスの解析に失敗しました",
-        });
+        setSubmitError("レスポンスの解析に失敗しました");
         setIsSubmitting(false);
         return;
       }
 
-      if (data.success) {
-        router.push("/contact/thanks"); // ✅ 遷移処理を復元
+      if (responseData.success) {
+        router.push("/contact/thanks");
       } else {
-        setSubmitResult({
-          success: false,
-          message: data.message || "送信に失敗しました",
-        });
+        setSubmitError(responseData.message || "送信に失敗しました");
       }
     } catch (error) {
-      setSubmitResult({
-        success: false,
-        message: `エラーが発生しました: ${error.message}`,
-      });
+      setSubmitError(`エラーが発生しました: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const inquiryOptions = [
+    "ホームページ制作",
+    "ホームページ修正",
+    "ECサイト制作・修正",
+    "その他"
+  ];
 
   const recaptchaStatus = recaptchaLoaded
     ? "reCAPTCHA保護が有効です"
     : "reCAPTCHA読み込み中...";
 
   return (
-    <form className={styles.contact__form} onSubmit={handleSubmit}>
+    <form className={styles.contact__form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.form__contentWrap}>
-        {submitResult && (
+        {submitError && (
           <div
             style={{
               margin: "10px 0",
               padding: "10px",
-              backgroundColor: submitResult.success ? "#e8f5e9" : "#ffebee",
+              backgroundColor: "#ffebee",
               borderRadius: "4px",
               fontSize: "14px",
             }}
           >
-            <p>{submitResult.message}</p>
+            <p>{submitError}</p>
           </div>
         )}
 
@@ -133,10 +127,8 @@ export default function ContactForm() {
             className={styles.contact__personalInformation}
             type="text"
             id="company"
-            name="company"
             placeholder="会社名"
-            value={formData.company}
-            onChange={handleChange}
+            {...register("company")}
           />
         </div>
 
@@ -148,12 +140,14 @@ export default function ContactForm() {
             className={styles.contact__personalInformation}
             type="text"
             id="name"
-            name="name"
             placeholder="お名前"
-            required
-            value={formData.name}
-            onChange={handleChange}
+            {...register("name")}
           />
+          {errors.name && (
+            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
         <div className={styles.form__content}>
@@ -164,12 +158,14 @@ export default function ContactForm() {
             className={styles.contact__personalInformation}
             type="email"
             id="email"
-            name="email"
             placeholder="Email@address"
-            required
-            value={formData.email}
-            onChange={handleChange}
+            {...register("email")}
           />
+          {errors.email && (
+            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         <div className={styles.form__content}>
@@ -178,35 +174,54 @@ export default function ContactForm() {
           </label>
 
           <div className={styles.checkboxWrap}>
-            {[
-              "ホームページ制作",
-              "ホームページ修正",
-              "ECサイト制作・修正",
-              "その他",
-            ].map((label) => (
-              <label key={label} className={styles.checkbox}>
-                <input
-                  className={styles.contact__checkbox}
-                  type="checkbox"
-                  name="inquiry"
-                  value={label}
-                  checked={formData.inquiry.includes(label)}
-                  onChange={handleChange}
-                />
-                <span className={styles.custom__checkbox}></span>
-                {label}
-              </label>
-            ))}
+            <Controller
+              name="inquiry"
+              control={control}
+              render={({ field }) => (
+                <>
+                  {inquiryOptions.map((option) => (
+                    <label key={option} className={styles.checkbox}>
+                      <input
+                        className={styles.contact__checkbox}
+                        type="checkbox"
+                        value={option}
+                        checked={field.value.includes(option)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const isChecked = e.target.checked;
+                          
+                          if (isChecked) {
+                            field.onChange([...field.value, value]);
+                          } else {
+                            field.onChange(field.value.filter(item => item !== value));
+                          }
+                        }}
+                      />
+                      <span className={styles.custom__checkbox}></span>
+                      {option}
+                    </label>
+                  ))}
+                </>
+              )}
+            />
           </div>
+          {errors.inquiry && (
+            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+              {errors.inquiry.message}
+            </p>
+          )}
 
           <textarea
             id="detail"
-            name="detail"
             placeholder="お問い合わせ内容の詳細をご記入ください"
             className={styles.contact__textarea}
-            value={formData.detail}
-            onChange={handleChange}
+            {...register("detail")}
           />
+          {errors.detail && (
+            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+              {errors.detail.message}
+            </p>
+          )}
         </div>
 
         <div className={styles.form__pp}>
@@ -215,21 +230,24 @@ export default function ContactForm() {
               className={styles.contact__checkbox}
               type="checkbox"
               id="privacy"
-              name="privacy"
-              checked={formData.privacy}
-              onChange={handleChange}
-              required
+              {...register("privacy")}
             />
             <span className={styles.custom__pp}></span>{" "}
             <Link className={styles.contact__pp} href="/privacy_policy">
               プライバシーポリシーに同意する
             </Link>
           </label>
+          {errors.privacy && (
+            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+              {errors.privacy.message}
+            </p>
+          )}
         </div>
+        
         <div className={styles.contact__click}>
           <button
             type="submit"
-            disabled={isSubmitting || !formData.privacy || !recaptchaLoaded}
+            disabled={isSubmitting || !recaptchaLoaded}
           >
             {isSubmitting ? "送信中..." : "送信する →"}
           </button>
@@ -278,10 +296,8 @@ export default function ContactForm() {
         </div>
 
         <HoneypotField
-          value={formData.website}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, website: e.target.value }))
-          }
+          value={register("website").value}
+          onChange={(e) => register("website").onChange(e)}
         />
       </div>
     </form>
