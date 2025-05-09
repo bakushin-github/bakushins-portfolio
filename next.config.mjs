@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['localhost', 'bakushin.blog'], // 複数のドメインを配列内に含める
+  },
   async headers() {
     return [
       {

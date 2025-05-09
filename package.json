@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@hookform/resolvers": "^5.0.1",
     "@splidejs/react-splide": "^0.7.12",
     "classnames": "^2.5.1",
     "framer-motion": "^12.6.0",
     "googleapis": "^148.0.0",
+    "graphql": "^16.11.0",
     "next": "^15.2.4",
     "nodemailer": "^6.10.1",
     "react": "^19.1.0",
