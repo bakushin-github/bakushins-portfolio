@@ -1,7 +1,7 @@
 import React from 'react'
 import H2 from '../../SSG/H2/H2'
 import styles from './Blogs.module.scss'
-import Figure from './Figure'
+import Figure from './article'
 
 function Blogs() {
   return (

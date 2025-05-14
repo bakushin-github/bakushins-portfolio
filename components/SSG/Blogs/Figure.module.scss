@@ -7,7 +7,7 @@
   margin-bottom: 92px;
   display: flex;
   gap: 24px;
-  justify-content: center;
+  // justify-content: center;
 }
 
 .figure {
@@ -15,7 +15,7 @@
   margin: 0;
   width: 353px;
   height: 346px;
-  // left: 190px;
+  left: 190px;
   gap: 10px;
   border-radius: 8px;
   background: $base-color-white;

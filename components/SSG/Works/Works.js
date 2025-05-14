@@ -6,7 +6,7 @@ import styles from "./Works.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import H2 from "../H2/H2";
-import SplideGallery from "./SplideGallery";
+import SwiperGallery from "./SwiperGallery";
 
 
 function Works() {
@@ -20,7 +20,7 @@ function Works() {
             className={styles.works__title}
           ></H2>
         </div>
-        <SplideGallery />
+        <SwiperGallery />
       </div>
     </>
   );

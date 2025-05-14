@@ -1,0 +1,186 @@
+@use "../../../app/styles/variables.module" as *;
+
+.worksContents {
+  position: relative;
+  // padding-top: 56px;
+  padding-bottom: 40px;
+  margin-bottom: 92px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.postCard {
+  position: relative;
+  margin: 0;
+  width: 353px;
+  height: 346px;
+  // left: 190px;
+  gap: 10px;
+  border-radius: 8px;
+  background: $base-color-white;
+  text-align: center;
+
+  /* header内の画像 */
+  .postHeader {
+    img {
+      height: 200px;
+      width: 353px;
+      object-fit: cover;
+      border-radius: 8px 8px 0 0;
+    }
+  }
+  .Category {
+    position: absolute;
+    max-width: 300px;
+    width: auto;
+    height: 30px;
+    top: 16px;
+    right: 19px;
+    border-radius: 3px;
+    border-width: 1px;
+    padding: 10px;
+    color: $main-color-dark_blue;
+    background: $base-color-white;
+    font-family: "Inter";
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 160%;
+    letter-spacing: 0%;
+    border: 1px solid #caccd3;
+    box-shadow: 0px 1px 10px 0px #19213d33;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .postFooter {
+    height: 197px;
+    padding-inline: 31.5px;
+    text-align: left;
+    box-sizing: border-box;
+    h3 {
+      padding-top: 24px;
+      padding-bottom: 13px;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    p {
+      margin: 0;
+      padding-bottom: 80px;
+      height: 82px;
+      box-sizing: border-box;
+    }
+  }
+}
+
+.worksLink {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 31px;
+  bottom: 23px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; // はみ出した要素をクリップするために重要
+
+  // グラデーションボーダーのための余白
+  padding: 1px;
+
+  // 背景グラデーション（ホバーで表示される部分）
+  background: linear-gradient(282.13deg, #366195 10.86%, #333398 77.59%);
+  background-size: 200% 100%; // アニメーションのために幅を2倍に
+  background-position: 100% 0; // 初期状態ではグラデーションの左側を隠す
+  transition: background-position 0.4s ease-in-out; // グラデーションの出現アニメーション
+
+  // 矢印アイコンと内側背景のコンテナ
+  &::before {
+    content: "";
+    display: block; // transformとサイズ指定のため
+    width: 100%; // 親要素のpadding領域いっぱいに広がる
+    height: 100%; // 親要素のpadding領域いっぱいに広がる
+
+    background-color: $base-color-white; // 通常時の背景色
+    background-image: url("../../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
+    background-size: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 7px; // 親要素のradiusより少し小さくして内側感を出す
+
+    // 初期状態とホバー解除時のためのトランジション
+    // transform と opacity はアニメーション終了後にスムーズに戻るように
+    transition: background-color 0.4s ease-in-out,
+      background-image 0.4s ease-in-out, transform 0.3s ease-out,
+      // ホバー解除時の戻りアニメーション
+      opacity 0.3s ease-out; // ホバー解除時の戻りアニメーション
+
+    // アニメーションのための初期transformとopacity
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  &:hover {
+    background-position: 0 0; // グラデーションを左から表示
+
+    &::before {
+      // ホバー時の初期変化（矢印の色と背景）
+      background-color: transparent; // 親のグラデーションが見えるように
+      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
+
+      // 矢印の連続アニメーションを適用
+      // initial_hover_duration (0.4s) の後に開始
+      animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
+    }
+  }
+}
+
+// 矢印の連続アニメーションのキーフレーム
+@keyframes arrow-cycle {
+  // アニメーション開始時 (白い矢印が中央にある状態)
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  // --- Phase 1: 右へ移動して消える ---
+  // (アニメーション全体の 0% から 50% を使用)
+
+  // 少し中央で待機
+  20% {
+    // 例: 1.2s * 0.2 = 0.24s 地点
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  // 右端へ移動し、完全に透明になる
+  50% {
+    // 例: 1.2s * 0.5 = 0.6s 地点
+    transform: translateX(100%); // 要素の幅分、右へ移動
+    opacity: 0;
+  }
+
+  // --- Phase 2: 左から出現して中央へ移動 ---
+  // (アニメーション全体の 50% から 100% を使用)
+
+  // 右で消えた直後、瞬時に左端へ移動 (まだ透明)
+  50.01% {
+    // ほぼ50%と同時
+    transform: translateX(-100%); // 要素の幅分、左へ移動
+    opacity: 0;
+  }
+  // 左端で少し待機 (まだ透明)
+  70% {
+    // 例: 1.2s * 0.7 = 0.84s 地点
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  // 左端から中央へ移動し、完全に表示される
+  100% {
+    // 例: 1.2s * 1.0 = 1.2s 地点
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
