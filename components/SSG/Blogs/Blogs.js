@@ -1,7 +1,7 @@
 import React from 'react'
 import H2 from '../../SSG/H2/H2'
 import styles from './Blogs.module.scss'
-import Figure from './article'
+import LatestPosts from './article'
 
 function Blogs() {
   return (
@@ -11,7 +11,7 @@ function Blogs() {
      <H2 subText="ブログ" mainText="Blogs" className={styles.blogs__title}></H2>
     </div>
     <div className={styles.figureBox}>
-    <Figure />
+    <LatestPosts />
     </div>
   </div>
   </>

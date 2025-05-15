@@ -403,7 +403,7 @@ function SwiperGallery() {
               <footer className={styles.workFooter}>
                 <h3 className={styles.title}>{truncateTitle(work.title)}</h3> {/* タイトル */}
                 <p className={styles.skill}>{formatSkill(getSkill(work))}</p> {/* スキル */}
-                <p className={styles.caption}>{truncateExcerpt(work.excerpt)}</p> {/* 抜粋 */}
+                
                 {/* 作品詳細ページへのリンク */}
                 <Link href={`/works/${work.slug}`} className={styles.worksLink} aria-label={`${truncateTitle(work.title)}の詳細へ`}>
                   {/* リンク全体をカードに重ねる場合はここに何もコンテンツを置かず、CSSで position: absolute; を使う */}

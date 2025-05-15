@@ -20,14 +20,45 @@
   border-radius: 8px;
   background: $base-color-white;
   text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    .title {
+      &::after {
+        animation: titleLine 0.4s ease-in-out;
+        opacity: 1;
+      }
+    }
+
+    .worksLink {
+      background-position: 0 0;
+    } // グラデーションを左から表示
+
+    .worksLink::before {
+      // ホバー時の初期変化（矢印の色と背景）
+      background-color: transparent; // 親のグラデーションが見えるように
+      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
+
+      // 矢印の連続アニメーションを適用
+      // initial_hover_duration (0.4s) の後に開始
+      animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
+    }
+  }
+
+  &:hover .postHeader {
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
+  }
 
   /* header内の画像 */
   .postHeader {
+
     img {
       height: 200px;
       width: 353px;
       object-fit: cover;
-      border-radius: 8px 8px 0 0;
+
+    
     }
   }
   .Category {
@@ -53,6 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
   }
 
   .postFooter {
@@ -68,7 +100,6 @@
     }
     p {
       margin: 0;
-      padding-bottom: 80px;
       height: 82px;
       box-sizing: border-box;
     }
@@ -121,20 +152,6 @@
     // アニメーションのための初期transformとopacity
     transform: translateX(0%);
     opacity: 1;
-  }
-
-  &:hover {
-    background-position: 0 0; // グラデーションを左から表示
-
-    &::before {
-      // ホバー時の初期変化（矢印の色と背景）
-      background-color: transparent; // 親のグラデーションが見えるように
-      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
-
-      // 矢印の連続アニメーションを適用
-      // initial_hover_duration (0.4s) の後に開始
-      animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
-    }
   }
 }
 

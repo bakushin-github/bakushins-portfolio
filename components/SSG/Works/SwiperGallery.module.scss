@@ -4,20 +4,20 @@
   position: relative;
   padding-left: 200px;
   padding-bottom: 92px;
-  
+
   /* Swiperのグローバルクラスとの連携 */
   :global(.swiper) {
     padding-bottom: 50px; /* ナビゲーション用のスペース */
   }
 
-  :global(.swiper-slide){
+  :global(.swiper-slide) {
     width: 353px !important;
-  
+
     &:not(:first-child) {
       margin-left: 26px;
     }
   }
-  
+
   :global(.swiper-button-prev),
   :global(.swiper-button-next) {
     position: absolute;
@@ -28,7 +28,7 @@
     border-width: 1px;
     color: $base-color-white;
     background-color: rgba(0, 0, 0, 0.5);
-    
+
     &::after {
       font-size: 18px;
     }
@@ -63,6 +63,29 @@
   overflow: hidden;
   background: $base-color-white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  &:hover {
+    .title {
+      &::after {
+        animation: titleLine 0.4s ease-in-out;
+        opacity: 1;
+      }
+    }
+
+    .worksLink {
+      background-position: 0 0;
+    } // グラデーションを左から表示
+
+    .worksLink::before {
+      // ホバー時の初期変化（矢印の色と背景）
+      background-color: transparent; // 親のグラデーションが見えるように
+      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
+
+      // 矢印の連続アニメーションを適用
+      // initial_hover_duration (0.4s) の後に開始
+      animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
+    }
+  }
 }
 
 /* ヘッダー部分（画像とカテゴリを含む） */
@@ -70,13 +93,13 @@
   position: relative;
   width: 100%;
   height: 200px;
-  
+
   .thumbnailImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   .workCategory {
     position: absolute;
     max-width: 300px;
@@ -109,22 +132,35 @@
   height: 146px;
   padding: 24px 31.5px;
   box-sizing: border-box;
-  
+
   .title {
     margin: 0;
     padding-bottom: 13px;
     font-size: 16px;
     font-weight: 600;
     color: #333;
+    position: relative;
+    transition: border-bottom 0.4s ease-in-out;
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 28px;
+      left: 0;
+      width: 100%;
+      height: 0.5px;
+      background-color: $main-color-blue;
+      opacity: 0;
+    }
   }
-  
+
   .skill {
     margin: 0;
     font-size: 14px;
     color: #666;
     margin-bottom: 8px;
   }
-  
+
   .caption {
     margin: 0;
     font-size: 14px;
@@ -135,6 +171,17 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+}
+
+@keyframes titleLine {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
   }
 }
 
@@ -184,20 +231,6 @@
     // アニメーションのための初期transformとopacity
     transform: translateX(0%);
     opacity: 1;
-  }
-
-  &:hover {
-    background-position: 0 0; // グラデーションを左から表示
-
-    &::before {
-      // ホバー時の初期変化（矢印の色と背景）
-      background-color: transparent; // 親のグラデーションが見えるように
-      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
-
-      // 矢印の連続アニメーションを適用
-      // initial_hover_duration (0.4s) の後に開始
-      animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
-    }
   }
 }
 
@@ -254,14 +287,14 @@
     padding-left: 20px;
     padding-bottom: 60px;
   }
-  
+
   .workCard {
     width: 100%;
   }
-  
+
   .swiper-slide {
     width: auto !important;
-    
+
     &:not(:first-child) {
       margin-left: 15px;
     }
@@ -272,7 +305,7 @@
   .workFooter {
     padding: 15px 20px;
   }
-  
+
   .worksLink {
     right: 20px;
     bottom: 15px;
