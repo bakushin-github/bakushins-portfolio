@@ -3,11 +3,11 @@
 .worksContents {
   position: relative;
   padding-left: 200px;
-  padding-bottom: 92px;
 
   /* Swiperのグローバルクラスとの連携 */
   :global(.swiper) {
-    padding-bottom: 50px; /* ナビゲーション用のスペース */
+    padding-bottom: 85px; /* ナビゲーション用のスペース */
+    position: relative;
   }
 
   :global(.swiper-slide) {
@@ -21,25 +21,29 @@
   :global(.swiper-button-prev),
   :global(.swiper-button-next) {
     position: absolute;
-    top: 0;
+    top: 404px;
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    border-width: 1px;
+    border: 1px solid #CACCD3;
     color: $base-color-white;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
 
     &::after {
-      font-size: 18px;
+      font-size: 11px;
+    }
+    &:hover{
+      color: $main-color-dark_blue;
+      background: $base-color-white;
     }
   }
 
   :global(.swiper-button-prev) {
-    left: 10px;
+    left:calc(50% + 121px) ;
   }
 
   :global(.swiper-button-next) {
-    right: 10px;
+    right:calc(50% - 249px );
   }
 
   /* Swiperの自動表示用のスタイル */
@@ -48,7 +52,8 @@
     border-top-color: transparent;
   }
 
-  :global(.SwiperGallery_worksContents__7r3un) {
+  :global(.SwiperGallery_worksContents__v94Qm) {
+    position: relative;
     padding-bottom: 92px;
     padding-left: 190px;
   }

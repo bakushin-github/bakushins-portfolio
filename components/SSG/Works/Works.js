@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import H2 from "../H2/H2";
 import SwiperGallery from "./SwiperGallery";
+import ListViewButton from "../ListViewButton/ListViewButton";
 
 
 function Works() {
@@ -21,6 +22,7 @@ function Works() {
           ></H2>
         </div>
         <SwiperGallery />
+        <div className={styles.works__listButton}><ListViewButton /></div>
       </div>
     </>
   );
