@@ -405,7 +405,7 @@ function SwiperGallery() {
                 <p className={styles.skill}>{formatSkill(getSkill(work))}</p> {/* スキル */}
                 
                 {/* 作品詳細ページへのリンク */}
-                <Link href={`/works/${work.slug}`} className={styles.worksLink} aria-label={`${truncateTitle(work.title)}の詳細へ`}>
+                <Link href={`/all-works/${work.slug}`} className={styles.worksLink} aria-label={`${truncateTitle(work.title)}の詳細へ`}>
                   {/* リンク全体をカードに重ねる場合はここに何もコンテンツを置かず、CSSで position: absolute; を使う */}
                 </Link>
               </footer>

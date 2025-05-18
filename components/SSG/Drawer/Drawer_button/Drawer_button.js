@@ -9,7 +9,7 @@ function Drawer_button({ className, isOpen, toggleDrawer }) {
   // アニメーション状態の定義
   const variants = {
     open: (custom) => getOpenVariant(custom),
-    closed: (custom) => getClosedVariant(custom)
+    closed: (custom) => getClosedVariant(custom),
   };
 
   // 開くときのアニメーション
@@ -46,7 +46,7 @@ function Drawer_button({ className, isOpen, toggleDrawer }) {
     type: "spring",
     stiffness: dot === "dot5" ? 0 : 120, // 中央ドットは無効化
     damping: 12,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   return (
@@ -56,7 +56,17 @@ function Drawer_button({ className, isOpen, toggleDrawer }) {
       aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
     >
       <div className={styles.drawerButton__button__inner}>
-        {["dot1","dot2","dot3","dot4","dot5","dot6","dot7","dot8","dot9"].map((dot) => (
+        {[
+          "dot1",
+          "dot2",
+          "dot3",
+          "dot4",
+          "dot5",
+          "dot6",
+          "dot7",
+          "dot8",
+          "dot9",
+        ].map((dot) => (
           <motion.span
             key={dot}
             className={classNames(styles.drawerButton__dot, styles[dot])}

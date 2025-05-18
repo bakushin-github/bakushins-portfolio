@@ -100,7 +100,7 @@ function LatestPosts() {
                 <h3 className={styles.title}>{truncateTitle(post.title)}</h3>
                 <p className={styles.caption}>{formatDate(post.date)}</p>
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/all-blogs/${post.slug}`}
                   className={styles.worksLink}
                 ></Link>
               </footer>

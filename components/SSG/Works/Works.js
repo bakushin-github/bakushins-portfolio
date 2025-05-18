@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import React from "react";
 import { Noto_Sans_JP } from "next/font/google";
 import variablestyles from "../../../app/styles/_variables.module.scss";
@@ -22,7 +22,7 @@ function Works() {
           ></H2>
         </div>
         <SwiperGallery />
-        <div className={styles.works__listButton}><ListViewButton /></div>
+        <div className={styles.works__listButton}><ListViewButton href="all-works" /></div>
       </div>
     </>
   );

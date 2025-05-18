@@ -2,6 +2,7 @@ import React from 'react'
 import H2 from '../../SSG/H2/H2'
 import styles from './Blogs.module.scss'
 import LatestPosts from './article'
+import ListViewButton from '../ListViewButton/ListViewButton'
 
 function Blogs() {
   return (
@@ -13,6 +14,7 @@ function Blogs() {
     <div className={styles.figureBox}>
     <LatestPosts />
     </div>
+    <ListViewButton href="all-blogs" />
   </div>
   </>
   )
