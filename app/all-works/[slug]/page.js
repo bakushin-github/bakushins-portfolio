@@ -1,18 +1,17 @@
-// app/all-works/[slug]/page.js
 import Image from 'next/image';
 import Link from 'next/link';
+import Script from 'next/script';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import styles from "./page.module.scss";
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
+import H2 from '@/components/SSG/H2/H2';
 
-// GraphQLクライアントの初期化
 const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://your-wordpress-site.com/graphql',
   cache: new InMemoryCache(),
 });
 
-// 全ての作品をクエリする
 const GET_ALL_WORKS = gql`
   query GetAllWorks {
     works {
@@ -39,7 +38,6 @@ const GET_ALL_WORKS = gql`
   }
 `;
 
-// パンくずリストを作成する関数
 function createBreadcrumbs(slug, title) {
   return [
     { name: 'ホーム', path: '/' },
@@ -48,21 +46,18 @@ function createBreadcrumbs(slug, title) {
   ];
 }
 
-// SSGを有効化
-export const dynamic = 'force-static'; // このページを強制的に静的生成
-export const revalidate = 3600; // 1時間ごとに再検証（ISR）
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
-// すべての作品のスラッグを取得してSSGのパスを生成
 export async function generateStaticParams() {
   try {
     const { data } = await client.query({
       query: GET_ALL_WORKS,
-      fetchPolicy: 'network-only', // キャッシュを使わず、常に最新データを取得
+      fetchPolicy: 'network-only',
     });
 
     const works = data?.works?.nodes || [];
-    
-    // スラッグが空でない作品のみをフィルタリング
+
     return works
       .filter(work => !!work.slug)
       .map((work) => ({
@@ -74,20 +69,16 @@ export async function generateStaticParams() {
   }
 }
 
-// メタデータを動的に生成
 export async function generateMetadata({ params }) {
   try {
-    // paramsオブジェクト自体をawait
     const resolvedParams = await params;
     const slug = resolvedParams?.slug || '';
 
-    const { data } = await client.query({
-      query: GET_ALL_WORKS,
-    });
+    const { data } = await client.query({ query: GET_ALL_WORKS });
 
     const works = data?.works?.nodes || [];
     const work = works.find(work => work.slug === slug);
-    
+
     if (!work) {
       return {
         title: '作品が見つかりません',
@@ -108,22 +99,16 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// メインコンポーネント
 export default async function WorkDetailPage({ params }) {
   try {
-    // paramsオブジェクト自体をawait
     const resolvedParams = await params;
     const slug = resolvedParams?.slug || '';
-    
-    // 全ての作品を取得
-    const { data } = await client.query({
-      query: GET_ALL_WORKS,
-    });
+
+    const { data } = await client.query({ query: GET_ALL_WORKS });
 
     const works = data?.works?.nodes || [];
     const work = works.find(work => work.slug === slug);
 
-    // 作品が見つからない場合
     if (!work) {
       return (
         <>
@@ -131,7 +116,6 @@ export default async function WorkDetailPage({ params }) {
           <div className={styles.breadcrumbWrapper}>
             <Breadcrumb items={createBreadcrumbs(slug, '作品が見つかりません')} />
           </div>
-          
           <main className={styles.container}>
             <div className={styles.notFound}>
               <h1>作品が見つかりませんでした</h1>
@@ -143,7 +127,6 @@ export default async function WorkDetailPage({ params }) {
       );
     }
 
-    // 作品が見つかった場合
     const breadcrumbItems = createBreadcrumbs(slug, work.title);
 
     return (
@@ -152,38 +135,80 @@ export default async function WorkDetailPage({ params }) {
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
-        
         <main className={styles.container}>
+          <H2 subText="制作実績" mainText="Work" className={styles.work__h2} />
           <article className={styles.workDetail}>
-            <h1>{work.title}</h1>
-            
-            {work.featuredImage?.node && (
-              <div className={styles.featuredImage}>
-                {/* Next.jsのImageコンポーネントを使わず、標準のimgタグに戻す */}
-                <img 
-                  src={work.featuredImage.node.sourceUrl} 
-                  alt={work.featuredImage.node.altText || `${work.title}のメイン画像`}
-                  width={917}
-                  height={450}
-                  className={styles.mainImage}
-                  style={{ 
-                    maxWidth: '100%',
-                    height: 'auto',
-                    objectFit: 'cover',
-                    display: 'block',
-                    margin: '0 auto'
-                  }}
-                  loading="eager" // SEO: 早期読み込み(priorityと同様)
-                  decoding="async" // パフォーマンス最適化
-                />
-              </div>
-            )}
-            
+            <div className={styles.imagePosition}>
+              {work.featuredImage?.node && (
+                <div className={styles.featuredImage}>
+                  <img 
+                    src={work.featuredImage.node.sourceUrl} 
+                    alt={work.featuredImage.node.altText || `${work.title}のメイン画像`}
+                    width={917}
+                    height={450}
+                    className={styles.mainImage}
+                    style={{ 
+                      maxWidth: '100%',
+                      height: 'auto',
+                      objectFit: 'cover',
+                      display: 'block',
+                      margin: '0 auto'
+                    }}
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              )}
+            </div>
+            <header className={styles.workCategoryH1}>
+              <span className={styles.worksCategory}></span>
+              <h1 className={styles.worksTitle}>{work.title}</h1>
+            </header>
+
+            {/* WordPress の WebM / YouTube を含む本文 */}
             <div 
               className={styles.content}
               dangerouslySetInnerHTML={{ __html: work.content }} 
             />
-            
+
+            {/* 動画自動再生スクリプト（use client 不使用） */}
+            <Script id="lazy-video-autoplay" strategy="lazyOnload">{`
+              (function() {
+                function load(el) {
+                  const src = el.dataset.src;
+                  if (src) {
+                    el.setAttribute('src', src);
+                    el.removeAttribute('data-src');
+                  }
+                  if (el.tagName === 'VIDEO') {
+                    el.play && el.play().catch(() => {});
+                  }
+                }
+
+                const lazyVideos = document.querySelectorAll('.lazy-video');
+
+                if (!('IntersectionObserver' in window)) {
+                  lazyVideos.forEach(load);
+                  return;
+                }
+
+                const observer = new IntersectionObserver(
+                  (entries, obs) => {
+                    entries.forEach(entry => {
+                      if (entry.isIntersecting) {
+                        load(entry.target);
+                        obs.unobserve(entry.target);
+                      }
+                    });
+                  },
+                  { rootMargin: '100px', threshold: 0.25 }
+                );
+
+                lazyVideos.forEach(el => observer.observe(el));
+              })();
+            `}</Script>
+
+            <figure className={styles.thumbnailMove}></figure>
             <div className={styles.navigation}>
               <Link href="/all-works" className={styles.backButton}>
                 全作品一覧に戻る
@@ -194,14 +219,12 @@ export default async function WorkDetailPage({ params }) {
       </>
     );
   } catch (error) {
-    // エラーが発生した場合
     return (
       <>
         <Header_otherPage className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={createBreadcrumbs(slug, 'エラーが発生しました')} />
         </div>
-        
         <main className={styles.container}>
           <div className={styles.error}>
             <h1>エラーが発生しました</h1>

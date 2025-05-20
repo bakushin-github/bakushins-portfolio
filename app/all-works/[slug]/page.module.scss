@@ -1,5 +1,118 @@
 @use "../../styles/variables.module" as *;
 
-.breadcrumbWrapper{
+.breadcrumbWrapper {
   padding-top: 110px;
+  padding-left: (170px / 1440px) * 100vw;
+}
+
+.container {
+  padding-inline: 75px;
+}
+
+.work__h2 {
+  order: 2;
+  padding-top: 26px !important;
+}
+
+.workDetail {
+}
+
+.imagePosition {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background-image: url(../../../public/Works/PC/Works_bg.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 1365px;
+    height: 461px;
+    top: 131px;
+    left: 0;
+  }
+}
+.featuredImage {
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px 0px #19213d0d;
+  max-width: 917px;
+  max-height: 450px;
+  width: 100%;
+  height: auto;
+}
+
+.workCategoryH1 {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 43.5px;
+  padding-bottom: 75.5px;
+  padding-left: 209px;
+  height: 23px;
+}
+.worksCategory {
+  width: 37px;
+  height: 30px;
+  border-radius: 3px;
+  border-width: 1px;
+  padding: 10px;
+  border: 1px solid #caccd3;
+  box-sizing: border-box;
+  color: $base-color-white;
+}
+
+.worksTitle {
+  order: 1;
+  text-align: left;
+  font-family: "Noto Sans JP";
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 170%;
+  letter-spacing: 0%;
+  color: $base-color-white;
+}
+
+.content {
+  margin-top: 72px;
+  padding-left: (280.11px / 1440px) * 100vw;
+  figure {
+    margin: 0;
+    font-family: "Noto Sans JP";
+    box-sizing: border-box;
+    color: $text-black;
+    font-size: 16px;
+    letter-spacing: 0%;
+    tr {
+      &:not(:last-child) {
+        height: 52px;
+      }
+      &:nth-of-type(6) :first-child {
+        vertical-align: top;
+      }
+      &:nth-of-type(6)td {
+        padding-top: 20px;
+      }
+    }
+    td {
+      &:first-child {
+        width: 191px;
+        font-weight: 700;
+        line-height: 170%;
+      }
+      &:last-child {
+        width: 609px;
+        font-weight: 400;
+        line-height: 180%;
+        a {
+          color: $main-color-blue;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }

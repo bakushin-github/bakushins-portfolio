@@ -1,0 +1,314 @@
+// @use "../../../app/styles/variables.module" as *;
+
+// .worksContents {
+//   position: relative;
+//   padding-left: 200px;
+
+//   /* Swiperのグローバルクラスとの連携 */
+//   :global(.swiper) {
+//     padding-bottom: 85px; /* ナビゲーション用のスペース */
+//     position: relative;
+//   }
+
+//   :global(.swiper-slide) {
+//     width: 353px !important;
+
+//     &:not(:first-child) {
+//       margin-left: 26px;
+//     }
+//   }
+
+//   :global(.swiper-button-prev),
+//   :global(.swiper-button-next) {
+//     position: absolute;
+//     top: 410px;
+//     width: 40px;
+//     height: 40px;
+//     border-radius: 20px;
+//     border-width: 1px;
+//     color: $base-color-white;
+//     background-color: rgba(0, 0, 0, 0.5);
+
+//     &::after {
+//       font-size: 18px;
+//     }
+//   }
+
+//   :global(.swiper-button-prev) {
+//     left: 10px;
+//   }
+
+//   :global(.swiper-button-next) {
+//     right: 10px;
+//   }
+
+//   /* Swiperの自動表示用のスタイル */
+//   :global(.swiper-lazy-preloader) {
+//     border-color: #2f4ab2;
+//     border-top-color: transparent;
+//   }
+
+//   :global(.SwiperGallery_worksContents__v94Qm) {
+//     position: relative;
+//     padding-bottom: 92px;
+//     padding-left: 190px;
+//   }
+// }
+
+// /* 作品カード全体のスタイル */
+// .workCard {
+//   position: relative;
+//   width: 353px;
+//   height: 346px;
+//   border-radius: 8px;
+//   overflow: hidden;
+//   background: $base-color-white;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   cursor: pointer;
+//   &:hover {
+//     .title {
+//       &::after {
+//         animation: titleLine 0.4s ease-in-out;
+//         opacity: 1;
+//       }
+//     }
+
+//     .worksLink {
+//       background-position: 0 0;
+//     } // グラデーションを左から表示
+
+//     .worksLink::before {
+//       // ホバー時の初期変化（矢印の色と背景）
+//       background-color: transparent; // 親のグラデーションが見えるように
+//       background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
+
+//       // 矢印の連続アニメーションを適用
+//       // initial_hover_duration (0.4s) の後に開始
+//       animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
+//     }
+//   }
+// }
+
+// /* ヘッダー部分（画像とカテゴリを含む） */
+// .workHeader {
+//   position: relative;
+//   width: 100%;
+//   height: 200px;
+
+//   .thumbnailImage {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//   }
+
+//   .workCategory {
+//     position: absolute;
+//     max-width: 300px;
+//     width: auto;
+//     height: 30px;
+//     top: 16px;
+//     right: 16px;
+//     border-radius: 3px;
+//     border-width: 1px;
+//     padding: 10px;
+//     color: $main-color-dark_blue;
+//     background: $base-color-white;
+//     font-family: "Inter";
+//     font-weight: 600;
+//     font-size: 14px;
+//     line-height: 160%;
+//     letter-spacing: 0%;
+//     border: 1px solid #caccd3;
+//     box-shadow: 0px 1px 10px 0px #19213d33;
+//     box-sizing: border-box;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+// }
+
+// /* フッター部分（タイトル、スキル、説明文を含む） */
+// .workFooter {
+//   position: relative;
+//   height: 146px;
+//   padding: 24px 31.5px;
+//   box-sizing: border-box;
+
+//   .title {
+//     margin: 0;
+//     padding-bottom: 13px;
+//     font-size: 16px;
+//     font-weight: 600;
+//     color: #333;
+//     position: relative;
+//     transition: border-bottom 0.4s ease-in-out;
+//     &::before,
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       top: 28px;
+//       left: 0;
+//       width: 100%;
+//       height: 0.5px;
+//       background-color: $main-color-blue;
+//       opacity: 0;
+//     }
+//   }
+
+//   .skill {
+//     margin: 0;
+//     font-size: 14px;
+//     color: #666;
+//     margin-bottom: 8px;
+//   }
+
+//   .caption {
+//     margin: 0;
+//     font-size: 14px;
+//     color: #666;
+//     line-height: 1.4;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     display: -webkit-box;
+//     -webkit-line-clamp: 2;
+//     -webkit-box-orient: vertical;
+//   }
+// }
+
+// @keyframes titleLine {
+//   0% {
+//     width: 0;
+//     opacity: 0;
+//   }
+//   100% {
+//     width: 100%;
+//     opacity: 1;
+//   }
+// }
+
+// .worksLink {
+//   position: absolute;
+//   width: 40px;
+//   height: 40px;
+//   right: 31px;
+//   bottom: 23px;
+//   border-radius: 8px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden; // はみ出した要素をクリップするために重要
+
+//   // グラデーションボーダーのための余白
+//   padding: 1px;
+
+//   // 背景グラデーション（ホバーで表示される部分）
+//   background: linear-gradient(282.13deg, #366195 10.86%, #333398 77.59%);
+//   background-size: 200% 100%; // アニメーションのために幅を2倍に
+//   background-position: 100% 0; // 初期状態ではグラデーションの左側を隠す
+//   transition: background-position 0.4s ease-in-out; // グラデーションの出現アニメーション
+
+//   // 矢印アイコンと内側背景のコンテナ
+//   &::before {
+//     content: "";
+//     display: block; // transformとサイズ指定のため
+//     width: 100%; // 親要素のpadding領域いっぱいに広がる
+//     height: 100%; // 親要素のpadding領域いっぱいに広がる
+
+//     background-color: $base-color-white; // 通常時の背景色
+//     background-image: url("../../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
+//     background-size: 18px;
+//     background-position: center;
+//     background-repeat: no-repeat;
+
+//     border-radius: 7px; // 親要素のradiusより少し小さくして内側感を出す
+
+//     // 初期状態とホバー解除時のためのトランジション
+//     // transform と opacity はアニメーション終了後にスムーズに戻るように
+//     transition: background-color 0.4s ease-in-out,
+//       background-image 0.4s ease-in-out, transform 0.3s ease-out,
+//       // ホバー解除時の戻りアニメーション
+//       opacity 0.3s ease-out; // ホバー解除時の戻りアニメーション
+
+//     // アニメーションのための初期transformとopacity
+//     transform: translateX(0%);
+//     opacity: 1;
+//   }
+// }
+
+// // 矢印の連続アニメーションのキーフレーム
+// @keyframes arrow-cycle {
+//   // アニメーション開始時 (白い矢印が中央にある状態)
+//   0% {
+//     transform: translateX(0%);
+//     opacity: 1;
+//   }
+
+//   // --- Phase 1: 右へ移動して消える ---
+//   // (アニメーション全体の 0% から 50% を使用)
+
+//   // 少し中央で待機
+//   20% {
+//     // 例: 1.2s * 0.2 = 0.24s 地点
+//     transform: translateX(0%);
+//     opacity: 1;
+//   }
+//   // 右端へ移動し、完全に透明になる
+//   50% {
+//     // 例: 1.2s * 0.5 = 0.6s 地点
+//     transform: translateX(100%); // 要素の幅分、右へ移動
+//     opacity: 0;
+//   }
+
+//   // --- Phase 2: 左から出現して中央へ移動 ---
+//   // (アニメーション全体の 50% から 100% を使用)
+
+//   // 右で消えた直後、瞬時に左端へ移動 (まだ透明)
+//   50.01% {
+//     // ほぼ50%と同時
+//     transform: translateX(-100%); // 要素の幅分、左へ移動
+//     opacity: 0;
+//   }
+//   // 左端で少し待機 (まだ透明)
+//   70% {
+//     // 例: 1.2s * 0.7 = 0.84s 地点
+//     transform: translateX(-100%);
+//     opacity: 0;
+//   }
+//   // 左端から中央へ移動し、完全に表示される
+//   100% {
+//     // 例: 1.2s * 1.0 = 1.2s 地点
+//     transform: translateX(0%);
+//     opacity: 1;
+//   }
+// }
+
+// /* レスポンシブ対応 */
+// @media (max-width: 768px) {
+//   .worksContents {
+//     padding-left: 20px;
+//     padding-bottom: 60px;
+//   }
+
+//   .workCard {
+//     width: 100%;
+//   }
+
+//   .swiper-slide {
+//     width: auto !important;
+
+//     &:not(:first-child) {
+//       margin-left: 15px;
+//     }
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .workFooter {
+//     padding: 15px 20px;
+//   }
+
+//   .worksLink {
+//     right: 20px;
+//     bottom: 15px;
+//   }
+// }

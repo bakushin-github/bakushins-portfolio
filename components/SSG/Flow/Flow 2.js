@@ -30,7 +30,7 @@ function Flow() {
       rotate: 0,
       scale: 1,
       transition: {
-        duration: 0.2,
+        duration: 0.6,
         ease: "easeOut",
       },
     },
@@ -47,7 +47,7 @@ function Flow() {
 
           // 次のアニメーションまで少し待機
           if (i < 5) {
-            await new Promise((resolve) => setTimeout(resolve, 200));
+            await new Promise((resolve) => setTimeout(resolve, 300));
           }
         }
       };
