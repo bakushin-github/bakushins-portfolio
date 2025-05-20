@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
-export default function ScrollToHash() {
+function ScrollToHashContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -21,4 +22,12 @@ export default function ScrollToHash() {
   }, [pathname, searchParams])
 
   return null
+}
+
+export default function ScrollToHash() {
+  return (
+    <Suspense fallback={null}>
+      <ScrollToHashContent />
+    </Suspense>
+  )
 }
