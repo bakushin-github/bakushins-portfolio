@@ -1,14 +1,19 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import Script from 'next/script';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import Image from "next/image";
+import Link from "next/link";
+import Script from "next/script";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import styles from "./page.module.scss";
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
-import H2 from '@/components/SSG/H2/H2';
+import H2 from "@/components/SSG/H2/H2";
+import WorkOthers from "@/components/FetchLowerLayer/WorkOther";
+import ListViewButton from "@/components/SSG/ListViewButton/ListViewButton";
+import Cta from "@/components/SSG/Cta/Cta";
 
 const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://your-wordpress-site.com/graphql',
+  uri:
+    process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
+    "https://your-wordpress-site.com/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -40,31 +45,31 @@ const GET_ALL_WORKS = gql`
 
 function createBreadcrumbs(slug, title) {
   return [
-    { name: 'ホーム', path: '/' },
-    { name: '全作品一覧', path: '/all-works' },
-    { name: title || '作品詳細', path: `/all-works/${slug}` }
+    { name: "ホーム", path: "/" },
+    { name: "全作品一覧", path: "/all-works" },
+    { name: title || "作品詳細", path: `/all-works/${slug}` },
   ];
 }
 
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
   try {
     const { data } = await client.query({
       query: GET_ALL_WORKS,
-      fetchPolicy: 'network-only',
+      fetchPolicy: "network-only",
     });
 
     const works = data?.works?.nodes || [];
 
     return works
-      .filter(work => !!work.slug)
+      .filter((work) => !!work.slug)
       .map((work) => ({
         slug: work.slug,
       }));
   } catch (error) {
-    console.error('Error generating static params:', error);
+    console.error("Error generating static params:", error);
     return [];
   }
 }
@@ -72,17 +77,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   try {
     const resolvedParams = await params;
-    const slug = resolvedParams?.slug || '';
+    const slug = resolvedParams?.slug || "";
 
     const { data } = await client.query({ query: GET_ALL_WORKS });
 
     const works = data?.works?.nodes || [];
-    const work = works.find(work => work.slug === slug);
+    const work = works.find((work) => work.slug === slug);
 
     if (!work) {
       return {
-        title: '作品が見つかりません',
-        description: '指定された作品は存在しません。',
+        title: "作品が見つかりません",
+        description: "指定された作品は存在しません。",
       };
     }
 
@@ -91,36 +96,44 @@ export async function generateMetadata({ params }) {
       description: work.excerpt || `${work.title}の詳細ページです。`,
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    console.error("Error generating metadata:", error);
     return {
-      title: '作品詳細',
-      description: '作品の詳細ページです。',
+      title: "作品詳細",
+      description: "作品の詳細ページです。",
     };
   }
 }
 
 export default async function WorkDetailPage({ params }) {
+  // slug をここで定義して、try/catch の両方のブロックでアクセスできるようにします
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug || "";
   try {
     const resolvedParams = await params;
-    const slug = resolvedParams?.slug || '';
+    const slug = resolvedParams?.slug || "";
 
     const { data } = await client.query({ query: GET_ALL_WORKS });
 
     const works = data?.works?.nodes || [];
-    const work = works.find(work => work.slug === slug);
+    const work = works.find((work) => work.slug === slug);
 
     if (!work) {
+      console.log("Work not found for slug:", slug); // ここで内容を確認
       return (
         <>
           <Header_otherPage className={styles.worksHeader} />
           <div className={styles.breadcrumbWrapper}>
-            <Breadcrumb items={createBreadcrumbs(slug, '作品が見つかりません')} />
+            <Breadcrumb
+              items={createBreadcrumbs(slug, "作品が見つかりません")}
+            />
           </div>
           <main className={styles.container}>
             <div className={styles.notFound}>
               <h1>作品が見つかりませんでした</h1>
               <p>スラッグ: {slug}</p>
-              <Link href="/all-works" className={styles.backButton}>全作品一覧に戻る</Link>
+              <Link href="/all-works" className={styles.backButton}>
+                全作品一覧に戻る
+              </Link>
             </div>
           </main>
         </>
@@ -141,18 +154,21 @@ export default async function WorkDetailPage({ params }) {
             <div className={styles.imagePosition}>
               {work.featuredImage?.node && (
                 <div className={styles.featuredImage}>
-                  <img 
-                    src={work.featuredImage.node.sourceUrl} 
-                    alt={work.featuredImage.node.altText || `${work.title}のメイン画像`}
+                  <img
+                    src={work.featuredImage.node.sourceUrl}
+                    alt={
+                      work.featuredImage.node.altText ||
+                      `${work.title}のメイン画像`
+                    }
                     width={917}
                     height={450}
                     className={styles.mainImage}
-                    style={{ 
-                      maxWidth: '100%',
-                      height: 'auto',
-                      objectFit: 'cover',
-                      display: 'block',
-                      margin: '0 auto'
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      objectFit: "cover",
+                      display: "block",
+                      margin: "0 auto",
                     }}
                     loading="eager"
                     decoding="async"
@@ -161,18 +177,26 @@ export default async function WorkDetailPage({ params }) {
               )}
             </div>
             <header className={styles.workCategoryH1}>
-              <span className={styles.worksCategory}></span>
+              <span className={styles.worksCategory}>
+                {work.categories?.nodes?.map((category, index) => (
+                  <span key={category.id}>
+                    {index > 0 ? ", " : ""}
+                    {category.name}
+                  </span>
+                ))}
+              </span>
               <h1 className={styles.worksTitle}>{work.title}</h1>
             </header>
 
             {/* WordPress の WebM / YouTube を含む本文 */}
-            <div 
+            <div
               className={styles.content}
-              dangerouslySetInnerHTML={{ __html: work.content }} 
+              dangerouslySetInnerHTML={{ __html: work.content }}
             />
-
-            {/* 動画自動再生スクリプト（use client 不使用） */}
-            <Script id="lazy-video-autoplay" strategy="lazyOnload">{`
+            <figure className={styles.thumbnailMove}></figure>
+            <div className={styles.videoBox}>
+              {/* 動画自動再生スクリプト（use client 不使用） */}
+              <Script id="lazy-video-autoplay" strategy="lazyOnload">{`
               (function() {
                 function load(el) {
                   const src = el.dataset.src;
@@ -207,15 +231,16 @@ export default async function WorkDetailPage({ params }) {
                 lazyVideos.forEach(el => observer.observe(el));
               })();
             `}</Script>
-
-            <figure className={styles.thumbnailMove}></figure>
-            <div className={styles.navigation}>
-              <Link href="/all-works" className={styles.backButton}>
-                全作品一覧に戻る
-              </Link>
             </div>
+            <section className={styles.relationWorks}>
+              <H2 subText="制作実績" mainText="Others" className={styles.work__h2Others}/>
+              <WorkOthers />
+              <div className={styles.workOthersListButton}>
+              <ListViewButton href="/all-works" /></div>
+            </section>
           </article>
         </main>
+        <Cta />
       </>
     );
   } catch (error) {
@@ -223,14 +248,16 @@ export default async function WorkDetailPage({ params }) {
       <>
         <Header_otherPage className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={createBreadcrumbs(slug, 'エラーが発生しました')} />
+          <Breadcrumb items={createBreadcrumbs(slug, "エラーが発生しました")} />
         </div>
         <main className={styles.container}>
           <div className={styles.error}>
             <h1>エラーが発生しました</h1>
             <p>スラッグ: {slug}</p>
             <p>エラー: {error.message}</p>
-            <Link href="/all-works" className={styles.backButton}>全作品一覧に戻る</Link>
+            <Link href="/all-works" className={styles.backButton}>
+              全作品一覧に戻る
+            </Link>
           </div>
         </main>
       </>
