@@ -1,0 +1,27 @@
+$base-color-white: #FFFFFF;
+$base-color-off_white: #F9F9F9;
+$main-color-dark_blue: #272E85;
+$main-color-blue: #2F4AB2;
+$accent-color-red: #E54B4B;
+$accent-color-gray: #6D758F;
+
+:export{
+ baseColorWhite: $base-color-white;
+ baseColorOffWhite: $base-color-off_white;
+ mainColorDarkBlue: $main-color-dark_blue;
+ mainColorBlue: $main-color-blue;
+ accentColorRed: $accent-color-red;
+ accentColorGray: $accent-color-gray;
+}
+
+
+$text-black:#282828;
+$text-white:#ffffff;
+$text-accent-blue:#272E85;
+$text-accent-gray:#6C6C6C;
+:export{
+  textBlack:$text-black;
+  textWhite:$text-white;
+  textAccentBlue:$text-accent-blue;
+  textAccentGray:$text-accent-gray;
+}

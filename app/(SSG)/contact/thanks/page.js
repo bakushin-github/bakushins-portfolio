@@ -51,12 +51,17 @@ export default function Page() {
         <div className={styles.Breadcrumb}>
         <Breadcrumb items={breadcrumbItems} />
       </div>
+      <main>
         <h1 className={styles.thanks404}>Thank you !</h1>
         <p className={styles.thanksP}>
           お問い合わせいただきありがとうございました。
           <br />
           当日、または翌営業日までにご連絡差し上げます。
         </p>
+        <div className={styles.thanksAttention}>
+          <p><strong>返信メールが届かない場合は、迷惑メールフォルダもあわせてご確認ください。</strong></p>
+        </div>
+        </main>
       </div>
     </>
   );

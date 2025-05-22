@@ -1,0 +1,134 @@
+@charset "UTF-8";
+:export {
+  baseColorWhite: #FFFFFF;
+  baseColorOffWhite: #F9F9F9;
+  mainColorDarkBlue: #272E85;
+  mainColorBlue: #2F4AB2;
+  accentColorRed: #E54B4B;
+  accentColorGray: #6D758F;
+}
+
+:export {
+  textBlack: #282828;
+  textWhite: #ffffff;
+  textAccentBlue: #272E85;
+  textAccentGray: #6C6C6C;
+}
+
+.acf-video-wrap {
+  max-width: 884px;
+  width: 100%;
+  max-height: 562px;
+  height: 100%;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1);
+          box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1); /* #19213D1A をrgba形式に */
+  background: #F9F9F9; /* この変数がこのファイルで利用可能である必要があります */
+}
+.acf-video-wrap .acf-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* 他のグローバルなスタイルがあればここに追加 */
+.about {
+  position: relative;
+  background: #FFFFFF;
+  max-width: 3000px;
+  width: 100%;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  right: 221px;
+}
+
+.ball {
+  position: absolute;
+  top: 126px;
+  right: 137px;
+}
+
+.about__inner {
+  padding: 96px 170px;
+}
+
+.about__content {
+  margin-top: 40px;
+  margin-inline: 70.5px;
+}
+
+.about__1st {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 50px;
+}
+
+.about__textImages {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 36.87px;
+  margin-bottom: 32px;
+}
+
+.x {
+  margin-block: 3.15px;
+}
+
+.about__text {
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 180%;
+  letter-spacing: 0%;
+}
+
+.about__2nd {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 131px;
+  margin-top: 64px;
+}
+
+.about__coding {
+  padding-left: 40px;
+}
+
+.coding__lists {
+  margin-top: 32px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  padding-left: 0;
+}
+
+.about__list {
+  margin: auto;
+}
+
+.design__lists {
+  margin-top: 32px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  padding-left: 0;
+}

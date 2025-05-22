@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import HoneypotField from "@/components/HoneypotField/honeypotField";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -27,10 +28,9 @@ export default function ContactForm() {
   const { recaptchaLoaded, executeRecaptcha } = useRecaptcha();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(null);
-  const formRef = React.useRef(null);
 
   // React Hook Formの初期化
-  const { register, handleSubmit, control, formState: { errors }, getValues } = useForm({
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
     resolver: zodResolver(contactSchema),
     defaultValues: {
       company: "",
@@ -44,67 +44,51 @@ export default function ContactForm() {
   });
 
   // フォーム送信処理
-  const onSubmit = async (data, event) => {
-    event.preventDefault(); // デフォルト送信を一時停止
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
-      // 1. ハニーポットチェック
-      if (data.website && data.website.trim() !== "") {
-        console.log("スパム判定: フォーム送信を中止");
-        setSubmitError("送信に失敗しました。");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 2. reCAPTCHA検証
       const token = await executeRecaptcha("submit_contact");
+
       if (!token) {
-        setSubmitError("セキュリティ検証に失敗しました。再度お試しください。");
+        setSubmitError("reCAPTCHAの検証に失敗しました。");
         setIsSubmitting(false);
         return;
       }
 
-      // 3. すべてのチェックを通過したらSSGformに送信
-      await submitToSSGForm(data, token);
-      
-      // 4. 成功時の処理
-      router.push("/contact/thanks");
+      const submitData = {
+        ...data,
+        recaptchaToken: token
+      };
 
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submitData),
+      });
+
+      const responseText = await res.text();
+
+      let responseData;
+      try {
+        responseData = JSON.parse(responseText);
+      } catch (err) {
+        setSubmitError("レスポンスの解析に失敗しました");
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (responseData.success) {
+        router.push("/contact/thanks");
+      } else {
+        setSubmitError(responseData.message || "送信に失敗しました");
+      }
     } catch (error) {
-      console.error("送信エラー:", error);
-      setSubmitError("送信中にエラーが発生しました。時間をおいて再度お試しください。");
+      setSubmitError(`エラーが発生しました: ${error.message}`);
+    } finally {
       setIsSubmitting(false);
     }
-  };
-
-  // SSGformへの送信
-  const submitToSSGForm = async (data, recaptchaToken) => {
-    const formData = new FormData();
-    
-    // 基本フィールド
-    formData.append("会社名", data.company || "");
-    formData.append("お名前", data.name);
-    formData.append("メールアドレス", data.email);
-    formData.append("お問い合わせ内容", data.inquiry.join(", "));
-    formData.append("お問い合わせ内容の詳細", data.detail);
-    formData.append("プライバシーポリシーへの同意", data.privacy ? "同意する" : "");
-    
-    // セキュリティ情報（隠しフィールドとして）
-    formData.append("recaptcha_token", recaptchaToken);
-    formData.append("submission_time", new Date().toISOString());
-
-    const response = await fetch("https://ssgform.com/s/2brNkJaAzUDb", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`送信失敗: ${response.status}`);
-    }
-
-    return response;
   };
 
   const inquiryOptions = [
@@ -115,16 +99,11 @@ export default function ContactForm() {
   ];
 
   const recaptchaStatus = recaptchaLoaded
-    ? "✓ セキュリティ保護が有効です"
-    : "⏳ セキュリティ機能を読み込み中...";
+    ? "reCAPTCHA保護が有効です"
+    : "reCAPTCHA読み込み中...";
 
   return (
-    <form 
-      ref={formRef}
-      className={styles.contact__form} 
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate // ブラウザ標準バリデーションを無効化
-    >
+    <form className={styles.contact__form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.form__contentWrap}>
         {submitError && (
           <div
@@ -134,10 +113,9 @@ export default function ContactForm() {
               backgroundColor: "#ffebee",
               borderRadius: "4px",
               fontSize: "14px",
-              color: "#d32f2f"
             }}
           >
-            <p>❌ {submitError}</p>
+            <p>{submitError}</p>
           </div>
         )}
 
@@ -151,7 +129,6 @@ export default function ContactForm() {
             id="company"
             placeholder="会社名"
             {...register("company")}
-            disabled={isSubmitting}
           />
         </div>
 
@@ -165,7 +142,6 @@ export default function ContactForm() {
             id="name"
             placeholder="お名前"
             {...register("name")}
-            disabled={isSubmitting}
           />
           {errors.name && (
             <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
@@ -184,7 +160,6 @@ export default function ContactForm() {
             id="email"
             placeholder="Email@address"
             {...register("email")}
-            disabled={isSubmitting}
           />
           {errors.email && (
             <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
@@ -211,7 +186,6 @@ export default function ContactForm() {
                         type="checkbox"
                         value={option}
                         checked={field.value.includes(option)}
-                        disabled={isSubmitting}
                         onChange={(e) => {
                           const value = e.target.value;
                           const isChecked = e.target.checked;
@@ -242,7 +216,6 @@ export default function ContactForm() {
             placeholder="お問い合わせ内容の詳細をご記入ください"
             className={styles.contact__textarea}
             {...register("detail")}
-            disabled={isSubmitting}
           />
           {errors.detail && (
             <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
@@ -258,7 +231,6 @@ export default function ContactForm() {
               type="checkbox"
               id="privacy"
               {...register("privacy")}
-              disabled={isSubmitting}
             />
             <span className={styles.custom__pp}></span>{" "}
             <Link className={styles.contact__pp} href="/privacy_policy">
@@ -276,10 +248,6 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting || !recaptchaLoaded}
-            style={{
-              opacity: (isSubmitting || !recaptchaLoaded) ? 0.6 : 1,
-              cursor: (isSubmitting || !recaptchaLoaded) ? "not-allowed" : "pointer"
-            }}
           >
             {isSubmitting ? "送信中..." : "送信する →"}
           </button>
@@ -288,21 +256,19 @@ export default function ContactForm() {
         <div
           style={{
             margin: "10px 0",
-            padding: "8px",
+            padding: "5px",
             backgroundColor: recaptchaLoaded ? "#e8f5e9" : "#fff3e0",
             borderRadius: "4px",
             fontSize: "14px",
-            border: `1px solid ${recaptchaLoaded ? "#4caf50" : "#ff9800"}`
           }}
         >
-          <p style={{ margin: "0 0 5px 0", fontWeight: "500" }}>{recaptchaStatus}</p>
+          <p>{recaptchaStatus}</p>
           <p
             style={{
               fontSize: "12px",
               color: "#666",
               whiteSpace: "normal",
               lineHeight: "1.5",
-              margin: 0
             }}
           >
             このフォームは、Googleの安全確認システムを使っています。
@@ -329,20 +295,9 @@ export default function ContactForm() {
           </p>
         </div>
 
-        {/* ハニーポットフィールド（完全に非表示） */}
-        <input
-          type="text"
-          {...register("website")}
-          style={{ 
-            position: "absolute",
-            left: "-9999px",
-            width: "1px",
-            height: "1px",
-            opacity: 0,
-            tabIndex: -1
-          }}
-          tabIndex={-1}
-          autoComplete="off"
+        <HoneypotField
+          value={register("website").value}
+          onChange={(e) => register("website").onChange(e)}
         />
       </div>
     </form>

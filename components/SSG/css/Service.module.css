@@ -1,0 +1,132 @@
+@charset "UTF-8";
+:export {
+  baseColorWhite: #FFFFFF;
+  baseColorOffWhite: #F9F9F9;
+  mainColorDarkBlue: #272E85;
+  mainColorBlue: #2F4AB2;
+  accentColorRed: #E54B4B;
+  accentColorGray: #6D758F;
+}
+
+:export {
+  textBlack: #282828;
+  textWhite: #ffffff;
+  textAccentBlue: #272E85;
+  textAccentGray: #6C6C6C;
+}
+
+.acf-video-wrap {
+  max-width: 884px;
+  width: 100%;
+  max-height: 562px;
+  height: 100%;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1);
+          box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1); /* #19213D1A をrgba形式に */
+  background: #F9F9F9; /* この変数がこのファイルで利用可能である必要があります */
+}
+.acf-video-wrap .acf-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* 他のグローバルなスタイルがあればここに追加 */
+.service {
+  position: relative;
+  background: #F9F9F9;
+  max-width: 3000px;
+  width: 100%;
+}
+
+.service__inner {
+  position: relative;
+  padding-bottom: 96px;
+  padding-inline: 170px;
+  margin: auto;
+}
+
+.line {
+  position: absolute;
+  top: 772.82px;
+  left: 0;
+  width: 256px;
+  height: 700px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.polygon1 {
+  position: absolute;
+  top: 1260.82px;
+  left: 168.11PX;
+}
+
+.polygon2 {
+  position: absolute;
+  top: 1358.6px;
+  left: 168PX;
+}
+
+.h2Content H2 {
+  margin-bottom: 0;
+}
+
+.service__title {
+  height: 114px;
+  margin-left: 0;
+  padding-bottom: 40.13px;
+}
+
+.service__text {
+  padding-left: 4px;
+  width: 770px;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 180%;
+  letter-spacing: 0%;
+  margin: 0;
+}
+
+.figure {
+  width: 391px;
+  height: 447px;
+  margin: auto;
+}
+
+.image {
+  max-width: 391px;
+  max-height: 252px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.service__content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-row-gap: 96px;
+  grid-column-gap: 80px;
+  padding-left: 222px;
+  padding-bottom: 38px;
+  margin-top: 72px;
+}
+.service__content figure:nth-child(2), .service__content figure:nth-child(4) {
+  margin-top: 0;
+}
+.service__content figure:first-child, .service__content figure:nth-child(3) {
+  margin-top: 52px;
+}
+
+.title {
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.caption {
+  margin: auto;
+}

@@ -1,0 +1,70 @@
+@charset "UTF-8";
+:export {
+  baseColorWhite: #FFFFFF;
+  baseColorOffWhite: #F9F9F9;
+  mainColorDarkBlue: #272E85;
+  mainColorBlue: #2F4AB2;
+  accentColorRed: #E54B4B;
+  accentColorGray: #6D758F;
+}
+
+:export {
+  textBlack: #282828;
+  textWhite: #ffffff;
+  textAccentBlue: #272E85;
+  textAccentGray: #6C6C6C;
+}
+
+.acf-video-wrap {
+  max-width: 884px;
+  width: 100%;
+  max-height: 562px;
+  height: 100%;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1);
+          box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1); /* #19213D1A をrgba形式に */
+  background: #F9F9F9; /* この変数がこのファイルで利用可能である必要があります */
+}
+.acf-video-wrap .acf-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* 他のグローバルなスタイルがあればここに追加 */
+.h2 {
+  padding-top: 96px;
+  max-width: 1100px;
+  width: 100%;
+  color: #272E85;
+  margin-left: calc(170px + (100vw - 1440px) * 170 / 1440);
+}
+
+.h2_subText {
+  position: relative;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 170%;
+  letter-spacing: 4%;
+  padding-left: 26px;
+  color: #272E85;
+}
+.h2_subText::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  border: solid 2px #E54B4B;
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+  color: #E54B4B;
+}
+
+.h2_mainText {
+  margin-top: 4px;
+  height: 96px;
+  color: #272E85;
+}
