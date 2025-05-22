@@ -2,6 +2,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
+import H2 from '@/components/SSG/H2/H2';
+import styles from'./page.module.scss';
+
 
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
@@ -96,7 +99,9 @@ export default async function WorksPage() {
     // 作品データがある場合のレンダリング
     return (
       <div className="works-container">
-        <h1 className="works-title">作品一覧</h1>
+                <main className={styles.container}>
+          <H2 subText="制作実績" mainText="Work" className={styles.work__h2} />
+        
         <div className="works-grid">
           {worksToDisplay.map((work) => (
             <article key={work.id} className="work-card">
@@ -120,6 +125,7 @@ export default async function WorksPage() {
             </article>
           ))}
         </div>
+        </main>
       </div>
     );
   } catch (error) {
