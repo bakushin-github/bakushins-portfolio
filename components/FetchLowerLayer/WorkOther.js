@@ -1,23 +1,23 @@
-'use client';
+'use client'; // Next.js のクライアントコンポーネント宣言
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import styles from "./workOther.module.scss"; // CSSモジュールをインポート
 
-// デバッグを容易にするため、コンポーネントがロードされた時点でログを出力
 console.log("WorkOther.js module loaded");
 
 // --- テストクエリ ---
-// スキルが works { skill } の形でネストされているかテスト
+// WPGraphQL のカスタム投稿タイプ 'works' の構造を動的に判断するためのテストクエリです。
+// スキルデータが 'works' フィールド内にネストされているかを確認します。
 const TEST_NESTED_SKILL = gql`
   query TestNestedSkill {
     works(first: 1) {
       nodes {
         id
         title
-        works {
+        works { # カスタムフィールドグループ 'works' が存在し、その中に 'skill' があるか
           skill
         }
         categories {
@@ -32,14 +32,14 @@ const TEST_NESTED_SKILL = gql`
   }
 `;
 
-// スキルが work { skill } の形で直下にあるかテスト
+// スキルデータが 'works' ノードの直下にあるかを確認します。
 const TEST_DIRECT_SKILL = gql`
   query TestDirectSkill {
     works(first: 1) {
       nodes {
         id
         title
-        skill
+        skill # 'skill' フィールドが直下にあるか
         categories {
           nodes {
             id
@@ -52,14 +52,14 @@ const TEST_DIRECT_SKILL = gql`
   }
 `;
 
-// スキルが metaData として格納されているかテスト
+// スキルデータが汎用的な 'metaData' フィールドとして格納されているかを確認します。
 const TEST_META_DATA = gql`
   query TestMetaData {
     works(first: 1) {
       nodes {
         id
         title
-        metaData {
+        metaData { # ACF などで追加されたカスタムフィールドが metaData に格納されているか
           key
           value
         }
@@ -75,11 +75,15 @@ const TEST_META_DATA = gql`
   }
 `;
 
-// --- 最終クエリ構造 ---
-// スキルが works { skill } の形でネストされている場合の最終クエリ
+// --- 最終的に使用する作品データ取得クエリ ---
+// **変更点:**
+// - クエリ変数に `$currentWorkId: [ID]` を追加。
+// - `where: { notIn: $currentWorkId }` を追加し、指定されたIDの作品を除外します。
+// ID は常に利用できるため、これが最も堅牢な除外方法です。
+
 const GET_WORKS_WITH_NESTED_SKILL = gql`
-  query GetWorksWithNestedSkill {
-    works(first: 6) {
+  query GetWorksWithNestedSkill($currentWorkId: [ID]) {
+    works(first: 6, where: { notIn: $currentWorkId }) {
       nodes {
         id
         title
@@ -106,10 +110,9 @@ const GET_WORKS_WITH_NESTED_SKILL = gql`
   }
 `;
 
-// スキルが work { skill } の形で直下にある場合の最終クエリ
 const GET_WORKS_WITH_DIRECT_SKILL = gql`
-  query GetWorksWithDirectSkill {
-    works(first: 6) {
+  query GetWorksWithDirectSkill($currentWorkId: [ID]) {
+    works(first: 6, where: { notIn: $currentWorkId }) {
       nodes {
         id
         title
@@ -134,10 +137,9 @@ const GET_WORKS_WITH_DIRECT_SKILL = gql`
   }
 `;
 
-// スキルが metaData として格納されている場合の最終クエリ
 const GET_WORKS_WITH_METADATA = gql`
-  query GetWorksWithMetaData {
-    works(first: 6) {
+  query GetWorksWithMetaData($currentWorkId: [ID]) {
+    works(first: 6, where: { notIn: $currentWorkId }) {
       nodes {
         id
         title
@@ -165,66 +167,53 @@ const GET_WORKS_WITH_METADATA = gql`
   }
 `;
 
-// どのアクセス方法も失敗した場合のフォールバッククエリ
 const DEFAULT_FALLBACK_QUERY = GET_WORKS_WITH_NESTED_SKILL;
 
-// タイトルを切り詰めるヘルパー関数
+// --- ヘルパー関数 ---
 const truncateTitle = (title, maxLength = 25) => {
   if (!title) return "";
-  const plainText = String(title).replace(/<[^>]*>?/gm, ""); // HTMLタグを除去
+  const plainText = String(title).replace(/<[^>]*>?/gm, "");
   if (plainText.length <= maxLength) return plainText;
   return plainText.substring(0, maxLength) + "...";
 };
 
-// 抜粋を切り詰めるヘルパー関数
 const truncateExcerpt = (excerpt, maxLength = 30) => {
   if (!excerpt) return "";
-  const plainText = String(excerpt).replace(/<[^>]*>?/gm, ""); // HTMLタグを除去
+  const plainText = String(excerpt).replace(/<[^>]*>?/gm, "");
   if (plainText.length <= maxLength) return plainText;
   return plainText.substring(0, maxLength) + "...";
 };
 
-// スキルをフォーマットするヘルパー関数
 const formatSkill = (skillValue) => {
   if (!skillValue) return "";
   if (Array.isArray(skillValue)) {
-    return skillValue.filter((s) => s).join(", "); // 配列の場合はカンマ区切り
+    return skillValue.filter((s) => s).join(", ");
   }
   return String(skillValue);
 };
 
-// カテゴリ名を取得するヘルパー関数
 const getCategoryName = (work) => {
   if (!work || !work.categories || !work.categories.nodes) return "";
   return work.categories.nodes.length > 0 ? work.categories.nodes[0].name : "";
 };
 
-function WorkOthers() {
-  console.log("WorkOthers component rendering");
-  
-  // クライアント側で実行されているかを示す状態
+// --- WorkOthers コンポーネント ---
+// **変更点:** `currentWorkSlug` から `currentWorkId` にプロップス名を変更しました。
+function WorkOthers({ currentWorkId }) {
+  console.log("WorkOthers component rendering with currentWorkId:", currentWorkId);
+
   const [isClient, setIsClient] = useState(false);
-  // スキルデータへのアクセス方法 (nested, direct, meta, unknown)
   const [accessMethod, setAccessMethod] = useState(null);
-  // 最終的に使用するGraphQLクエリ
   const [finalQuery, setFinalQuery] = useState(null);
-  // カウンター（レンダリングが正しく行われているか確認用）
   const [renderCounter, setRenderCounter] = useState(0);
 
-  console.log("State values at render:", { 
-    isClient, 
-    accessMethod, 
-    finalQuery: finalQuery ? "set" : "not set",
-    renderCounter
-  });
-
-  // スキルデータへのアクセス方法を判別するためのテストクエリ実行
+  // テストクエリの実行 (変更なし)
   const {
     data: nestedTestData,
     error: nestedTestError,
     loading: nestedTestLoading,
   } = useQuery(TEST_NESTED_SKILL, {
-    skip: !isClient, // クライアント側でのみ実行
+    skip: !isClient,
     onCompleted: (data) => console.log("Nested test query completed:", data),
     onError: (error) => console.log("Nested skill access test error:", error.message),
   });
@@ -266,30 +255,25 @@ function WorkOthers() {
     onError: (error) => console.log("Meta data access test error:", error.message),
   });
 
-  // コンポーネントマウント時にクライアント側で実行されていることをマーク
+  // クライアント側でのマウントをマーク
   useEffect(() => {
     console.log("Initial useEffect running - setting isClient to true");
     setIsClient(true);
-    
-    // レンダリングが正しく動作しているか確認するための定期的な更新
     const renderTimer = setInterval(() => {
       setRenderCounter(prev => prev + 1);
     }, 1000);
-    
     return () => {
       console.log("Cleanup function called");
       clearInterval(renderTimer);
     };
   }, []);
 
-  // isClientが変更されたとき
+  // isClient 変更時のログ
   useEffect(() => {
     console.log("isClient changed to:", isClient);
-    
-    // isClientの値が変わった後で、状態を確認する
     if (isClient) {
       setTimeout(() => {
-        console.log("Delayed check after isClient changed:", { 
+        console.log("Delayed check after isClient changed:", {
           isClient,
           nestedTestLoading,
           directTestLoading,
@@ -299,7 +283,7 @@ function WorkOthers() {
     }
   }, [isClient, nestedTestLoading, directTestLoading, metaTestLoading]);
 
-  // テストクエリの結果に基づいて最終的なクエリを決定
+  // テストクエリの結果に基づいて最終クエリを決定 (変更なし)
   useEffect(() => {
     console.log("Query decision useEffect running with:", {
       isClient,
@@ -310,8 +294,7 @@ function WorkOthers() {
       directTestData: directTestData ? "exists" : "null",
       metaTestData: metaTestData ? "exists" : "null"
     });
-    
-    // クライアント側でない、またはテストクエリがまだロード中の場合は何もしない
+
     if (
       !isClient ||
       nestedTestLoading ||
@@ -322,7 +305,6 @@ function WorkOthers() {
       return;
     }
 
-    // ネストされたスキルが見つかった場合
     if (
       nestedTestData?.works?.nodes?.[0]?.works &&
       typeof nestedTestData.works.nodes[0].works.skill !== "undefined"
@@ -331,7 +313,6 @@ function WorkOthers() {
       setAccessMethod("nested");
       setFinalQuery(GET_WORKS_WITH_NESTED_SKILL);
     }
-    // ダイレクトスキルが見つかった場合
     else if (
       directTestData?.works?.nodes?.[0] &&
       typeof directTestData.works.nodes[0].skill !== "undefined"
@@ -340,10 +321,9 @@ function WorkOthers() {
       setAccessMethod("direct");
       setFinalQuery(GET_WORKS_WITH_DIRECT_SKILL);
     }
-    // メタデータからスキルが見つかった場合
     else if (metaTestData?.works?.nodes?.[0]?.metaData) {
       const skillMeta = metaTestData.works.nodes[0].metaData.find(
-        (meta) => meta.key === "skill" || meta.key === "_skill" // skillまたは_skillキーを探す
+        (meta) => meta.key === "skill" || meta.key === "_skill"
       );
       if (skillMeta) {
         console.log("Access method: meta");
@@ -352,16 +332,15 @@ function WorkOthers() {
       } else {
         console.log("Access method: unknown (skill not found in metaData)");
         setAccessMethod("unknown");
-        setFinalQuery(DEFAULT_FALLBACK_QUERY); // スキルが見つからなかった場合はフォールバック
+        setFinalQuery(DEFAULT_FALLBACK_QUERY);
       }
     }
-    // どの方法でもスキルが見つからなかった場合
     else {
       console.log(
         "Access method: unknown (skill not found in any tested structure)"
       );
       setAccessMethod("unknown");
-      setFinalQuery(DEFAULT_FALLBACK_QUERY); // フォールバック
+      setFinalQuery(DEFAULT_FALLBACK_QUERY);
     }
   }, [
     isClient,
@@ -377,12 +356,14 @@ function WorkOthers() {
   ]);
 
   // 最終的に決定されたクエリで作品データを取得
+  // **変更点:** `variables` に `currentWorkId` を渡すようにしました。
   const { loading, error, data } = useQuery(
     finalQuery || DEFAULT_FALLBACK_QUERY,
     {
-      // finalQueryが決定されておらず、かつテストクエリも全てロード中でない場合にのみスキップを解除
+      variables: {
+        currentWorkId: currentWorkId ? [currentWorkId] : [], // IDを配列として渡し、なければ空の配列
+      },
       skip: !isClient || !finalQuery,
-      // キャッシュを優先し、一度取得したらキャッシュのみを使用
       fetchPolicy: "cache-first",
       nextFetchPolicy: "cache-only",
       onCompleted: (data) => console.log("Main query completed:", data),
@@ -390,7 +371,7 @@ function WorkOthers() {
     }
   );
 
-  // 決定されたアクセス方法に基づいてスキル値を取得するヘルパー関数
+  // 決定されたアクセス方法に基づいてスキル値を取得するヘルパー関数 (変更なし)
   const getSkill = (work) => {
     if (!work) return "";
     if (accessMethod === "nested") {
@@ -405,23 +386,22 @@ function WorkOthers() {
         return skillMeta?.value;
       }
     }
-    // accessMethod が unknown またはまだ設定されていない場合のフォールバック
-    // 一応ネストとダイレクトの可能性を確認
+    // フォールバックロジック
     if (work.works && typeof work.works.skill !== "undefined")
       return work.works.skill;
     if (typeof work.skill !== "undefined") return work.skill;
-    return ""; // 見つからなければ空文字列
+    return "";
   };
 
-  // クライアント側でない場合の表示
+  // --- レンダリングロジック ---
   if (!isClient) {
     console.log("Rendering loading state because isClient is false");
     return (
-      <div 
+      <div
         className={styles.worksContents}
-        style={{ 
-          border: '1px solid #ccc', 
-          padding: '20px', 
+        style={{
+          border: '1px solid #ccc',
+          padding: '20px',
           margin: '20px',
           background: '#f9f9f9'
         }}
@@ -442,7 +422,6 @@ function WorkOthers() {
     );
   }
 
-  // テストクエリまたは最終クエリがロード中の場合の表示
   if (
     loading ||
     (!finalQuery && (nestedTestLoading || directTestLoading || metaTestLoading))
@@ -455,11 +434,11 @@ function WorkOthers() {
       metaTestLoading
     });
     return (
-      <div 
+      <div
         className={styles.worksContents}
-        style={{ 
-          border: '1px solid #ddd', 
-          padding: '20px', 
+        style={{
+          border: '1px solid #ddd',
+          padding: '20px',
           margin: '20px',
           background: '#f0f0f0'
         }}
@@ -480,15 +459,14 @@ function WorkOthers() {
     );
   }
 
-  // エラーが発生した場合の表示
   if (error && !data?.works?.nodes) {
     console.log("Rendering error state:", error.message);
     return (
-      <div 
+      <div
         className={styles.worksContents}
-        style={{ 
-          border: '1px solid #f88', 
-          padding: '20px', 
+        style={{
+          border: '1px solid #f88',
+          padding: '20px',
           margin: '20px',
           background: '#fff0f0'
         }}
@@ -498,16 +476,15 @@ function WorkOthers() {
     );
   }
 
-  // データが見つからなかった場合の表示
   const worksToDisplay = data?.works?.nodes || [];
   if (worksToDisplay.length === 0) {
     console.log("Rendering empty state, no works found");
     return (
-      <div 
+      <div
         className={styles.worksContents}
-        style={{ 
-          border: '1px solid #ddd', 
-          padding: '20px', 
+        style={{
+          border: '1px solid #ddd',
+          padding: '20px',
           margin: '20px',
           background: '#fffbf0'
         }}
@@ -517,7 +494,6 @@ function WorkOthers() {
     );
   }
 
-  // 作品データがある場合のレンダリング
   console.log("Rendering works data:", worksToDisplay.length, "items found");
   return (
     <div className={styles.worksContents}>
@@ -557,6 +533,5 @@ function WorkOthers() {
   );
 }
 
-// デバッグのため、エクスポート前にもログを出力
 console.log("About to export WorkOthers component");
 export default WorkOthers;

@@ -1,9 +1,9 @@
-// app/all-blogs/[slug]/page.js
 import Image from 'next/image';
 import Link from 'next/link';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
+import BlogOthers from "@/components/FetchLowerLayer/BlogOthers"; // 🆕 追加
 import styles from "./page.module.scss";
 
 // GraphQLクライアントの初期化
@@ -39,7 +39,7 @@ const GET_ALL_BLOGS = gql`
   }
 `;
 
-// 特定のスラッグのブログ記事を取得するクエリ (オプション)
+// 特定のスラッグのブログ記事を取得するクエリ
 const GET_BLOG_BY_SLUG = gql`
   query GetBlogBySlug($slug: ID!) {
     post(id: $slug, idType: SLUG) {
@@ -74,8 +74,8 @@ function createBreadcrumbs(slug, title) {
 }
 
 // SSGを有効化
-export const dynamic = 'force-static'; // このページを強制的に静的生成
-export const revalidate = 3600; // 1時間ごとに再検証（ISR）
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 // すべてのブログ記事のスラッグを取得してSSGのパスを生成
 export async function generateStaticParams() {
@@ -195,6 +195,9 @@ export default async function BlogDetailPage({ params }) {
               </Link>
             </div>
           </article>
+
+          {/* 🎯 重要：BlogOthersコンポーネントを追加（テスト済みID除外） */}
+          <BlogOthers currentId={blog.id} />
         </main>
       </>
     );

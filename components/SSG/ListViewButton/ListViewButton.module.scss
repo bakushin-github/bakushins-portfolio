@@ -26,10 +26,12 @@
   vertical-align: top;
   text-align: center;
   color: $main-color-dark_blue;
+  background-color: $base-color-white;
   position: relative;
   cursor: pointer;
   transition: color 0.5s ease;
   z-index: 1;
+  overflow: hidden;
 
   &:hover{
     color: $base-color-white;

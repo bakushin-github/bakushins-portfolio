@@ -4,7 +4,7 @@
   position: relative;
   // padding-top: 56px;
   padding-bottom: 40px;
-  margin-bottom: 92px;
+  // margin-bottom: 92px;
   display: flex;
   gap: 24px;
   justify-content: center;
@@ -47,18 +47,15 @@
 
   &:hover .postHeader {
     transform: scale(1.05);
-    transition: 0.3s ease-in-out;
   }
 
   /* header内の画像 */
   .postHeader {
-
+    transition: 0.3s ease-in-out;
     img {
       height: 200px;
       width: 353px;
       object-fit: cover;
-
-    
     }
   }
   .Category {

@@ -3,6 +3,7 @@ import styles from "./About.module.scss";
 import H2 from "../H2/H2";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 
 // 最適化されたImage用のMotionコンポーネント
 const MotionImage = motion(Image);
@@ -134,13 +135,14 @@ function About() {
                     height={44.31}
                     alt="logo"
                   />
+                  <Link href={"https://x.com/official_bksn"}>
                   <Image
                     className={styles.x}
                     src="/About/PC/x.webp"
                     width={40}
                     height={38}
                     alt="x"
-                  />
+                  /></Link>
                 </div>
                 <div className={styles.about__text}>
                   医療の現場から Web

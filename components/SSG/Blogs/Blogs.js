@@ -14,8 +14,9 @@ function Blogs() {
     <div className={styles.figureBox}>
     <LatestPosts />
     </div>
+    <div className={styles.listViewButton_blog}>
     <ListViewButton href="all-blogs" />
-  </div>
+  </div></div>
   </>
   )
 }

@@ -2,7 +2,19 @@
 
 .blogs{
   background: $base-color-off_white;
-  height: 800px;
+  // height: 800px;
   max-width: 3000px;
   width: 100%;
+padding-bottom: 96px;
+}
+
+.listViewButton_blog{
+  position: relative;
+  width: 131px;
+  height: 52px;
+  left: calc((1139px / 1440px )*100%);
+}
+
+.article_worksContents__WBdS3{
+  margin-bottom: 0 !important;
 }

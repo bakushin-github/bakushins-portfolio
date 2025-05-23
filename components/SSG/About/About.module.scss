@@ -20,12 +20,18 @@ right: 137px;
 }
 
 .about__inner{
-  padding: 96px 170px;
+  padding-bottom: 96px;
+  padding-inline:  170px;
 }
 
 .about__content {
-  margin-top: 40px;
+  // margin-top: 40px;
   margin-inline: 70.5px;
+  transform: translateY(-19.2px);
+}
+
+.about__title{
+  margin-left: 0;
 }
 
 .about__1st {
@@ -52,6 +58,7 @@ margin-bottom: 32px;
 
 .x {
 margin-block: 3.15px;
+transform: translateY(6px);
 }
 
 .about__text{

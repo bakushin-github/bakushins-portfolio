@@ -1,4 +1,3 @@
-// app/all-blogs/page.js
 import Image from 'next/image'
 import Link from 'next/link'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
@@ -63,8 +62,8 @@ export const metadata = {
 };
 
 // SSGでビルド時に静的に生成
-export const dynamic = 'force-static'; // このページを強制的に静的生成
-export const revalidate = 3600; // オプション: 1時間ごとに再検証（ISR）
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 // データを取得するためのサーバーサイド関数
 async function getPosts() {
@@ -140,7 +139,7 @@ export default async function BlogPostsPage() {
   );
 }
 
-// 個別の投稿ページもSSGで生成する場合（/all-blogs/[slug]/page.jsで使用）
+// 個別の投稿ページもSSGで生成する場合
 export async function generateStaticParams() {
   const { posts } = await getPosts();
   
