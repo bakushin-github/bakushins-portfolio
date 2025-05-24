@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
-import BlogOthers from "@/components/FetchLowerLayer/BlogOthers"; // 🆕 追加
+import BlogOthers from "@/components/FetchLowerLayer/BlogOhters"; // 🆕 追加
 import styles from "./page.module.scss";
 
 // GraphQLクライアントの初期化

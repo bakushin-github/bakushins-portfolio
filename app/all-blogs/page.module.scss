@@ -1,43 +1,107 @@
-@use "../../../app/styles/variables.module" as *;
+@use "../../app/styles/variables.module" as *;
 
-.worksContents {
+.allBlogs{
   position: relative;
-  // padding-top: 56px;
+}
+.breadcrumbWrapper{
+  position: relative;
+  top: 100px;
+  left: calc((170px / 1440px)*100%);
+}
+
+.Breadcrumb_breadcrumb__WeqTb{
+  padding: 0;
+}
+
+.blogs-container{
+  width: 1106px;
+  margin: auto;
+}
+
+.blogs_separatorLine{
+  display: block;
+ width: 100%;
+  background: #CACCD3;
+  height: 1px;
+  margin-block: 48px;
+}
+.blogs_headTitle {
+  padding-top: 105px;
+  max-width: 1100px;
+  width: 100%;
+  color: $main-color-dark_blue;
+  margin-left: calc(170px + (100vw - 1440px) * 170 / 1440);
+}
+
+.blogs_subText {
+  position: relative;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 170%;
+  letter-spacing: 4%;
+  padding-left: 26px;
+  color: $main-color-dark_blue;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border: solid 2px $accent-color-red;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    color: $accent-color-red;
+  }
+}
+
+.blogs_h1Title {
+  margin-top: 4px;
+  height: 96px;
+  color: $main-color-dark_blue;
+}
+
+
+.blogCard-grid {
+  position: relative;
   padding-bottom: 40px;
-  // margin-bottom: 92px;
-  display: flex;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(3,353px);
+  grid-row-gap: 56px;
+ grid-column-gap:  24px;
   justify-content: center;
 }
 
-.postCard {
+.blog-card {
   position: relative;
   margin: 0;
   width: 353px;
   height: 397px;
   // left: 190px;
   gap: 10px;
+  border: 0.5px light grey;
   border-radius: 8px;
   background: $base-color-white;
   text-align: center;
   overflow: hidden;
   cursor: pointer;
   &:hover {
-    .title {
+    .blog-title {
       &::after {
         animation: titleLine 0.4s ease-in-out;
         opacity: 1;
       }
     }
 
-    .worksLink {
+    .blog-link {
       background-position: 0 0;
     } // グラデーションを左から表示
 
-    .worksLink::before {
+    .blog-link::before {
       // ホバー時の初期変化（矢印の色と背景）
       background-color: transparent; // 親のグラデーションが見えるように
-      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
+      background-image: url("../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
 
       // 矢印の連続アニメーションを適用
       // initial_hover_duration (0.4s) の後に開始
@@ -45,20 +109,25 @@
     }
   }
 
-  &:hover .postHeader {
+  &:hover .blog-header {
     transform: scale(1.05);
   }
 
   /* header内の画像 */
-  .postHeader {
+  .blog-header {
     transition: 0.3s ease-in-out;
+    height: 200px;
+        box-sizing: border-box;
+        border: 1px solid #caccd3;
+        border-bottom-width: 0;
+        border-radius: 8px 8px 0 0;
     img {
       height: 200px;
       width: 353px;
       object-fit: cover;
     }
   }
-  .Category {
+  .blog-category {
     position: absolute;
     max-width: 300px;
     width: auto;
@@ -84,12 +153,16 @@
     z-index: 1;
   }
 
-  .postFooter {
+  .blog-footer {
     height: 197px;
     padding-inline: 31.5px;
     text-align: left;
     box-sizing: border-box;
-    h3 {
+        border: 1px solid #caccd3;
+        border-top-width: 0;
+        border-radius: 0 0 8px 8px;
+
+    h2 {
       padding-top: 24px;
       padding-bottom: 13px;
       margin: 0;
@@ -103,7 +176,7 @@
   }
 }
 
-.worksLink {
+.blog-link {
   position: absolute;
   width: 40px;
   height: 40px;
@@ -132,7 +205,7 @@
     height: 100%; // 親要素のpadding領域いっぱいに広がる
 
     background-color: $base-color-white; // 通常時の背景色
-    background-image: url("../../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
+    background-image: url("../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
     background-size: 18px;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,0 +1,101 @@
+// ClientServiceAnimation.jsx で使用するスタイルをここに記述
+// 例:
+.service {
+  padding: 50px 0;
+  text-align: center;
+  position: relative; // lineアニメーションの基準に
+  overflow: hidden; // clipPathのため
+}
+
+.service__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  left: 0; // または適切な位置
+  z-index: 1; // 他の要素の上に表示
+}
+
+.polygon1, .polygon2 {
+  position: absolute;
+  z-index: 2; // lineの上に表示
+  // 必要に応じて位置を調整
+}
+
+.polygon1 {
+  top: 100px; // 例
+  left: 50px; // 例
+}
+
+.polygon2 {
+  top: 150px; // 例
+  right: 50px; // 例
+}
+
+.h2Content {
+  position: relative;
+  z-index: 3; // 最前面に表示
+  margin-bottom: 30px;
+}
+
+.service__motion {
+  margin-top: 20px;
+}
+
+.service__text {
+  font-size: 1.1em;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.service__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+  justify-items: center;
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.image {
+  margin-bottom: 15px;
+}
+
+.figcaption {
+  .title {
+    margin-bottom: 10px;
+  }
+  .caption {
+    font-size: 0.9em;
+    color: #666;
+  }
+}
+
+// レスポンシブ対応の例
+@media (max-width: 768px) {
+  .service__inner {
+    padding: 0 20px;
+  }
+  .line {
+    width: 150px; // 小さな画面での調整
+    height: auto;
+  }
+  .polygon1, .polygon2 {
+    width: 80px; // 小さな画面での調整
+    height: auto;
+  }
+  .service__content {
+    grid-template-columns: 1fr;
+  }
+}
