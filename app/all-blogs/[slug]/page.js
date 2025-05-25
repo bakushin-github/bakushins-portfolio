@@ -4,11 +4,11 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import BlogOthers from "@/components/FetchLowerLayer/BlogOhters"; // 🆕 追加
-import styles from "./page.module.scss";
+import styles from "../page.module.scss";
 
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://your-wordpress-site.com/graphql',
+  uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL,
   cache: new InMemoryCache(),
 });
 
