@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import styles from "./page.module.scss";
+import styles from "../../page.module.scss";
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
@@ -285,6 +285,8 @@ async function fetchAllWorks(skillStructure, after = null, allWorks = []) {
 // ページネーション情報と共に作品を返す
 async function getAllWorksWithPagination(requestedPage = 1) {
   try {
+    console.log(`Fetching works for page ${requestedPage}...`);
+
     const skillStructure = await determineSkillStructure();
     const allWorks = await fetchAllWorks(skillStructure);
     const totalWorks = allWorks.length;
@@ -295,6 +297,10 @@ async function getAllWorksWithPagination(requestedPage = 1) {
     const startIndex = (currentPage - 1) * WORKS_PER_PAGE;
     const endIndex = startIndex + WORKS_PER_PAGE;
     const currentPageWorks = allWorks.slice(startIndex, endIndex);
+
+    console.log(
+      `Found ${totalWorks} total works, showing page ${currentPage}/${totalPages}`
+    );
 
     return {
       works: currentPageWorks,
@@ -329,15 +335,54 @@ async function getAllWorksWithPagination(requestedPage = 1) {
   }
 }
 
-// メタデータを設定（1ページ目用）
-export const metadata = {
-  title: "作品一覧",
-  description: "作品の一覧ページです",
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+// ビルド時に総ページ数を計算する
+async function calculateTotalPages() {
+  try {
+    console.log("Calculating total pages for static generation...");
+    const skillStructure = await determineSkillStructure();
+    const allWorks = await fetchAllWorks(skillStructure);
+    const totalPages = Math.ceil(allWorks.length / WORKS_PER_PAGE);
+    console.log(`Total works: ${allWorks.length}, Total pages: ${totalPages}`);
+    return Math.max(1, totalPages);
+  } catch (error) {
+    console.error("Error calculating total pages:", error);
+    return 1;
+  }
+}
+
+// 静的パラメータの生成（2ページ目以降のみ）
+export async function generateStaticParams() {
+  try {
+    const totalPages = await calculateTotalPages();
+    const params = [];
+
+    // 2ページ目以降のみ生成（1ページ目は /all-works で処理）
+    for (let i = 2; i <= totalPages; i++) {
+      params.push({ page: i.toString() }); // 文字列として返す
+    }
+
+    console.log(`Generated static params:`, params);
+    console.log(`Total pages generated: ${params.length} (excluding page 1)`);
+    return params;
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
+
+// メタデータを動的に生成
+export async function generateMetadata({ params }) {
+  const page = params?.page ? parseInt(params.page) : 2;
+
+  return {
+    title: `作品一覧 - ページ${page}`,
+    description: `作品の一覧ページです (${page}ページ目)`,
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 // SSGでビルド時に静的に生成
 export const dynamic = "force-static";
@@ -356,30 +401,29 @@ function Pagination({ pagination, basePath = "/all-works" }) {
 
   const renderPageNumbers = () => {
     const pages = [];
-    const showPages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(showPages / 2));
-    let endPage = Math.min(totalPages, startPage + showPages - 1);
 
-    if (endPage - startPage + 1 < showPages) {
-      startPage = Math.max(1, endPage - showPages + 1);
-    }
-
-    if (startPage > 1) {
-      pages.push(
-        <Link key={1} href={getPageUrl(1)} className={styles.pageLink}>
-          1
-        </Link>
-      );
-      if (startPage > 2) {
+    // 総ページ数が3以下の場合は全ページを表示
+    if (totalPages <= 3) {
+      for (let i = 1; i <= totalPages; i++) {
         pages.push(
-          <span key="dots1" className={styles.pageDots}>
-            ...
-          </span>
+          <Link
+            key={i}
+            href={getPageUrl(i)}
+            className={`${styles.pageLink} ${
+              i === currentPage ? styles.currentPage : ""
+            }`}
+          >
+            {i}
+          </Link>
         );
       }
+      return pages;
     }
 
-    for (let i = startPage; i <= endPage; i++) {
+    // 総ページ数が4以上の場合：常に「1 2 3 ... 最終ページ」パターン
+
+    // 1. 最初の3ページを表示
+    for (let i = 1; i <= 3; i++) {
       pages.push(
         <Link
           key={i}
@@ -393,19 +437,53 @@ function Pagination({ pagination, basePath = "/all-works" }) {
       );
     }
 
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push(
-          <span key="dots2" className={styles.pageDots}>
-            ...
-          </span>
-        );
-      }
+    // 2. 現在のページが4以上で最終ページでない場合、現在のページも表示
+    if (currentPage > 3 && currentPage < totalPages) {
+      pages.push(
+        <span key="dots1" className={styles.pageDots}>
+          ...
+        </span>
+      );
+
+      pages.push(
+        <Link
+          key={currentPage}
+          href={getPageUrl(currentPage)}
+          className={`${styles.pageLink} ${styles.currentPage}`}
+        >
+          {currentPage}
+        </Link>
+      );
+    }
+
+    // 3. 総ページ数が4の場合は「...」なしで最終ページを表示
+    if (totalPages === 4) {
       pages.push(
         <Link
           key={totalPages}
           href={getPageUrl(totalPages)}
-          className={styles.pageLink}
+          className={`${styles.pageLink} ${
+            totalPages === currentPage ? styles.currentPage : ""
+          }`}
+        >
+          {totalPages}
+        </Link>
+      );
+    } else {
+      // 4. 総ページ数が5以上の場合は「...」付きで最終ページを表示
+      pages.push(
+        <span key="dots2" className={styles.pageDots}>
+          ...
+        </span>
+      );
+
+      pages.push(
+        <Link
+          key={totalPages}
+          href={getPageUrl(totalPages)}
+          className={`${styles.pageLink} ${
+            totalPages === currentPage ? styles.currentPage : ""
+          }`}
         >
           {totalPages}
         </Link>
@@ -440,15 +518,17 @@ function Pagination({ pagination, basePath = "/all-works" }) {
   );
 }
 
-// メインコンポーネント（1ページ目用）
-export default async function WorksPage() {
-  const page = 1; // 1ページ目固定
+// メインコンポーネント（2ページ目以降用）
+export default async function WorksPage({ params }) {
+  // URLパラメータからページ番号を取得（2ページ目以降）
+  const page = params?.page ? parseInt(params.page) : 2;
 
-  console.log(`Rendering works page: ${page} (first page)`);
+  console.log(`Rendering works page: ${page}`);
 
   const { works, skillStructure, pagination, error } =
     await getAllWorksWithPagination(page);
 
+  // エラーが発生した場合の表示
   if (error) {
     return (
       <div className={styles.allWorks}>
@@ -464,6 +544,9 @@ export default async function WorksPage() {
               <summary>エラーの詳細</summary>
               <p>{error}</p>
             </details>
+            <Link href="/all-works" className={styles.retryLink}>
+              作品一覧に戻る
+            </Link>
           </div>
         </main>
         <Cta />
@@ -471,6 +554,7 @@ export default async function WorksPage() {
     );
   }
 
+  // ページ範囲外の場合
   if (works.length === 0) {
     return (
       <div className={styles.allWorks}>
@@ -480,10 +564,10 @@ export default async function WorksPage() {
         </div>
         <main className={styles["works-container"]}>
           <div className={styles.noResults}>
-            <h2>作品が見つかりません</h2>
-            <p>まだ作品が投稿されていないか、一時的に利用できません。</p>
-            <Link href="/" className={styles.homeLink}>
-              ホームページに戻る
+            <h2>ページが見つかりません</h2>
+            <p>指定されたページは存在しません。</p>
+            <Link href="/all-works" className={styles.homeLink}>
+              作品一覧の最初のページに戻る
             </Link>
           </div>
         </main>
@@ -492,6 +576,7 @@ export default async function WorksPage() {
     );
   }
 
+  // 作品データがある場合のレンダリング
   return (
     <div className={styles.allWorks}>
       <Header_otherPage className={styles.worksHeader} />
@@ -501,7 +586,9 @@ export default async function WorksPage() {
       <main className={styles["works-container"]}>
         <div className={styles.works_headTitle}>
           <span className={styles.works_subText}>作品</span>
-          <h1 className={styles.works_h1Title}>ALL Works</h1>
+          <h1 className={styles.works_h1Title}>
+            ALL Works - ページ {pagination.currentPage}
+          </h1>
         </div>
 
         {pagination.totalWorks > 0 && (
@@ -517,19 +604,17 @@ export default async function WorksPage() {
 
         <div className={styles["workCard-grid"]}>
           {works.map((work, index) => (
-            <Link
-              key={work.id}
-              href={`/all-works/${work.slug}`}
-              className={styles["work-imageLink"]}
-            >
-              <article className={styles["work-card"]}>
-                <header className={styles["work-header"]}>
-                  {getCategoryName(work) && (
-                    <span className={styles["work-category"]}>
-                      {getCategoryName(work)}
-                    </span>
-                  )}
-
+            <article key={work.id} className={styles["work-card"]}>
+              <header className={styles["work-header"]}>
+                {getCategoryName(work) && (
+                  <span className={styles["work-category"]}>
+                    {getCategoryName(work)}
+                  </span>
+                )}
+                <Link
+                  href={`/all-works/${work.slug}`}
+                  className={styles["work-imageLink"]}
+                >
                   <Image
                     src={
                       work.featuredImage?.node?.sourceUrl ||
@@ -543,20 +628,28 @@ export default async function WorksPage() {
                       "作品画像"
                     }
                     className={styles["work-image"]}
-                    priority={index < 4}
+                    priority={false}
                   />
-                </header>
-                <footer className={styles["work-footer"]}>
-                  <h2 className={styles["work-title"]}>
+                </Link>
+              </header>
+              <footer className={styles["work-footer"]}>
+                <h2 className={styles["work-title"]}>
+                  <Link
+                    href={`/all-works/${work.slug}`}
+                    className={styles["work-titleLink"]}
+                  >
                     {truncateTitle(work.title)}
-                  </h2>
-                  <p className={styles["work-skill"]}>
-                    {formatSkill(getSkill(work, skillStructure))}
-                  </p>
-                  <div className={styles["work-link"]}></div>
-                </footer>
-              </article>
-            </Link>
+                  </Link>
+                </h2>
+                <p className={styles["work-skill"]}>
+                  {formatSkill(getSkill(work, skillStructure))}
+                </p>
+                <Link
+                  href={`/all-works/${work.slug}`}
+                  className={styles["work-link"]}
+                ></Link>
+              </footer>
+            </article>
           ))}
         </div>
 
