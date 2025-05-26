@@ -7,7 +7,7 @@ import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
 
 // ページネーションの設定
-const WORKS_PER_PAGE = 12;
+const WORKS_PER_PAGE = 9;
 const MAX_WORKS_TO_FETCH = 1000;
 
 const breadcrumbItems = [

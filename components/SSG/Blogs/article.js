@@ -81,6 +81,7 @@ function LatestPosts() {
           }
           
           return (
+                 
             <article key={post.id} className={styles.postCard}>
               {/* 
                 外部画像の場合は width, height, unoptimized を指定して

@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
-import BlogOthers from "@/components/FetchLowerLayer/BlogOhters"; // 🆕 追加
-import styles from "../page.module.scss";
+import BlogOthers from "@/components/FetchLowerLayer/BlogOhters";
+import styles from "../../styles/_variables.module.scss";
+// WordPress コンテンツ用のグローバルスタイルは globals.scss で読み込む
+import { processWordPressContent } from '../../../lib/utils/content-processor';
 
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
@@ -95,12 +97,14 @@ export async function generateStaticParams() {
   }
 }
 
-// メタデータを動的に生成
+// ✅ メタデータを動的に生成（params await対応）
 export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  
   try {
     const { data } = await client.query({
       query: GET_BLOG_BY_SLUG,
-      variables: { slug: params.slug },
+      variables: { slug: resolvedParams.slug },
     });
 
     const post = data?.post;
@@ -124,9 +128,10 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// メインコンポーネント
+// ✅ メインコンポーネント（params await対応）
 export default async function BlogDetailPage({ params }) {
-  const slug = params?.slug || '';
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug || '';
   
   try {
     // 特定のスラッグの記事を取得
@@ -157,6 +162,11 @@ export default async function BlogDetailPage({ params }) {
       );
     }
 
+    // コンテンツ処理（blogが定義された後）
+    const processedContent = blog?.content 
+      ? processWordPressContent(blog.content) 
+      : '';
+
     // 記事が見つかった場合
     const breadcrumbItems = createBreadcrumbs(slug, blog.title);
 
@@ -168,7 +178,7 @@ export default async function BlogDetailPage({ params }) {
         </div>
         
         <main className={styles.container}>
-          <article className={styles.blogDetail}>
+          <article className={styles.blogArticleDetail}>
             <h1>{blog.title}</h1>
             
             {blog.featuredImage?.node && (
@@ -184,9 +194,10 @@ export default async function BlogDetailPage({ params }) {
               </div>
             )}
             
+            {/* WordPressコンテンツ用のクラス名を追加 */}
             <div 
-              className={styles.content}
-              dangerouslySetInnerHTML={{ __html: blog.content }} 
+              className="wordpress-content"
+              dangerouslySetInnerHTML={{ __html: processedContent }} 
             />
             
             <div className={styles.navigation}>
@@ -196,7 +207,6 @@ export default async function BlogDetailPage({ params }) {
             </div>
           </article>
 
-          {/* 🎯 重要：BlogOthersコンポーネントを追加（テスト済みID除外） */}
           <BlogOthers currentId={blog.id} />
         </main>
       </>
