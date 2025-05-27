@@ -7,6 +7,9 @@ import BlogOthers from "@/components/FetchLowerLayer/BlogOhters";
 import styles from "../../styles/_variables.module.scss";
 // WordPress コンテンツ用のグローバルスタイルは globals.scss で読み込む
 import { processWordPressContent } from '../../../lib/utils/content-processor';
+import { generateSocialMetadata, generateJsonLd } from '../../../lib/utils/sidebar-utils';
+import Cta from '@/components/SSG/Cta/Cta';
+import BlogLayoutWithSidebar from '@/components/sidebar/BlogLayoutWithSidebar';
 
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
@@ -97,7 +100,7 @@ export async function generateStaticParams() {
   }
 }
 
-// ✅ メタデータを動的に生成（params await対応）
+// ✅ メタデータを動的に生成（params await対応、SSG最適化版）
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   
@@ -116,10 +119,8 @@ export async function generateMetadata({ params }) {
       };
     }
 
-    return {
-      title: `${post.title} | ブログ`,
-      description: post.excerpt || `${post.title}の詳細ページです。`,
-    };
+    // SSGユーティリティを使用してメタデータ生成
+    return generateSocialMetadata(post, resolvedParams.slug);
   } catch (error) {
     return {
       title: 'ブログ記事',
@@ -170,6 +171,12 @@ export default async function BlogDetailPage({ params }) {
     // 記事が見つかった場合
     const breadcrumbItems = createBreadcrumbs(slug, blog.title);
 
+    // 現在のページURLを生成（SSG対応）
+    const articleUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bakushin.blog'}/all-blogs/${slug}`;
+
+    // 構造化データ生成
+    const jsonLd = generateJsonLd(blog, slug);
+
     return (
       <>
         <Header_otherPage className={styles.blogsHeader} />
@@ -177,38 +184,53 @@ export default async function BlogDetailPage({ params }) {
           <Breadcrumb items={breadcrumbItems} />
         </div>
         
-        <main className={styles.container}>
-          <article className={styles.blogArticleDetail}>
-            <h1>{blog.title}</h1>
-            
-            {blog.featuredImage?.node && (
-              <div className={styles.featuredImage}>
-                <Image 
-                  src={blog.featuredImage.node.sourceUrl} 
-                  alt={blog.featuredImage.node.altText || blog.title} 
-                  width={800}
-                  height={450}
-                  className={styles.mainImage}
-                  priority
-                />
+        {/* 構造化データの追加 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
+        />
+        
+        <main className="blog-main">
+          <BlogLayoutWithSidebar 
+            articleTitle={blog.title}
+            articleUrl={articleUrl}
+          >
+            <article className="blog-article">
+              <h1>{blog.title}</h1>
+              
+              {blog.featuredImage?.node && (
+                <div className="blog-thumbnailBox">
+                  <Image 
+                    src={blog.featuredImage.node.sourceUrl} 
+                    alt={blog.featuredImage.node.altText || blog.title} 
+                    fill
+                    sizes="(max-width: 666px) 100vw, 666px"
+                    className="blog-thumbnail"
+                    priority
+                  />
+                </div>
+              )}
+              
+              {/* WordPressコンテンツ用のクラス名を追加 */}
+              <div 
+                className="wordpress-content"
+                dangerouslySetInnerHTML={{ __html: processedContent }} 
+              />
+              
+              <div className={styles.navigation}>
+                <Link href="/all-blogs" className={styles.backButton}>
+                  全ブログ一覧に戻る
+                </Link>
               </div>
-            )}
-            
-            {/* WordPressコンテンツ用のクラス名を追加 */}
-            <div 
-              className="wordpress-content"
-              dangerouslySetInnerHTML={{ __html: processedContent }} 
-            />
-            
-            <div className={styles.navigation}>
-              <Link href="/all-blogs" className={styles.backButton}>
-                全ブログ一覧に戻る
-              </Link>
-            </div>
-          </article>
+            </article>
 
-          <BlogOthers currentId={blog.id} />
+            <BlogOthers currentId={blog.id} />
+          </BlogLayoutWithSidebar>
+          
         </main>
+          <Cta/>
       </>
     );
   } catch (error) {

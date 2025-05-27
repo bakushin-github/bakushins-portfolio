@@ -1,0 +1,56 @@
+// BlogLayoutWithSidebar専用のCSSモジュール
+
+.blogLayoutWithSidebar {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+}
+
+.blogMainContent {
+  min-width: 0; // グリッドオーバーフロー対策
+  width: 100%;
+}
+
+.blogSidebar {
+  position: relative;
+  height: fit-content;
+}
+
+.sidebarExtraContent {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+  
+  p {
+    margin: 0;
+  }
+}
+
+// レスポンシブ対応
+@media (max-width: 1024px) {
+  .blogLayoutWithSidebar {
+    grid-template-columns: 1fr 280px;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .blogLayoutWithSidebar {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .blogLayoutWithSidebar {
+    padding: 0 16px;
+  }
+}

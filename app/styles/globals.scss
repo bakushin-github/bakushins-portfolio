@@ -1,10 +1,8 @@
 // 変数をインポート
-@use 'variables.module' as *;
+@use "variables.module" as *;
 
-// WordPressコンテンツスタイルをインポート
-@import 'wordpress-content.scss';
-
-html, body {
+html,
+body {
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -17,4 +15,450 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+// ACF動画ラッパー（グローバル）
+.acf-video-wrap {
+  max-width: 884px;
+  width: 100%;
+  max-height: 562px;
+  height: 100%;
+  box-shadow: 0px 4px 10px 0px rgba(25, 33, 61, 0.1);
+  background: $base-color-off_white;
+
+  .acf-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// ========== WordPress コンテンツスタイル ==========
+
+// パンくずリストの調整
+.Breadcrumb_breadcrumb__WeqTb {
+  padding-top: 140px !important;
+}
+
+// WordPressコンテンツのメインコンテナ
+.blog-main {
+    padding-inline: calc((166.5px / 1440px)*100%);
+}
+
+.blog-article {
+  // width:calc((666px / 1440px)*100%) ;
+
+  h1 {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.featuredImage, .blog-thumbnailBox {
+  display: flex !important;
+  justify-content: center !important;
+  position: relative;
+    /* アスペクト比 200/353 = 0.5665 → padding-topで実現 */
+  padding-top: 56.65%;
+  overflow: hidden;
+  img{
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}}
+
+.wordpress-content {
+  padding-top: 60px;
+  max-width: 100%;
+  line-height: 1.7;
+  color: #333;
+  font-family: "Noto Sans JP", sans-serif;
+
+  // 基本的なタグスタイル
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 2em 0 1em 0 !important;
+    line-height: 1.4 !important;
+    color:$text-black !important;
+    font-style: normal;
+font-weight: 500;
+line-height: 170%; 
+  }
+
+  h2{
+    display: flex;
+padding: 12px 0px 12px 16px;
+align-items: center;
+align-self: stretch;
+border-left: 3px solid $main-color-blue;
+background:  #D6DFFF;
+font-size: 28px;
+
+  }
+
+  h3{
+    display: flex;
+width: calc((602/666)*100%);
+padding: 8px 10px;
+align-items: center;
+border-left: 2px solid  $main-color-blue;
+font-size: 24px;
+
+  }
+
+  h4{
+    width: calc((602/666)*100%);
+    display: flex;
+height: 31px;
+padding: 8px 0px;
+align-items: center;
+font-size: 18px;
+  }
+
+  p {
+    margin: 1em 0 !important;
+    line-height: 1.7 !important;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%; /* 28.8px */
+  }
+
+  // WordPressブロック：テーブル
+  .wp-block-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 2rem 0 !important;
+    background-color: #fff !important;
+
+    &.is-style-regular {
+      table {
+        width: 100% !important;
+        border: 1px solid #ddd !important;
+
+        th {
+          background: linear-gradient(
+            135deg,
+            #667eea 0%,
+            #764ba2 100%
+          ) !important;
+          color: white !important;
+          font-weight: 600 !important;
+          padding: 12px 16px !important;
+          text-align: left !important;
+          border: none !important;
+        }
+
+        td {
+          padding: 12px 16px !important;
+          border-bottom: 1px solid #e1e5e9 !important;
+          background-color: #fff !important;
+          vertical-align: top !important;
+        }
+
+        tr:nth-child(even) td {
+          background-color: #f8f9fa !important;
+        }
+      }
+    }
+  }
+
+  
+  // WordPressブロック：リスト
+  .wp-block-list {
+    margin: 1rem 0 !important;
+    padding-left: 2rem !important;
+
+    li {
+      margin-bottom: 0.5rem !important;
+      line-height: 1.6 !important;
+    }
+  }
+
+  // WordPressブロック：見出し
+  .wp-block-heading {
+    margin: 2rem 0 1rem 0 !important;
+    font-weight: bold !important;
+
+    span {
+      color: #333 !important;
+    }
+  }
+
+  // WordPressブロック：目次
+  .toc {
+    margin: 2rem 0 !important;
+    border: 2px solid #ddd !important;
+    border-radius: 8px !important;
+
+    .toc-title {
+      display: block !important;
+      background: #f8f8f8 !important;
+      padding: 1rem !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+    }
+
+    .toc-content {
+      padding: 1rem !important;
+
+      .toc-list {
+        list-style: decimal !important;
+        padding-left: 2rem !important;
+
+        &.open {
+          display: block !important;
+        }
+
+        li {
+          margin-bottom: 0.5rem !important;
+
+          a {
+            color: #007cba !important;
+            text-decoration: none !important;
+
+            &:hover {
+              text-decoration: underline !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // WordPressブロック：吹き出し（Cocoon）
+  .wp-block-cocoon-blocks-balloon-ex-box-1 {
+    margin: 2rem 0 !important;
+
+    &.speech-wrap {
+      display: flex !important;
+      gap: 1rem !important;
+      align-items: flex-start !important;
+
+      .speech-person {
+        flex-shrink: 0 !important;
+
+        .speech-icon {
+          width: 60px !important;
+          height: 60px !important;
+          margin-bottom: 0.5rem !important;
+
+          img {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+          }
+        }
+
+        .speech-name {
+          text-align: center !important;
+          font-size: 0.8rem !important;
+          color: #666 !important;
+        }
+      }
+
+      .speech-balloon {
+        flex: 1 !important;
+        background: #f5f5f5 !important;
+        padding: 1rem !important;
+        border-radius: 8px !important;
+        position: relative !important;
+
+        &::before {
+          content: "" !important;
+          position: absolute !important;
+          left: -10px !important;
+          top: 20px !important;
+          border: 10px solid transparent !important;
+          border-right-color: #f5f5f5 !important;
+        }
+
+        p {
+          margin: 0.5rem 0 !important;
+          line-height: 1.6 !important;
+        }
+      }
+    }
+  }
+
+  // WordPressブロック：画像
+  .wp-block-image {
+    margin: 2rem 0 !important;
+    text-align: center !important;
+
+    &.aligncenter {
+      text-align: center !important;
+    }
+
+    &.size-full {
+      img {
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 4px !important;
+      }
+    }
+
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+      border-radius: 4px !important;
+    }
+  }
+
+  // WordPressブロック：埋め込み（YouTube等）
+  .wp-block-embed {
+    margin: 2rem 0 !important;
+
+    &.wp-block-embed-youtube {
+      &.wp-embed-aspect-16-9 {
+        .wp-block-embed__wrapper {
+          position: relative !important;
+
+          .video-container {
+            position: relative !important;
+            width: 100% !important;
+            padding-bottom: 56.25% !important; // 16:9 aspect ratio
+
+            .video {
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+
+              iframe {
+                width: 100% !important;
+                height: 100% !important;
+                border: none !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // その他のWordPress要素
+  .wp-image {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1em 0 !important;
+    border-radius: 4px !important;
+  }
+
+  // レスポンシブ対応
+  @media (max-width: 768px) {
+    .wp-block-table {
+      font-size: 14px !important;
+
+      th,
+      td {
+        padding: 8px 12px !important;
+      }
+    }
+
+    .wp-block-cocoon-blocks-balloon-ex-box-1.speech-wrap {
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+
+      .speech-person {
+        align-self: flex-start !important;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wp-block-table {
+      font-size: 12px !important;
+
+      th,
+      td {
+        padding: 6px 8px !important;
+      }
+    }
+  }
+}
+
+// ========================================
+// サイドバーレイアウト用CSS（SSG対応）
+// ========================================
+
+// 既存のグローバルなサイドバースタイル（後方互換性のため残す）
+.blog-layout-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+}
+
+.blog-main-content {
+  min-width: 0; // グリッドオーバーフロー対策
+  width: 100%;
+}
+
+.blog-sidebar {
+  position: relative;
+  height: fit-content;
+}
+
+// サイドバーウィジェットの基本スタイル
+.sidebar-author-widget {
+  position: sticky;
+  top: 20px;
+  transition: all 0.2s ease;
+  
+  // ホバー時のエフェクト
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+    transform: translateY(-2px);
+  }
+}
+
+// サイドバーの追加コンテンツ（グローバル - 後方互換性のため）
+.sidebar-extra-content {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+}
+
+// 後方互換性のためのレスポンシブ対応（グローバル）
+@media (max-width: 1024px) {
+  .blog-layout-with-sidebar {
+    grid-template-columns: 1fr 280px !important;
+    gap: 30px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-layout-with-sidebar {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .blog-layout-with-sidebar {
+    padding: 0 16px !important;
+  }
+  
+  .blog-main {
+    padding: 0 16px;
+  }
 }
