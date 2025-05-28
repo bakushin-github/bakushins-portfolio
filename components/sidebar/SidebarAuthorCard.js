@@ -29,7 +29,7 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
           <div>
             <h3 className={styles.name}>
               {authorData.name}
-              <span>×</span>
+              <a href="https://x.com/official_bksn">𝕏</a>
             </h3>
             <p className={styles.description}>
               {authorData.description}
@@ -51,7 +51,7 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
             className={`${styles.shareButton} ${styles.shareTwitter}`}
             title="Xで記事をシェア"
           >
-            𝕏 Xでシェア
+            𝕏 でシェア
           </a>
           
           {/* URLコピー - SSG対応でJavaScriptを使用 */}

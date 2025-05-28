@@ -1,3 +1,4 @@
+@use "../../app/styles/variables.module" as *;
 // SidebarAuthorCard専用のCSSモジュール
 
 .sidebarWidget {
@@ -56,10 +57,11 @@
   gap: 6px;
   justify-content: center;
 
-  span {
-    font-size: 14px;
-    color: #666666;
-    font-weight: normal;
+  a {
+    font-size: 18px;
+    color: $main-color-blue;
+    font-weight: 700;
+    text-decoration: underline;
   }
 }
 
@@ -100,6 +102,7 @@
   font-weight: 500;
   position: relative;
   overflow: hidden;
+    box-sizing: border-box !important;
 
   &::before {
     content: '';
@@ -123,7 +126,7 @@
   }
 
   &.shareCopy:hover {
-    background-color: #64748b;
+    background-color: #1da1f2;
     color: white;
     transform: translateY(-1px);
   }

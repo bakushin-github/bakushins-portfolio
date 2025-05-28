@@ -17,6 +17,9 @@ a {
   text-decoration: none;
 }
 
+.author-description {
+  white-space: pre-line;
+}
 // ACF動画ラッパー（グローバル）
 .acf-video-wrap {
   max-width: 884px;
@@ -39,37 +42,49 @@ a {
 // パンくずリストの調整
 .Breadcrumb_breadcrumb__WeqTb {
   padding-top: 140px !important;
+  position: relative;
+  left: calc((170px / 1440px) * 100%);
 }
 
 // WordPressコンテンツのメインコンテナ
 .blog-main {
-    padding-inline: calc((166.5px / 1440px)*100%);
+  padding-inline: calc((166.5px / 1440px) * 100%);
 }
 
 .blog-article {
   // width:calc((666px / 1440px)*100%) ;
 
   h1 {
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
+    font-size: 36px;
   }
 }
 
-.featuredImage, .blog-thumbnailBox {
+.featuredImage,
+.blog-thumbnailBox {
   display: flex !important;
   justify-content: center !important;
   position: relative;
-    /* アスペクト比 200/353 = 0.5665 → padding-topで実現 */
+  /* アスペクト比 200/353 = 0.5665 → padding-topで実現 */
   padding-top: 56.65%;
   overflow: hidden;
-  img{
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}}
+  img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+.wordpress-content h2:target,
+.wordpress-content h3:target,
+.wordpress-content h4:target {
+  background: yellow !important;
+  outline: 3px solid blue !important;
+}
 
 .wordpress-content {
   padding-top: 60px;
@@ -85,42 +100,42 @@ a {
   h4,
   h5,
   h6 {
-    margin: 2em 0 1em 0 !important;
+    margin: 2em 0 2em 0 !important;
     line-height: 1.4 !important;
-    color:$text-black !important;
+    color: $text-black !important;
     font-style: normal;
-font-weight: 500;
-line-height: 170%; 
+    font-weight: 500;
+    line-height: 170%;
+    position: relative;
   }
 
-  h2{
-    display: flex;
-padding: 12px 0px 12px 16px;
-align-items: center;
-align-self: stretch;
-border-left: 3px solid $main-color-blue;
-background:  #D6DFFF;
-font-size: 28px;
 
+  h2 {
+    display: flex;
+    padding: 12px 0px 12px 16px;
+    align-items: center;
+    align-self: stretch;
+    border-left: 3px solid $main-color-blue;
+    background: #d6dfff;
+    font-size: 28px;
   }
 
-  h3{
+  h3 {
     display: flex;
-width: calc((602/666)*100%);
-padding: 8px 10px;
-align-items: center;
-border-left: 2px solid  $main-color-blue;
-font-size: 24px;
-
+    width: calc((602 / 666) * 100%);
+    padding: 8px 10px;
+    align-items: center;
+    border-left: 2px solid $main-color-blue;
+    font-size: 24px;
   }
 
-  h4{
-    width: calc((602/666)*100%);
+  h4 {
+    width: calc((602 / 666) * 100%);
     display: flex;
-height: 31px;
-padding: 8px 0px;
-align-items: center;
-font-size: 18px;
+    height: 31px;
+    padding: 8px 0px;
+    align-items: center;
+    font-size: 18px;
   }
 
   p {
@@ -132,6 +147,16 @@ font-size: 18px;
     line-height: 180%; /* 28.8px */
   }
 
+  img {
+    padding-block: 24px;
+    position: relative !important;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .wp-element-caption {
+    display: none;
+  }
   // WordPressブロック：テーブル
   .wp-block-table {
     border-collapse: collapse !important;
@@ -171,7 +196,41 @@ font-size: 18px;
     }
   }
 
-  
+  .wp-block-cocoon-blocks-tab-box-1 {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 2rem 0 !important;
+    background-color: #fff !important;
+
+    table {
+      width: 100% !important;
+      border: 1px solid #ddd !important;
+
+      th {
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 100%
+        ) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        padding: 12px 16px !important;
+        text-align: left !important;
+        border: none !important;
+      }
+
+      td {
+        padding: 12px 16px !important;
+        border-bottom: 1px solid #e1e5e9 !important;
+        background-color: #fff !important;
+        vertical-align: top !important;
+      }
+
+      tr:nth-child(even) td {
+        background-color: #f8f9fa !important;
+      }
+    }
+  }
   // WordPressブロック：リスト
   .wp-block-list {
     margin: 1rem 0 !important;
@@ -185,7 +244,7 @@ font-size: 18px;
 
   // WordPressブロック：見出し
   .wp-block-heading {
-    margin: 2rem 0 1rem 0 !important;
+    margin: 4rem 0 3rem 0 !important;
     font-weight: bold !important;
 
     span {
@@ -198,17 +257,26 @@ font-size: 18px;
     margin: 2rem 0 !important;
     border: 2px solid #ddd !important;
     border-radius: 8px !important;
+    // width: 400px;
+    padding: 24px;
+ background: #f8f8f8 !important;
+    .toc-checkbox {
+      display: none;
+    }
 
     .toc-title {
       display: block !important;
-      background: #f8f8f8 !important;
+     
       padding: 1rem !important;
       font-weight: bold !important;
       cursor: pointer !important;
+      font-size: 18px;
     }
 
     .toc-content {
       padding: 1rem !important;
+      font-size: 16px;
+       background: #f8f8f8 !important;
 
       .toc-list {
         list-style: decimal !important;
@@ -222,8 +290,24 @@ font-size: 18px;
           margin-bottom: 0.5rem !important;
 
           a {
-            color: #007cba !important;
+            color: $text-black !important;
             text-decoration: none !important;
+            position: relative;
+             &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        padding-right: 12px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%232F4AB2' d='M432 320h-32a16 16 0 0 0-16 16v112H80V128h112a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H64A64.07 64.07 0 0 0 0 128v320a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V336a16 16 0 0 0-16-16zm56-320H320a32 32 0 0 0-22.63 54.63l56.36 56.36-188.74 188.74a16 16 0 0 0 0 22.63l22.63 22.63a16 16 0 0 0 22.63 0L400 176.29l56.36 56.36A32 32 0 0 0 512 208V32a32 32 0 0 0-32-32z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: right;
+        vertical-align: middle;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
             &:hover {
               text-decoration: underline !important;
@@ -263,6 +347,7 @@ font-size: 18px;
           text-align: center !important;
           font-size: 0.8rem !important;
           color: #666 !important;
+          padding-top: 18px;
         }
       }
 
@@ -286,6 +371,11 @@ font-size: 18px;
           margin: 0.5rem 0 !important;
           line-height: 1.6 !important;
         }
+
+        a {
+          color: $main-color-blue;
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -304,6 +394,7 @@ font-size: 18px;
         max-width: 100% !important;
         height: auto !important;
         border-radius: 4px !important;
+        box-sizing: border-box !important;
       }
     }
 
@@ -311,6 +402,11 @@ font-size: 18px;
       max-width: 100% !important;
       height: auto !important;
       border-radius: 4px !important;
+      border: 2px solid #ddd;
+      padding: 24px;
+          box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
+             box-sizing: border-box !important;
+
     }
   }
 
@@ -347,6 +443,92 @@ font-size: 18px;
     }
   }
 
+  .wp-block-cocoon-blocks-tab-box-1 {
+    border: 2px solid #ddd;
+    padding: 24px;
+    border-radius: 2px;
+  }
+
+  .blank-box.bb-tab .bb-label {
+    background-color: var(--cocoon-custom-border-color);
+    font-family: Aharoni, "Arial Black", Impact, Arial, sans-serif;
+    position: absolute;
+    font-size: 13px;
+    top: -27px;
+    height: 24px;
+    color: var(--cocoon-white-color);
+    left: -3px;
+    border-radius: 6px 6px 0 0;
+    padding: 0 1em 0 0.8em;
+  }
+
+  .blogcard {
+    background: $base-color_white;
+    border: 2px solid #ddd;
+    padding: 24px;
+    margin-bottom: 3em !important;
+    border-radius: 6px;
+    box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
+
+    .blogcard-thumbnail {
+      background-color: $base-color-white;
+      margin: 0;
+      padding: 0;
+      img {
+        max-width: 450px;
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .blogcard-content {
+      border: 2px solid #ddd;
+      padding: 24px;
+      border-radius: 2px;
+    }
+    .blogcard-site {
+      display: flex;
+      align-items: center !important;
+      gap: 12px;
+      padding: 8px;
+      text-decoration: underline $main-color-blue;
+      color: $main-color-blue;
+      &::after {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%232F4AB2' d='M432 320h-32a16 16 0 0 0-16 16v112H80V128h112a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H64A64.07 64.07 0 0 0 0 128v320a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V336a16 16 0 0 0-16-16zm56-320H320a32 32 0 0 0-22.63 54.63l56.36 56.36-188.74 188.74a16 16 0 0 0 0 22.63l22.63 22.63a16 16 0 0 0 22.63 0L400 176.29l56.36 56.36A32 32 0 0 0 512 208V32a32 32 0 0 0-32-32z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: right;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  blockquote{
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 28px;
+       a {
+          color: $main-color-blue;
+          text-decoration: underline;
+        }
+  }
+  .twitter-tweet{
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 28px;
+  }
+
+  .wp-block-code {
+    background: $text-black;
+    color: $text-white;
+    padding: 24px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
   // その他のWordPress要素
   .wp-image {
     max-width: 100% !important;
@@ -354,6 +536,49 @@ font-size: 18px;
     display: block !important;
     margin: 1em 0 !important;
     border-radius: 4px !important;
+  }
+
+  .blank-box.bb-tab {
+    position: relative;
+    margin-top: 5em !important;
+    border-top-left-radius: 0;
+    &::before {
+      content: "✅️ CHECK";
+      background-color: $main-color-dark_blue;
+      font-family: "Aharoni", "Arial Black", Impact, Arial, sans-serif;
+      position: absolute;
+      font-size: 13px;
+      top: -25px;
+      height: 24px;
+      color: $base-color-white;
+      left: -3px;
+      border-radius: 6px 6px 0 0;
+      padding: 0 1em 0 0.8em;
+      font-family: "FontAwesome", "Aharoni", "Arial Black", "Impact", "Arial",
+        "sans-serif";
+    }
+         a {
+            color: $main-color-blue !important;
+            text-decoration: underline !important;
+          }
+  }
+
+  .faq-question{
+    background: $base-color-white;
+    padding: 18px;
+      .faq-question-label{
+   font-weight: bold; color: #e60033;
+  }
+
+
+
+  }
+
+  .faq-answer{
+    padding: 18px;
+      .faq-answer-label{
+    font-weight: bold; color: #0066cc
+  }
   }
 
   // レスポンシブ対応
@@ -419,10 +644,10 @@ font-size: 18px;
   position: sticky;
   top: 20px;
   transition: all 0.2s ease;
-  
+
   // ホバー時のエフェクト
   &:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
     transform: translateY(-2px);
   }
 }
@@ -457,7 +682,7 @@ font-size: 18px;
   .blog-layout-with-sidebar {
     padding: 0 16px !important;
   }
-  
+
   .blog-main {
     padding: 0 16px;
   }
