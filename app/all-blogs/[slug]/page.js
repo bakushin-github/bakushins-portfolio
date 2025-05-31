@@ -232,8 +232,8 @@ export default async function BlogDetailPage({ params }) {
               />
               
               <div className={styles.navigation}>
-                <Link href="/all-blogs" className={styles.backButton}>
-                  全ブログ一覧に戻る
+                <Link href="/all-blogs" className={styles.singleBlog_backButton}>
+                  他の記事を見つける
                 </Link>
               </div>
             </article>

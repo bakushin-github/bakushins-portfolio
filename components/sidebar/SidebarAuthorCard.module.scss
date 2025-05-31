@@ -2,8 +2,8 @@
 // SidebarAuthorCard専用のCSSモジュール
 
 .sidebarWidget {
-  position: sticky;
-  top: 20px;
+  position: fixed;
+  top: 240px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
   width: 100%;
   max-width: 300px;
@@ -16,7 +16,7 @@
   margin-bottom: 24px;
   transition: all 0.2s ease;
   animation: slideInRight 0.5s ease-out;
-
+z-index: 10 !important;
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);

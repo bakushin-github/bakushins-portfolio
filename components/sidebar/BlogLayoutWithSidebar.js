@@ -19,12 +19,7 @@ export default function BlogLayoutWithSidebar({
           articleTitle={articleTitle}
           articleUrl={articleUrl}
         />
-        
-        {/* 他のサイドバーコンテンツを追加可能 */}
-        <div className={styles.sidebarExtraContent}>
-          {/* 関連記事やカテゴリーなど */}
-          <p>他のサイドバーコンテンツ</p>
-        </div>
+
       </aside>
     </div>
   );

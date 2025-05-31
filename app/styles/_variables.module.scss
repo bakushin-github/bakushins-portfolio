@@ -92,5 +92,47 @@ $text-accent-gray:#6C6C6C;
  width: 100%;
   background: #CACCD3;
   height: 1px;
-  margin-block: 48px;
+  margin-top: 8px;
+  margin-bottom: 48px;
+}
+
+.singleBlog_backButton{
+  background: $base-color-white;
+  border: 1px solid $main-color-blue;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Sans JP";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 152%;
+  letter-spacing: 4%;
+  text-align: center;
+  justify-content: center;
+  max-width: 155px;
+  max-height: 52px;
+  padding: 20px 27.5px;
+  color: $main-color-blue;
+  cursor: pointer;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 96px;
+  &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        padding-right: 14px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%232F4AB2' d='M432 320h-32a16 16 0 0 0-16 16v112H80V128h112a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H64A64.07 64.07 0 0 0 0 128v320a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V336a16 16 0 0 0-16-16zm56-320H320a32 32 0 0 0-22.63 54.63l56.36 56.36-188.74 188.74a16 16 0 0 0 0 22.63l22.63 22.63a16 16 0 0 0 22.63 0L400 176.29l56.36 56.36A32 32 0 0 0 512 208V32a32 32 0 0 0-32-32z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: right;
+        vertical-align: middle;
+        top: 50%;
+        left: 80%;
+        transform: translateY(-50%);
+      }
 }
