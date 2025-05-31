@@ -5,8 +5,8 @@
 }
 .breadcrumbWrapper {
   position: relative;
-  top: 100px;
-  left: calc((170px / 1440px) * 100%);
+  top: -9px;
+  // left: calc((170px / 1440px) * 100%);
 }
 
 .Breadcrumb_breadcrumb__WeqTb {
@@ -28,7 +28,7 @@
 }
 
 .works_headTitle {
-  padding-top: 105px;
+  padding-top: 26px;
   max-width: 1100px;
   width: 100%;
   color: $main-color-dark_blue;
