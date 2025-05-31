@@ -50,3 +50,47 @@ $text-accent-gray:#6C6C6C;
 
 /* 他のグローバルなスタイルがあればここに追加 */
 // @import '../styles/wordpress/wordpress-content.module.scss'
+
+.singleBlog_inner{
+  background: $base-color-off_white;
+}
+.info_SearchToWordPress{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $main-color-blue;
+  background: $base-color-white;
+  border-radius: 1.5rem;
+  width: 200px;
+  height: 50px;
+  border: 1px solid $main-color-blue;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-block: 48px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        padding-right: 12px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%232F4AB2' d='M432 320h-32a16 16 0 0 0-16 16v112H80V128h112a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H64A64.07 64.07 0 0 0 0 128v320a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V336a16 16 0 0 0-16-16zm56-320H320a32 32 0 0 0-22.63 54.63l56.36 56.36-188.74 188.74a16 16 0 0 0 0 22.63l22.63 22.63a16 16 0 0 0 22.63 0L400 176.29l56.36 56.36A32 32 0 0 0 512 208V32a32 32 0 0 0-32-32z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: right;
+        vertical-align: middle;
+        top: 50%;
+        left: 80%;
+        transform: translateY(-50%);
+      }
+}
+
+.singleBlog_separatorLine{
+    display: block;
+ width: 100%;
+  background: #CACCD3;
+  height: 1px;
+  margin-block: 48px;
+}

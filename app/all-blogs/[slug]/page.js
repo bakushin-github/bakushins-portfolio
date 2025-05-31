@@ -180,6 +180,7 @@ export default async function BlogDetailPage({ params }) {
     return (
       <>
         <Header_otherPage className={styles.blogsHeader} />
+        <div className={styles.singleBlog_inner}>
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -191,8 +192,9 @@ export default async function BlogDetailPage({ params }) {
             __html: JSON.stringify(jsonLd),
           }}
         />
-        
+
         <main className="blog-main">
+                <span className={styles["singleBlog_separatorLine"]}></span>
           <BlogLayoutWithSidebar 
             articleTitle={blog.title}
             articleUrl={articleUrl}
@@ -213,6 +215,16 @@ export default async function BlogDetailPage({ params }) {
                 </div>
               )}
               
+       <Link
+          href="https://bakushin.blog/"
+          className={styles.info_SearchToWordPress}
+          aria-label="記事を検索"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          記事を見つけよう
+        </Link>
+
               {/* WordPressコンテンツ用のクラス名を追加 */}
               <div 
                 className="wordpress-content"
@@ -226,10 +238,11 @@ export default async function BlogDetailPage({ params }) {
               </div>
             </article>
 
-            <BlogOthers currentId={blog.id} />
+            {/* <BlogOthers currentId={blog.id} /> */}
           </BlogLayoutWithSidebar>
           
         </main>
+        </div>
           <Cta/>
       </>
     );
