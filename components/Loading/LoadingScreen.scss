@@ -1,0 +1,261 @@
+// components/Loading/LoadingScreen.scss
+
+// ベース変数定義（1440px基準のデザインカンプ対応）
+$loading-bg-start: #424242;
+$loading-bg-end: #424242;
+$loading-text-color: white;
+$loading-font-size-desktop: 9rem;
+$loading-font-size-tablet: 6rem;
+$loading-font-size-mobile: 4rem;
+$welcome-font-size-desktop: 2.5rem;
+$welcome-font-size-tablet: 2rem;
+$welcome-font-size-mobile: 1.5rem;
+$container-max-width: 1440px;
+
+// メインローディング画面
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $loading-bg-start; // 単色背景に変更
+  z-index: 9999;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // 完了時のアニメーション
+  &--completing {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  
+  // プログレス数字のコンテナ
+  &__progress-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: $container-max-width;
+    padding: 0 2rem;
+    overflow: hidden;
+  }
+  
+  // プログレス表示エリア（数字 + ロゴ）
+  &__progress-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    
+    // レスポンシブ調整
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      gap: 1rem;
+    }
+  }
+  
+  // プログレス数字
+  &__progress-number {
+    color: $loading-text-color;
+    font-size: $loading-font-size-desktop;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    line-height: 1;
+    user-select: none;
+    text-align: center;
+    
+    // 数字変更時の微細なアニメーション
+    animation: numberPulse 0.1s ease-out;
+    
+    // レスポンシブ対応
+    @media (max-width: 768px) {
+      font-size: $loading-font-size-tablet;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: $loading-font-size-mobile;
+    }
+  }
+  
+  // ロゴ表示エリア
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    
+    // レスポンシブ対応（1440px基準から比例調整）
+    @media (max-width: 1440px) {
+      transform: scale(calc(100vw / 1440));
+      transform-origin: center;
+    }
+    
+    @media (max-width: 768px) {
+      transform: scale(0.7);
+    }
+    
+    @media (max-width: 480px) {
+      transform: scale(0.5);
+    }
+  }
+  
+  // Welcomeメッセージ
+  &__welcome {
+    color: $loading-text-color;
+    font-size: $welcome-font-size-desktop;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    margin-top: 3rem;
+    user-select: none;
+    text-align: center;
+    
+    // 初期状態（非表示）
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    // 表示状態
+    &--show {
+      opacity: 1;
+      transform: translateY(0);
+      animation: welcomeBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    // レスポンシブ対応
+    @media (max-width: 768px) {
+      font-size: $welcome-font-size-tablet;
+      margin-top: 2rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: $welcome-font-size-mobile;
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+// キーフレームアニメーション定義
+@keyframes numberPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes welcomeBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05);
+  }
+  80% {
+    transform: translateY(2px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// パフォーマンス最適化
+.loading-screen,
+.loading-screen__progress-number,
+.loading-screen__logo,
+.loading-screen__welcome {
+  will-change: transform, opacity;
+}
+
+// プリロード用スタイル（フォント最適化）
+.loading-screen {
+  font-display: swap;
+}
+
+// ハイコントラストモード対応
+@media (prefers-contrast: high) {
+  .loading-screen {
+    background: #000;
+    
+    &__progress-number,
+    &__welcome {
+      color: #fff;
+      text-shadow: none;
+    }
+  }
+}
+
+// 減光モード対応
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen {
+    transition-duration: 0.01ms;
+    
+    &__welcome {
+      animation: none;
+      transition-duration: 0.01ms;
+    }
+    
+    &__logo {
+      transform: none !important;
+    }
+  }
+  
+  @keyframes numberPulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes welcomeBounce {
+    0%, 100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+// デバッグ用（開発時のみ使用）
+.loading-screen--debug {
+  border: 2px solid red;
+  
+  &__progress-container {
+    border: 1px solid yellow;
+  }
+  
+  &__progress-display {
+    border: 1px solid green;
+  }
+  
+  &__progress-number {
+    border: 1px solid blue;
+  }
+  
+  &__logo {
+    border: 1px solid purple;
+  }
+}

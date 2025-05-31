@@ -220,13 +220,11 @@ function SwiperGallery() {
   });
 
   const { data: directTestData, error: directTestError, loading: directTestLoading } = useQuery(TEST_DIRECT_SKILL, {
-    // クライアント側であり、かつネストされたスキルのテストがまだロード中か、ネストされたスキルが見つからなかった場合に実行
     skip: !isClient || nestedTestLoading || !!(nestedTestData?.works?.nodes?.[0]?.works && typeof nestedTestData.works.nodes[0].works.skill !== 'undefined'),
     onError: (error) => console.log('Direct skill access test error:', error.message)
   });
 
   const { data: metaTestData, error: metaTestError, loading: metaTestLoading } = useQuery(TEST_META_DATA, {
-    // クライアント側であり、かつネスト・ダイレクト両方のテストがまだロード中か、どちらのスキルも見つからなかった場合に実行
     skip: !isClient || nestedTestLoading || directTestLoading || !!(nestedTestData?.works?.nodes?.[0]?.works && typeof nestedTestData.works.nodes[0].works.skill !== 'undefined') || !!(directTestData?.works?.nodes?.[0] && typeof directTestData.works.nodes[0].skill !== 'undefined'),
     onError: (error) => console.log('Meta data access test error:', error.message)
   });
@@ -238,27 +236,22 @@ function SwiperGallery() {
 
   // テストクエリの結果に基づいて最終的なクエリを決定
   useEffect(() => {
-    // クライアント側でない、またはテストクエリがまだロード中の場合は何もしない
     if (!isClient || nestedTestLoading || directTestLoading || metaTestLoading) {
       return;
     }
 
-    // ネストされたスキルが見つかった場合
     if (nestedTestData?.works?.nodes?.[0]?.works && typeof nestedTestData.works.nodes[0].works.skill !== 'undefined') {
-      console.log('Access method: nested');
       setAccessMethod('nested');
       setFinalQuery(GET_WORKS_WITH_NESTED_SKILL);
     }
-    // ダイレクトスキルが見つかった場合
     else if (directTestData?.works?.nodes?.[0] && typeof directTestData.works.nodes[0].skill !== 'undefined') {
       console.log('Access method: direct');
       setAccessMethod('direct');
       setFinalQuery(GET_WORKS_WITH_DIRECT_SKILL);
     }
-    // メタデータからスキルが見つかった場合
     else if (metaTestData?.works?.nodes?.[0]?.metaData) {
       const skillMeta = metaTestData.works.nodes[0].metaData.find(meta =>
-        meta.key === 'skill' || meta.key === '_skill' // skillまたは_skillキーを探す
+        meta.key === 'skill' || meta.key === '_skill'
       );
       if (skillMeta) {
         console.log('Access method: meta');
@@ -267,14 +260,13 @@ function SwiperGallery() {
       } else {
         console.log('Access method: unknown (skill not found in metaData)');
         setAccessMethod('unknown');
-        setFinalQuery(DEFAULT_FALLBACK_QUERY); // スキルが見つからなかった場合はフォールバック
+        setFinalQuery(DEFAULT_FALLBACK_QUERY);
       }
     }
-    // どの方法でもスキルが見つからなかった場合
     else {
       console.log('Access method: unknown (skill not found in any tested structure)');
       setAccessMethod('unknown');
-      setFinalQuery(DEFAULT_FALLBACK_QUERY); // フォールバック
+      setFinalQuery(DEFAULT_FALLBACK_QUERY);
     }
   }, [
     isClient,
@@ -283,16 +275,12 @@ function SwiperGallery() {
     metaTestData, metaTestError, metaTestLoading
   ]);
 
-  // 最終的に決定されたクエリで作品データを取得
   const { loading, error, data } = useQuery(finalQuery || DEFAULT_FALLBACK_QUERY, {
-    // finalQueryが決定されておらず、かつテストクエリも全てロード中でない場合にのみスキップを解除
     skip: !isClient || !finalQuery,
-    // キャッシュを優先し、一度取得したらキャッシュのみを使用
     fetchPolicy: 'cache-first',
     nextFetchPolicy: 'cache-only'
   });
 
-  // 決定されたアクセス方法に基づいてスキル値を取得するヘルパー関数
   const getSkill = (work) => {
     if (!work) return '';
     if (accessMethod === 'nested') {
@@ -307,36 +295,31 @@ function SwiperGallery() {
         return skillMeta?.value;
       }
     }
-    // accessMethod が unknown またはまだ設定されていない場合のフォールバック
-    // 一応ネストとダイレクトの可能性を確認
     if (work.works && typeof work.works.skill !== 'undefined') return work.works.skill;
     if (typeof work.skill !== 'undefined') return work.skill;
-    return ''; // 見つからなければ空文字列
+    return '';
   };
 
-  // クライアント側でない場合の表示
   if (!isClient) {
     return (
       <div className={styles.worksContents}>
         <div style={{ height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <p>ギャラリーを読み込み中...</p> {/* 初回ロード時の表示 */}
+          <p>ギャラリーを読み込み中...</p>
         </div>
       </div>
     );
   }
 
-  // テストクエリまたは最終クエリがロード中の場合の表示
   if (loading || (!finalQuery && (nestedTestLoading || directTestLoading || metaTestLoading))) {
     return (
       <div className={styles.worksContents}>
         <div style={{ height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <p>作品データを読み込み中...</p> {/* データ取得中の表示 */}
+          <p>作品データを読み込み中...</p>
         </div>
       </div>
     );
   }
 
-  // エラーが発生した場合の表示
   if (error && !data?.works?.nodes) {
     return (
       <div className={styles.worksContents}>
@@ -345,7 +328,6 @@ function SwiperGallery() {
     );
   }
 
-  // データが見つからなかった場合の表示
   const worksToDisplay = data?.works?.nodes || [];
   if (worksToDisplay.length === 0) {
     return (
@@ -355,58 +337,41 @@ function SwiperGallery() {
     );
   }
 
-  // 作品データがある場合のレンダリング
   return (
     <div className={styles.worksContents}>
-      {/* Swiperコンポーネントでラップし、loop={true} を設定 */}
       <Swiper
-        // 使用するモジュール
         modules={[Autoplay, Navigation, FreeMode]}
-        // スライド間のスペース (CSSのmargin-left: 26px; に合わせる)
         spaceBetween={26}
-        // スライドの表示数 ('auto'にするとCSSで指定したスライド幅が有効になる)
         slidesPerView={'auto'}
-        // 無限ループを有効化
         loop={true}
-        // 自動再生を設定 (任意)
         autoplay={{
-          delay: 3000, // 3秒ごとにスライド
-          disableOnInteraction: false, // ユーザーが操作しても自動再生を止めない
+          delay: 3000,
+          disableOnInteraction: false,
         }}
-        // ナビゲーションボタンを有効化 (CSSでスタイルを設定済み)
         navigation={true}
-        // 必要に応じてブレークポイントを設定し、レスポンシブに対応
-        // breakpoints={{
-        //   768: {
-        //     slidesPerView: 2,
-        //     spaceBetween: 20,
-        //   },
-        //   1024: {
-        //     slidesPerView: 3,
-        //     spaceBetween: 30,
-        //   },
-        // }}
       >
         {worksToDisplay.map((work, index) => (
-          <SwiperSlide key={`${work.id}-${index}`}> {/* 一意なキーを設定 */}
+          <SwiperSlide key={`${work.id}-${index}`}>
             <article className={styles.workCard}>
+              {/* 親要素である header に position: relative とサイズ指定がCSSでされている想定 */}
               <header className={styles.workHeader}>
                 <span className={styles.workCategory}>{getCategoryName(work)}</span>
+                {/* Imageコンポーネントの修正 */}
                 <Image
-                  src={work.featuredImage?.node?.sourceUrl || '/About/PC/Icon.webp'} // 画像URL、なければフォールバック
-                  width={300} // 表示サイズ (CSSで指定したサイズに合わせると良い)
-                  height={200} // 表示サイズ (CSSで指定したサイズに合わせると良い)
-                  alt={work.featuredImage?.node?.altText || truncateTitle(work.title) || '作品画像'} // altテキスト
-                  className={styles.thumbnailImage}
+                  src={work.featuredImage?.node?.sourceUrl || '/About/PC/Icon.webp'}
+                  alt={work.featuredImage?.node?.altText || truncateTitle(work.title) || '作品画像'}
+                  fill // width と height props の代わりに fill を使用
+                  // className={styles.thumbnailImage} // fill を使う場合、このクラスの役割は object-fit の指定や追加のスタイリングのみ
+                                                    // もし styles.thumbnailImage に width/height 指定があれば削除または調整が必要
+                  style={{ objectFit: 'cover' }} // object-fit をインラインスタイルで指定 (またはCSSクラスで)
+                  priority={index < 3} // 最初の数枚の画像を優先的に読み込む (任意)
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // レスポンシブイメージのヒント (任意、実際のブレークポイントに合わせて調整)
                 />
               </header>
               <footer className={styles.workFooter}>
-                <h3 className={styles.title}>{truncateTitle(work.title)}</h3> {/* タイトル */}
-                <p className={styles.skill}>{formatSkill(getSkill(work))}</p> {/* スキル */}
-                
-                {/* 作品詳細ページへのリンク */}
+                <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
+                <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
                 <Link href={`/all-works/${work.slug}`} className={styles.worksLink} aria-label={`${truncateTitle(work.title)}の詳細へ`}>
-                  {/* リンク全体をカードに重ねる場合はここに何もコンテンツを置かず、CSSで position: absolute; を使う */}
                 </Link>
               </footer>
             </article>

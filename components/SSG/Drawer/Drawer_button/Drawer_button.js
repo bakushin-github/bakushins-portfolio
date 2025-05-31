@@ -6,13 +6,11 @@ import styles from "./Drawer_button.module.scss";
 function Drawer_button({ className, isOpen, toggleDrawer }) {
   const cell = 18; // 中央への距離(px)
 
-  // アニメーション状態の定義
   const variants = {
     open: (custom) => getOpenVariant(custom),
     closed: (custom) => getClosedVariant(custom),
   };
 
-  // 開くときのアニメーション
   const getOpenVariant = (dot) => {
     switch (dot) {
       case "dot1":
@@ -23,28 +21,22 @@ function Drawer_button({ className, isOpen, toggleDrawer }) {
         return { x: cell, y: -cell, opacity: 1 };
       case "dot9":
         return { x: -cell, y: -cell, opacity: 1 };
-      default:
-        return { x: 0, y: 0, opacity: 0 }; // 中央ドット以外はフェードアウト
+      case "dot5": // ★修正点: 中央ドットは開くときも表示されたまま、位置も中央
+        return { x: 0, y: 0, opacity: 1 };
+      default: // dot2, dot4, dot6, dot8 (中央ドット以外の外周でないドット)
+        return { x: 0, y: 0, opacity: 0 }; // フェードアウト
     }
   };
 
-  // 閉じるときのアニメーション（逆再生）
   const getClosedVariant = (dot) => {
-    switch (dot) {
-      case "dot1":
-      case "dot3":
-      case "dot7":
-      case "dot9":
-        return { x: 0, y: 0, opacity: 1 }; // 外周ドットは元の位置へ
-      default:
-        return { x: 0, y: 0, opacity: 1 }; // 中央ドット以外はフェードイン
-    }
+    // 閉じる時は全てのドットが元の位置に戻り、表示される
+    // dot5 も { x: 0, y: 0, opacity: 1 } となるため、常に表示される
+    return { x: 0, y: 0, opacity: 1 };
   };
 
-  // トランジション設定
   const getTransition = (dot) => ({
     type: "spring",
-    stiffness: dot === "dot5" ? 0 : 120, // 中央ドットは無効化
+    stiffness: 120, // stiffness は全ドット共通でOK
     damping: 12,
     restDelta: 0.001,
   });
@@ -57,24 +49,18 @@ function Drawer_button({ className, isOpen, toggleDrawer }) {
     >
       <div className={styles.drawerButton__button__inner}>
         {[
-          "dot1",
-          "dot2",
-          "dot3",
-          "dot4",
-          "dot5",
-          "dot6",
-          "dot7",
-          "dot8",
-          "dot9",
-        ].map((dot) => (
+          "dot1", "dot2", "dot3",
+          "dot4", "dot5", "dot6",
+          "dot7", "dot8", "dot9",
+        ].map((dotName) => (
           <motion.span
-            key={dot}
-            className={classNames(styles.drawerButton__dot, styles[dot])}
+            key={dotName}
+            className={classNames(styles.drawerButton__dot, styles[dotName])}
             variants={variants}
-            custom={dot}
-            initial="closed"
-            animate={isOpen ? "open" : "closed"}
-            transition={getTransition(dot)}
+            custom={dotName}
+            initial="closed" // 初期状態
+            animate={isOpen ? "open" : "closed"} // isOpen の状態に応じてアニメーション
+            transition={getTransition(dotName)}
           />
         ))}
       </div>

@@ -1,22 +1,19 @@
-@use "../../../app/styles/variables.module" as *;
+@use "../../../app/styles/variables.module" as *; // パスを確認
 
 .flow {
-  background-image: url("../../../public/Flow/PC/Flow_bg.webp");
+  background-image: url("../../../public/Flow/PC/Flow_bg.webp"); // パスを確認
   background-size: cover;
   max-width: 3000px;
   width: 100%;
   margin: 0 auto;
   position: relative;
-  // 透明度を背景だけにかけたいなら、overlayで対応する
   &::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.7); // 半透明の白
+    background-color: rgba(255, 255, 255, 0.7);
     z-index: 1;
   }
-
-  // 中身を前面に出す
   &__inner {
     position: relative;
     z-index: 2;
@@ -26,46 +23,69 @@
 .flow__title {
   position: relative;
   z-index: 2;
+  // 他のスタイル (例: padding-top, text-align など) は必要に応じて
 }
 
 .flow__contain {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr); // 3列グリッド
+  grid-template-rows: repeat(2, auto);    // 行の高さはコンテンツに合わせる
   grid-row-gap: 32px;
   grid-column-gap: 32px;
-  padding-inline: 275px;
-  // padding-top: 56px;
+  padding-inline: 275px; // 左右のパディング
   padding-bottom: 96px;
+  // padding-top: 56px; // 必要なら
 }
 
 .flow__figure {
-  max-width: 274px;
-  height: 331.99px;
-  width: 100%;
-
+  // max-width: 274px; // width: 100% とグリッドで制御されるので max-width は不要な場合も
+  width: 100%;        // グリッドアイテムとして幅100%
+  // height: 331.99px; // 高さはコンテンツに合わせるか、アスペクト比で制御
+  display: flex;        // figure 内の要素をflexで管理
+  flex-direction: column; // 縦方向に並べる
   background: $base-color-white;
   border-radius: 8px;
   margin: 0;
   text-align: center;
+  overflow: hidden; // 角丸を画像にも適用するため
 }
 
-.image {
-  padding-top: 24px;
-  padding-inline: 32px;
-  padding-bottom: 40px;
+// Imageコンポーネントをラップするコンテナのスタイル
+.imageContainer {
+  width: 100%; // 親の幅いっぱい
+  // 例: アスペクト比を 200:100 (2:1) にしたい場合
+  // paddingTop: 50%; // height (100) / width (200) * 100%
+  // または固定の高さを指定
+  height: 120px; // 仮の高さ、実際のデザインに合わせて調整してください
+  position: relative; // Image の fill のために必須
+  margin-top: 24px;    // 元の .image の padding-top
+  margin-inline: 32px; // 元の .image の padding-inline
+  // margin-bottom: 40px; // 元の .image の padding-bottom は figcaption との間に
+}
+
+.image { // Next.js Image コンポーネントに適用するクラス
+  object-fit: contain; // または 'cover', 'scale-down' など、デザインに合わせて
+  // border-radius: ...; // 画像自体に角丸をつけたい場合など
+}
+
+.figcaption {
+  padding: 24px 32px 32px; // figcaption内のパディング (元の.imageのpadding-bottomはここに含めるなど調整)
+  flex-grow: 1; // 残りの高さを埋める
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; // キャプションとリンクを上下に配置
 }
 
 .h3 {
   font-family: "Noto Sans JP";
   font-weight: 700;
   font-size: 20px;
-  line-height: 150%;
+  line-height: 150%; // <br /> を使う場合は line-height の調整も考慮
   letter-spacing: 0%;
   text-align: center;
   color: $main-color-dark_blue;
   margin: 0;
-  padding-bottom: 24px;
+  padding-bottom: 16px; // 元の24pxから調整（例）
 }
 
 .h3__caption {
@@ -76,7 +96,8 @@
   letter-spacing: 0%;
   text-align: center;
   margin: 0;
-  padding-inline: 32px;
+  // padding-inline: 32px; // figcaptionにパディングがあるので不要な場合も
+  flex-grow: 1; // キャプションが可変長の場合に高さを埋める
 }
 
 .price {
@@ -88,5 +109,9 @@
   text-align: center;
   color: $accent-color-red;
   margin: 0;
-  padding-top: 19px;
+  padding-top: 16px; // 元の19pxから調整（例）
+}
+
+.price__link {
+  text-decoration: none; // 必要であれば
 }

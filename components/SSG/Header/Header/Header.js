@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Contact_button from "../../Contact_button/Contact_button";
 
-function Header() {
+// toggleMenu プロパティを受け取る（使用しないが一貫性のため）
+function Header({ toggleMenu }) {
   return (
     <div className={styles.header}>
       <div className={styles.header__inner}>
@@ -18,7 +19,7 @@ function Header() {
             height={47.99}
             alt="ロゴ"
             priority={true}
-          ></Image>
+          />
         </Link>
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>

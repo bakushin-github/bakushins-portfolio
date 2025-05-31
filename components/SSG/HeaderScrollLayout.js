@@ -10,10 +10,12 @@ import Service from "@/components/SSG/Service/Service";
 import Flow from "@/components/SSG/Flow/Flow";
 import Blogs from "@/components/SSG/Blogs/Blogs";
 import Cta from "@/components/SSG/Cta/Cta";
+import { useLoadingContext } from '@/components/Loading/ClientWrapper';
 
 export default function HeaderScrollLayout() {
   const [showHeaderAfter, setShowHeaderAfter] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { shouldTriggerAnimation } = useLoadingContext();
 
   const toggleMenu = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -25,36 +27,75 @@ export default function HeaderScrollLayout() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const worksSection = document.getElementById("works");
+      // 複数のIDを試してみる
+      const worksSection = document.getElementById("Works") || 
+                          document.getElementById("works") || 
+                          document.querySelector("[data-section='works']");
+      
       if (worksSection) {
         const worksTop = worksSection.getBoundingClientRect().top;
-        setShowHeaderAfter(worksTop <= 0);
+        const shouldShow = worksTop <= 100;
+        
+        if (shouldShow !== showHeaderAfter) {
+          setShowHeaderAfter(shouldShow);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // 初期状態をチェック
+    setTimeout(() => {
+      handleScroll();
+    }, 1000);
+
+    // スクロールイベントリスナーを追加
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [shouldTriggerAnimation, showHeaderAfter]);
 
   return (
     <>
-      {!showHeaderAfter && <Header toggleMenu={toggleMenu} />}
-      {showHeaderAfter && <Header_after toggleMenu={toggleMenu} />}
+      {/* 条件付きでヘッダーを表示 */}
+      {!showHeaderAfter ? (
+        <Header toggleMenu={toggleMenu} />
+      ) : (
+        <Header_after toggleMenu={toggleMenu} />
+      )}
 
+      {/* ドロワーメニュー */}
       <Drawer_menu
         isOpen={isDrawerOpen}
         closeDrawer={closeDrawer}
         toggleMenu={toggleMenu}
       />
 
-      <Fv />
-      <div id="works">
+      {/* FV セクション */}
+      <div id="Fv">
+        <Fv />
+      </div>
+      
+      {/* Works セクション - HeaderScrollLayout側でのみIDを設定 */}
+      <div id="Works" data-section="works">
         <Works />
       </div>
-      <About />
-      <Service />
-      <Flow />
-      <Blogs />
+      
+      {/* その他のセクション */}
+      <div id="About">
+        <About />
+      </div>
+      
+      <div id="Service">
+        <Service />
+      </div>
+      
+      <div id="Flow">
+        <Flow />
+      </div>
+      
+      <div id="Blogs">
+        <Blogs />
+      </div>
+      
       <Cta />
     </>
   );

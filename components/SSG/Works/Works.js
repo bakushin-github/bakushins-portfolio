@@ -9,11 +9,11 @@ import H2 from "../H2/H2";
 import SwiperGallery from "./SwiperGallery";
 import ListViewButton from "../ListViewButton/ListViewButton";
 
-
 function Works() {
   return (
     <>
-      <div id="Works" className={styles.works}>
+      {/* idを削除し、classNameのみ使用 */}
+      <div className={styles.works}>
         <div className={styles.works__inner}>
           <H2
             subText="制作実績"
@@ -22,7 +22,9 @@ function Works() {
           ></H2>
         </div>
         <SwiperGallery />
-        <div className={styles.works__listButton}><ListViewButton href="all-works" /></div>
+        <div className={styles.works__listButton}>
+          <ListViewButton href="all-works" />
+        </div>
       </div>
     </>
   );

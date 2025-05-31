@@ -3,6 +3,7 @@ import "./styles/globals.scss";
 import Footer from "@/components/SSG/Footer/Footer";
 import Script from "next/script";
 import { Providers } from "@/providers";
+import ClientWrapper from '@/components/Loading/ClientWrapper'; // ClientWrapper を追加
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,17 +37,19 @@ export default function RootLayout({ children }) {
         <meta property="og:image" content="/OGP.webp" />
         <meta property="og:url" content="https://bakushin.blog" />
         <meta name="twitter:card" content="summary_large_image" />
-            {/* Google reCAPTCHA v3 */}
-            <script
+        {/* Google reCAPTCHA v3 */}
+        <script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
           async
           defer
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <Providers> {/* 👈 Providerでラップ */}
-          {children}
-          <Footer />
+        <Providers>
+          <ClientWrapper> {/* ClientWrapper を復活 */}
+            {children}
+            <Footer />
+          </ClientWrapper>
         </Providers>
       </body>
     </html>

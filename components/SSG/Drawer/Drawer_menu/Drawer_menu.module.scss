@@ -149,12 +149,16 @@
 }
 
 .Drawer_menu__faq {
-  color: $main-color-blue;
-  border: solid 1px $main-color-blue;
-  width: 212px;
-  height: 64px;
-  max-width: 212px;
-  max-height: 64px;
+  color: $main-color-blue !important;
+  border-radius: 32px !important;
+  border: solid 1px $main-color-blue !important;
+  box-sizing: border-box !important;
+  width: 212px !important;
+  height: 64px !important;
+  max-width: 212px !important;
+  max-height: 64px !important;
+  background: transparent !important;
+  padding: 16px 40px !important;
 }
 
 .Drawer_menu__contact {

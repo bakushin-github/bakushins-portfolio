@@ -2,13 +2,17 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { useLoadingContext } from '@/components/Loading/ClientWrapper' // Context を使う
 import { Suspense } from 'react'
 
 function ScrollToHashContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { shouldTriggerAnimation } = useLoadingContext()
 
   useEffect(() => {
+    if (!shouldTriggerAnimation) return // アニメーション完了待ち
+
     const hash = window.location.hash
     if (hash) {
       const id = hash.substring(1)
@@ -16,10 +20,10 @@ function ScrollToHashContent() {
       if (el) {
         setTimeout(() => {
           el.scrollIntoView({ behavior: 'smooth' })
-        }, 100) // 少し遅らせると安定する
+        }, 100)
       }
     }
-  }, [pathname, searchParams])
+  }, [pathname, searchParams, shouldTriggerAnimation])
 
   return null
 }
