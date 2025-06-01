@@ -51,6 +51,7 @@ $text-accent-gray:#6C6C6C;
 /* 他のグローバルなスタイルがあればここに追加 */
 // @import '../styles/wordpress/wordpress-content.module.scss'
 
+//app/all-blogs/[slug]/page.jsのSCSS
 .singleBlog_inner{
   background: $base-color-off_white;
 }

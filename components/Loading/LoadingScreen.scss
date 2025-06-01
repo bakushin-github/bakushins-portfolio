@@ -3,13 +3,10 @@
 // ベース変数定義（1440px基準のデザインカンプ対応）
 $loading-bg-start: #424242;
 $loading-bg-end: #424242;
-$loading-text-color: white;
+$loading-text-color: #fff;
 $loading-font-size-desktop: 9rem;
 $loading-font-size-tablet: 6rem;
 $loading-font-size-mobile: 4rem;
-$welcome-font-size-desktop: 2.5rem;
-$welcome-font-size-tablet: 2rem;
-$welcome-font-size-mobile: 1.5rem;
 $container-max-width: 1440px;
 
 // メインローディング画面
@@ -19,21 +16,53 @@ $container-max-width: 1440px;
   left: 0;
   width: 100vw;
   height: 100vh;
+  padding-left: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: $loading-bg-start; // 単色背景に変更
+  justify-content: left;
+  background: #fff; // 白い背景に変更（開いた後が見えるように）
   z-index: 9999;
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
   
-  // 完了時のアニメーション
+  // 完了時のアニメーション用の擬似要素（黒いカーテン）
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 60vh; // 少し大きめにして真ん中で重なるように
+    background: $loading-bg-start;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); // パンッ！という勢いのあるイージング
+    z-index: 1;
+  }
+  
+  &::before {
+    top: -10vh; // 上に少しはみ出させて真ん中で重なるように
+    transform-origin: center bottom; // 下辺を基準に
+  }
+  
+  &::after {
+    bottom: -10vh; // 下に少しはみ出させて真ん中で重なるように
+    transform-origin: center top; // 上辺を基準に
+  }
+  
+  // コンテンツエリア
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  // 完了時のアニメーション（黒が真ん中から上下に開ける）
   &--completing {
-    opacity: 0;
-    transform: scale(0.8);
+    &::before {
+      transform: translateY(-100%); // 上半分が上に移動して消える
+    }
+    
+    &::after {
+      transform: translateY(100%); // 下半分が下に移動して消える
+    }
   }
   
   // プログレス数字のコンテナ
@@ -41,20 +70,23 @@ $container-max-width: 1440px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     width: 100%;
     max-width: $container-max-width;
-    padding: 0 2rem;
     overflow: hidden;
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   // プログレス表示エリア（数字 + ロゴ）
   &__progress-display {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 2rem;
+    justify-content: left;
+    gap: 1.5rem;
+    font-size: 4rem;
     flex-wrap: wrap;
+
     
     // レスポンシブ調整
     @media (max-width: 768px) {
@@ -71,11 +103,12 @@ $container-max-width: 1440px;
   &__progress-number {
     color: $loading-text-color;
     font-size: $loading-font-size-desktop;
-    font-weight: bold;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-    line-height: 1;
+    font-weight: 500;
+    font-family: "DM Sans";
+    line-height: 170%;
     user-select: none;
-    text-align: center;
+    letter-spacing: -0.02em; // 文字間隔を微調整
+    font-feature-settings: "tnum" 1; // 等幅数字を使用
     
     // 数字変更時の微細なアニメーション
     animation: numberPulse 0.1s ease-out;
@@ -96,59 +129,37 @@ $container-max-width: 1440px;
     align-items: center;
     justify-content: center;
     
+    // 初期状態（上から降りてくるアニメーション用）
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: logoSlideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    
     img {
       display: block;
-      max-width: 100%;
-      height: auto;
+      max-width: 316px;
+      width: 100%;
+      max-height: 109px;
+      height: 100%;
     }
     
     // レスポンシブ対応（1440px基準から比例調整）
     @media (max-width: 1440px) {
-      transform: scale(calc(100vw / 1440));
-      transform-origin: center;
+      img {
+        transform: scale(calc(100vw / 1440));
+        transform-origin: center;
+      }
     }
     
     @media (max-width: 768px) {
-      transform: scale(0.7);
+      img {
+        transform: scale(0.7);
+      }
     }
     
     @media (max-width: 480px) {
-      transform: scale(0.5);
-    }
-  }
-  
-  // Welcomeメッセージ
-  &__welcome {
-    color: $loading-text-color;
-    font-size: $welcome-font-size-desktop;
-    font-weight: bold;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-    margin-top: 3rem;
-    user-select: none;
-    text-align: center;
-    
-    // 初期状態（非表示）
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    
-    // 表示状態
-    &--show {
-      opacity: 1;
-      transform: translateY(0);
-      animation: welcomeBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    
-    // レスポンシブ対応
-    @media (max-width: 768px) {
-      font-size: $welcome-font-size-tablet;
-      margin-top: 2rem;
-    }
-    
-    @media (max-width: 480px) {
-      font-size: $welcome-font-size-mobile;
-      margin-top: 1.5rem;
+      img {
+        transform: scale(0.5);
+      }
     }
   }
 }
@@ -166,29 +177,25 @@ $container-max-width: 1440px;
   }
 }
 
-@keyframes welcomeBounce {
+@keyframes logoSlideDown {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.8);
+    transform: translateY(-50px);
   }
   60% {
-    opacity: 1;
-    transform: translateY(-5px) scale(1.05);
-  }
-  80% {
-    transform: translateY(2px) scale(0.98);
+    opacity: 0.8;
+    transform: translateY(5px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
 // パフォーマンス最適化
 .loading-screen,
 .loading-screen__progress-number,
-.loading-screen__logo,
-.loading-screen__welcome {
+.loading-screen__logo {
   will-change: transform, opacity;
 }
 
@@ -202,8 +209,7 @@ $container-max-width: 1440px;
   .loading-screen {
     background: #000;
     
-    &__progress-number,
-    &__welcome {
+    &__progress-number {
       color: #fff;
       text-shadow: none;
     }
@@ -215,13 +221,14 @@ $container-max-width: 1440px;
   .loading-screen {
     transition-duration: 0.01ms;
     
-    &__welcome {
-      animation: none;
-      transition-duration: 0.01ms;
-    }
-    
     &__logo {
-      transform: none !important;
+      animation: none;
+      opacity: 1;
+      transform: translateY(0);
+      
+      img {
+        transform: none !important;
+      }
     }
   }
   
@@ -231,10 +238,10 @@ $container-max-width: 1440px;
     }
   }
   
-  @keyframes welcomeBounce {
+  @keyframes logoSlideDown {
     0%, 100% {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
     }
   }
 }

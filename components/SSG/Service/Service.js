@@ -1,23 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
-import H2 from "../../SSG/H2/H2"; // パスを確認してください
+import H2 from "../../SSG/H2/H2";
 import styles from "./Service.module.scss";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 
-// MotionImage の定義は削除
+// 最適化されたImage用のMotionコンポーネント
+const MotionImage = motion(Image);
 
-// clipPath を使わないシンプルなフェードインバリアントに変更
-const simpleFadeInVariants = { // direction 引数は不要になったため削除
+const fadeInMaskVariants = (direction) => ({
   hidden: {
     opacity: 0,
-    display: "none", // アニメーション前は非表示
+    clipPath: direction === "right" ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)",
+    display: "none",
   },
   visible: {
     opacity: 1,
-    display: "block", // アニメーション後は表示
-    transition: { duration: 2, ease: "easeOut" }, // duration は元の fadeInMaskVariants に合わせました
+    clipPath: "inset(0 0 0 0)",
+    display: "block",
+    transition: { duration: 2, ease: "easeOut" },
   },
-};
+});
 
 const contentItemVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -32,7 +34,6 @@ const contentItemVariants = {
 };
 
 const contentContainerVariants = {
-  // hidden: {}, // 必要であれば hidden も定義
   visible: {
     transition: {
       staggerChildren: 1,
@@ -45,7 +46,6 @@ function Service() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
-  // これらの state は現在 JSX 内で使用されていませんが、ロジックは残しておきます
   const [aElementsComplete, setAElementsComplete] = useState(false);
   const [bElementsComplete, setBElementsComplete] = useState(false);
 
@@ -59,57 +59,39 @@ function Service() {
     <>
       <div id="Service" className={styles.service} ref={sectionRef}>
         <div className={styles.service__inner}>
-          {/* Lineのアニメーション: motion.divでラップし、シンプルなバリアントを使用 */}
-          <motion.div
+          <MotionImage
             className={styles.line}
+            src="/Service/PC/line.webp"
+            width={256}
+            height={700}
+            alt="line"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            variants={simpleFadeInVariants} // 単純化したバリアントを適用
+            variants={fadeInMaskVariants("left")}
             onAnimationComplete={() => setLineAnimationComplete(true)}
-          >
-            <Image
-              src="/Service/PC/line.webp"
-              width={256}
-              height={700}
-              alt="line"
-              // Next.js Imageの警告が出ている場合、CSS側で
-              // width/height のどちらかに auto を指定するなどの対応をご検討ください。
-            />
-          </motion.div>
-
+          ></MotionImage>
           {lineAnimationComplete && (
             <>
-              {/* Polygon1のアニメーション: motion.divでラップ */}
-              <motion.div
+              <MotionImage
                 className={styles.polygon1}
+                src="/Service/PC/polygon1.webp"
+                width={103}
+                height={52}
+                alt="polygon1"
                 initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-                onAnimationComplete={() => setBElementsComplete(true)} // bElementsComplete のロジックは残します
-              >
-                <Image
-                  src="/Service/PC/polygon1.webp"
-                  width={103}
-                  height={52}
-                  alt="polygon1"
-                />
-              </motion.div>
-
-              {/* Polygon2のアニメーション: motion.divでラップ */}
-              <motion.div
+                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                onAnimationComplete={() => setBElementsComplete(true)}
+              ></MotionImage>
+              <MotionImage
                 className={styles.polygon2}
+                src="/Service/PC/polygon2.webp"
+                width={104}
+                height={52}
+                alt="polygon2"
                 initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-                onAnimationComplete={() => setBElementsComplete(true)} // bElementsComplete のロジックは残します
-              >
-                <Image
-                  src="/Service/PC/polygon2.webp"
-                  width={104}
-                  height={52}
-                  alt="polygon2"
-                />
-              </motion.div>
+                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                onAnimationComplete={() => setBElementsComplete(true)}
+              ></MotionImage>
             </>
           )}
           <div className={styles.h2Content}>
@@ -132,25 +114,23 @@ function Service() {
             </motion.div>
           </div>
 
+          {/* ▼ figure群にアニメーション追加 ▼ */}
           <motion.div
             className={styles.service__content}
             variants={contentContainerVariants}
-            initial="hidden" // contentContainerVariants に hidden がないので、明示的に opacity: 0 を設定するか、variants に追加
+            initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
             <motion.figure
               className={styles.figure}
               variants={contentItemVariants}
             >
-              <div className={styles.imageWrap}>
-                {/* 注意: ここは通常の<img>タグです。Next.jsのImageコンポーネントではありません。 */}
-                <img
-                  className={styles.image}
-                  src="/Service/PC/hp.webp"
-                  alt="hp"
-                  loading="lazy"
-                />
-              </div>
+              <img
+                className={styles.image}
+                               src="/Service/PC/hp.webp"
+                alt="hp"
+                loading="lazy"
+              />
               <figcaption className={styles.figcaption}>
                 <Image
                   className={styles.title}
@@ -168,15 +148,13 @@ function Service() {
             <motion.figure
               className={styles.figure}
               variants={contentItemVariants}
-            >
-              <div className={styles.imageWrap}>
-                <img
-                  className={styles.image}
-                  src="/Service/PC/ec.webp"
-                  loading="lazy"
-                  alt="ec"
-                />
-              </div>
+            ><div className={styles.imageWrap}>
+              <img
+                className={styles.image}
+                src="/Service/PC/ec.webp"
+                loading="lazy"
+                alt="ec"
+              /></div>
               <figcaption className={styles.figcaption}>
                 <Image
                   className={styles.title}
@@ -194,15 +172,13 @@ function Service() {
             <motion.figure
               className={styles.figure}
               variants={contentItemVariants}
-            >
-              <div className={styles.imageWrap}>
-                <img
-                  className={styles.image}
-                  src="/Service/PC/support.webp"
-                  loading="lazy"
-                  alt="support"
-                />
-              </div>
+            ><div className={styles.imageWrap}>
+              <img
+                className={styles.image}
+                src="/Service/PC/support.webp"
+                loading="lazy"
+                alt="support"
+              /></div>
               <figcaption className={styles.figcaption}>
                 <Image
                   className={styles.title}
@@ -220,15 +196,13 @@ function Service() {
             <motion.figure
               className={styles.figure}
               variants={contentItemVariants}
-            >
-              <div className={styles.imageWrap}>
-                <img
-                  className={styles.image}
-                  src="/Service/PC/coding.webp"
-                  loading="lazy"
-                  alt="coding"
-                />
-              </div>
+            ><div className={styles.imageWrap}>
+              <img
+                className={styles.image}
+                src="/Service/PC/coding.webp"
+                loading="lazy"
+                alt="coding"
+              /></div>
               <figcaption className={styles.figcaption}>
                 <Image
                   className={styles.title}

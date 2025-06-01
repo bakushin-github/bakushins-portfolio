@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import LoadingScreen from './LoadingScreen';
 import './ClientWrapper.scss';
 
-// ローディング状態を管理するContext
+// (Contextの定義は変更なし)
 const LoadingContext = createContext({
   isLoadingComplete: false,
   shouldTriggerAnimation: false,
@@ -16,36 +16,32 @@ const LoadingContext = createContext({
 export const useLoadingContext = () => useContext(LoadingContext);
 
 const ClientWrapper = ({ children }) => {
+  const pathname = usePathname(); // pathnameをコンポーネントのトップレベルに移動
   const [showLoading, setShowLoading] = useState(false);
   const [isCheckingVisit, setIsCheckingVisit] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
-  const [shouldHideContent, setShouldHideContent] = useState(false);
+  const [shouldHideContent, setShouldHideContent] = useState(false); // 初期値が重要
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
   const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
-    // クライアントサイドでのみ実行
-    setIsClient(true);
-    
+    setIsClient(true); // クライアントサイドであることを示す
+
     const checkVisitStatus = () => {
       try {
         // トップページ（/）の場合のみローディングを表示
         if (pathname === '/') {
-          // セッションストレージで同一セッション内での訪問をチェック
           const currentSessionVisited = sessionStorage.getItem('currentSessionVisited');
-          
           if (!currentSessionVisited) {
-            // 同一セッション内で未訪問 = 新規訪問またはサイト離脱後の再訪問
-            setShouldHideContent(true); // コンテンツを一時的に隠す
+            // 同一セッション内で未訪問
+            setShouldHideContent(true); // ローダー表示前にコンテンツを確実に隠す
             setShowLoading(true);
             sessionStorage.setItem('currentSessionVisited', 'true');
           } else {
-            // 既に訪問済み = サイト内回遊（即座にアニメーション開始）
+            // 既に訪問済み
             setContentVisible(true);
             setIsLoadingComplete(true);
-            // アニメーション開始を遅らせる
             setTimeout(() => {
               setShouldTriggerAnimation(true);
             }, 100);
@@ -54,41 +50,34 @@ const ClientWrapper = ({ children }) => {
           // トップページ以外は常にローディングをスキップ
           setContentVisible(true);
           setIsLoadingComplete(true);
-          setShouldTriggerAnimation(true); // 他ページでもアニメーション状態を有効に
+          setShouldTriggerAnimation(true);
         }
       } catch (error) {
-        // sessionStorageが使用できない場合はローディングをスキップ
         console.warn('SessionStorage not available:', error);
         setContentVisible(true);
         setIsLoadingComplete(true);
         setShouldTriggerAnimation(true);
       }
-      
-      setIsCheckingVisit(false);
+      setIsCheckingVisit(false); // 訪問ステータスのチェック完了
     };
 
-    // ページの可視性変化を監視（タブ切り替えやサイト離脱を検知）
+    // (handleVisibilityChange, handleBeforeUnload は変更なし)
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // ページが非表示になった（タブ切り替えやサイト離脱）
-        // 一定時間後にセッションをリセット
         setTimeout(() => {
           if (document.hidden) {
             try {
-              // まだ非表示なら離脱とみなす
               sessionStorage.removeItem('currentSessionVisited');
             } catch (error) {
               console.warn('SessionStorage not available:', error);
             }
           }
-        }, 30000); // 30秒後にリセット
+        }, 30000);
       }
     };
 
-    // ページ離脱時の処理
     const handleBeforeUnload = () => {
       try {
-        // ブラウザを閉じる、他のサイトに移動する際にセッションをクリア
         sessionStorage.removeItem('currentSessionVisited');
       } catch (error) {
         console.warn('SessionStorage not available:', error);
@@ -96,8 +85,7 @@ const ClientWrapper = ({ children }) => {
     };
 
     checkVisitStatus();
-    
-    // イベントリスナーを追加
+
     if (typeof document !== 'undefined') {
       document.addEventListener('visibilitychange', handleVisibilityChange);
     }
@@ -113,21 +101,18 @@ const ClientWrapper = ({ children }) => {
         window.removeEventListener('beforeunload', handleBeforeUnload);
       }
     };
-  }, [pathname]);
+  }, [pathname]); // pathnameの変更時のみ再実行
 
   const handleLoadingComplete = () => {
-    // ローディング完了後、中央から上下に開くアニメーションでコンテンツを表示
     setShowLoading(false);
-    setShouldHideContent(false);
+    setShouldHideContent(false); // コンテンツ表示を許可
     setIsLoadingComplete(true);
-    
-    // 少し遅らせて中央から開くアニメーション開始
+
     setTimeout(() => {
       setContentVisible(true);
-      // さらに遅らせてページアニメーションを開始（TOPアニメーション用に十分な時間を確保）
       setTimeout(() => {
         setShouldTriggerAnimation(true);
-      }, 1000); // パン開きアニメーション完了後1秒待ってからページアニメーション開始
+      }, 1000);
     }, 150);
   };
 
@@ -135,19 +120,31 @@ const ClientWrapper = ({ children }) => {
     setShouldTriggerAnimation(true);
   };
 
-  // Context値
   const contextValue = {
     isLoadingComplete,
     shouldTriggerAnimation,
     triggerPageAnimation,
   };
 
-  // SSRの場合は静的コンテンツを表示
+  // SSRの場合の処理 (サーバーサイドレンダリング時)
   if (!isClient) {
+    // ホームページ('/')のSSR時にはコンテンツを最初から非表示にする
+    // これにより、クライアント側でJSが実行される前の一瞬の表示を防ぐ
+    // 他のページやJS無効環境（このコンポーネントは 'use client' だが念のため）では表示する
+    const ssrContentHidden = pathname === '/';
     return (
       <LoadingContext.Provider value={contextValue}>
         <div className="client-wrapper">
-          <div className="client-wrapper__content--visible">
+          <div
+            className={`client-wrapper__content ${
+              ssrContentHidden
+                ? 'client-wrapper__content--hidden' // このクラスで確実に非表示にする
+                : 'client-wrapper__content--visible'
+            }`}
+            style={
+              ssrContentHidden ? { opacity: 0, visibility: 'hidden' } : {} // インラインスタイルでも非表示を補強
+            }
+          >
             {children}
           </div>
         </div>
@@ -155,11 +152,13 @@ const ClientWrapper = ({ children }) => {
     );
   }
 
-  // 訪問状況チェック中で、ローディングが必要な場合はコンテンツを隠す
+  // 訪問状況チェック中（クライアントサイドでの初回チェック）
+  // isClientがtrueになった後、isCheckingVisitがfalseになるまでの間
   if (isCheckingVisit && pathname === '/') {
     return (
       <LoadingContext.Provider value={contextValue}>
         <div className="client-wrapper">
+          {/* ここでもコンテンツが誤って表示されないようにする */}
           <div className="client-wrapper__content--hidden" style={{ opacity: 0, visibility: 'hidden' }}>
             {children}
           </div>
@@ -168,8 +167,8 @@ const ClientWrapper = ({ children }) => {
     );
   }
 
-  // 訪問状況チェック中（非トップページ）は静的コンテンツを表示
-  if (isCheckingVisit) {
+  // 訪問状況チェック中（非トップページ、クライアントサイド）
+  if (isCheckingVisit) { // これはホームページ以外のページで訪問ステータスをチェックしている間に適用
     return (
       <LoadingContext.Provider value={contextValue}>
         <div className="client-wrapper">
@@ -181,18 +180,22 @@ const ClientWrapper = ({ children }) => {
     );
   }
 
+  // 訪問ステータスチェック後、ローディング画面またはコンテンツを表示
   return (
     <LoadingContext.Provider value={contextValue}>
       <div className="client-wrapper">
-        {/* ローディング画面（トップページのみ） */}
-        {showLoading && (
+        {/* ローディング画面（トップページで必要な場合のみ表示） */}
+        {showLoading && pathname === '/' && (
           <LoadingScreen onComplete={handleLoadingComplete} />
         )}
-        
-        {/* メインコンテンツ - 中央から上下に開くアニメーション */}
-        <div 
-          className={`client-wrapper__content ${contentVisible ? 'client-wrapper__content--visible' : 'client-wrapper__content--hidden'}`}
-          style={shouldHideContent ? { opacity: 0, visibility: 'hidden' } : {}}
+        <div
+          className={`client-wrapper__content ${
+            contentVisible
+              ? 'client-wrapper__content--visible'
+              : 'client-wrapper__content--hidden'
+          }`}
+          // shouldHideContentがtrue、またはローディング画面が表示中でコンテンツがまだ表示されるべきでない場合に非表示スタイルを適用
+          style={(shouldHideContent || (showLoading && pathname === '/')) && !contentVisible ? { opacity: 0, visibility: 'hidden' } : {}}
         >
           {children}
         </div>

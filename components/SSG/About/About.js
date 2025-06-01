@@ -5,22 +5,26 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 
-// MotionImage の定義は削除
-
-// clipPath を使わないシンプルなフェードインバリアントに変更
-const simpleFadeInVariants = {
+// マスクアニメーション（線が少しずつ表示される）を復活
+const maskAnimationVariants = (direction = "left") => ({
   hidden: {
-    opacity: 0,
-    display: "none", // アニメーション前は非表示
+    clipPath: direction === "left" ? "inset(0 0 0 100%)" : 
+              direction === "right" ? "inset(0 100% 0 0)" : 
+              direction === "top" ? "inset(0 0 100% 0)" : 
+              "inset(100% 0 0 0)", // bottom
+    opacity: 1,
   },
   visible: {
+    clipPath: "inset(0 0 0 0)",
     opacity: 1,
-    display: "block", // アニメーション後は表示
-    transition: { duration: 1.5, ease: "easeOut" },
+    transition: { 
+      duration: 1.2, // 統一された時間
+      ease: "linear", // 統一されたイージング（一定速度）
+    },
   },
-};
+});
 
-// コンテンツのスタッガーアニメーション用バリアント (変更なし)
+// コンテンツのスタッガーアニメーション用バリアント
 const contentContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -44,7 +48,7 @@ const contentItemVariants = {
   },
 };
 
-// about__2nd用の遅延付きバリアント (変更なし)
+// about__2nd用の遅延付きバリアント
 const secondSectionVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -66,12 +70,12 @@ function About() {
   return (
     <div id="About" className={styles.about}>
       <div ref={sectionRef}>
-        {/* Lineのアニメーション: motion.divでラップし、シンプルなバリアントを使用 */}
+        {/* Lineのアニメーション: マスクアニメーションで線が少しずつ表示 */}
         <motion.div
           className={styles.line}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          variants={simpleFadeInVariants} // 単純化したバリアントを適用
+          variants={maskAnimationVariants("right")} // 右から左へ表示に変更
           onAnimationComplete={() => setLineAnimationComplete(true)}
         >
           <Image
@@ -79,14 +83,10 @@ function About() {
             width={194}
             height={190}
             alt="ライン"
-            // Next.js Imageの警告が出ている場合、CSS側で
-            // width/height のどちらかに auto を指定するか、
-            // fill prop を使うなどの対応をご検討ください。
-            // 例: style={{ width: '100%', height: 'auto' }} (親要素のサイズに依存)
           />
         </motion.div>
 
-        {/* Ballのアニメーション: motion.divでラップ */}
+        {/* Ballのアニメーション */}
         {lineAnimationComplete && (
           <motion.div
             className={styles.ball}
@@ -120,15 +120,9 @@ function About() {
               className={styles.about__1st}
               variants={contentItemVariants}
             >
-              {/*
-                Next.js Image の警告が出ている場合、以下の Image コンポーネントにも
-                CSS側での width/height:auto の調整や、
-                fill prop の使用などを検討してください。
-                className={styles.about__icon} に適用されているCSSを確認してください。
-              */}
               <Image
                 className={styles.about__icon}
-                src="/About/PC/icon.webp" // この画像のパスは以前のログで警告が出ていました
+                src="/About/PC/icon.webp"
                 width={213}
                 height={213}
                 alt="icon"
@@ -138,8 +132,8 @@ function About() {
                   <Image
                     className={styles.logo}
                     src="/About/PC/logo.webp"
-                    width={157.09} // 小数点を含む width/height は整数に丸めることを推奨
-                    height={44.31}  // 同上
+                    width={157}
+                    height={44}
                     alt="logo"
                   />
                   <Link href={"https://x.com/official_bksn"}>
@@ -172,14 +166,12 @@ function About() {
                   alt="coding"
                 />
                 <ul className={styles.coding__lists}>
-                  {/* 各スキルアイコンの Image についても、必要であればCSSやpropsを調整 */}
                   <li className={styles.about__list}>
                     <Image className={styles.wordpress} src="/About/PC/wp.webp" width={75} height={75} alt="wordpress" />
                   </li>
                   <li className={styles.about__list}>
                     <Image className={styles.shopify} src="/About/PC/shopify.webp" width={66} height={75} alt="shopify" />
                   </li>
-                  {/* ... 他スキルアイコンも同様 ... */}
                   <li className={styles.about__list}>
                     <Image className={styles.nextJs} src="/About/PC/next.js.webp" width={67} height={67} alt="next.js" />
                   </li>
@@ -218,7 +210,6 @@ function About() {
                   alt="design"
                 />
                 <ul className={styles.design__lists}>
-                  {/* 各デザインツールアイコンも同様 */}
                   <li className={styles.about__list}>
                     <Image className={styles.figma} src="/About/PC/figma.webp" width={75} height={75} alt="figma" />
                   </li>
