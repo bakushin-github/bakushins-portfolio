@@ -1,12 +1,9 @@
-// components/Loading/LoadingScreen.scss
+@use "../../app/styles/variables.module" as *;
 
-// ベース変数定義（1440px基準のデザインカンプ対応）
+// ベース変数定義（clamp()対応）
 $loading-bg-start: #424242;
 $loading-bg-end: #424242;
 $loading-text-color: #fff;
-$loading-font-size-desktop: 9rem;
-$loading-font-size-tablet: 6rem;
-$loading-font-size-mobile: 4rem;
 $container-max-width: 1440px;
 
 // メインローディング画面
@@ -16,55 +13,61 @@ $container-max-width: 1440px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  padding-left: 120px;
+  // レスポンシブpadding（120px → 107px）
+  padding-left: clamp(107px, 8vw, 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: left;
-  background: #fff; // 白い背景に変更（開いた後が見えるように）
+  background: #fff;
   z-index: 9999;
   overflow: hidden;
-  
+
+  // 小画面では左寄せ
+  @media (max-width: 767px) {
+    align-items: flex-start;
+  }
+
   // 完了時のアニメーション用の擬似要素（黒いカーテン）
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     width: 100%;
-    height: 60vh; // 少し大きめにして真ん中で重なるように
+    height: 60vh;
     background: $loading-bg-start;
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); // パンッ！という勢いのあるイージング
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 1;
   }
-  
+
   &::before {
-    top: -10vh; // 上に少しはみ出させて真ん中で重なるように
-    transform-origin: center bottom; // 下辺を基準に
+    top: -10vh;
+    transform-origin: center bottom;
   }
-  
+
   &::after {
-    bottom: -10vh; // 下に少しはみ出させて真ん中で重なるように
-    transform-origin: center top; // 上辺を基準に
+    bottom: -10vh;
+    transform-origin: center top;
   }
-  
+
   // コンテンツエリア
   & > * {
     position: relative;
     z-index: 2;
   }
-  
-  // 完了時のアニメーション（黒が真ん中から上下に開ける）
+
+  // 完了時のアニメーション
   &--completing {
     &::before {
-      transform: translateY(-100%); // 上半分が上に移動して消える
+      transform: translateY(-100%);
     }
-    
+
     &::after {
-      transform: translateY(100%); // 下半分が下に移動して消える
+      transform: translateY(100%);
     }
   }
-  
+
   // プログレス数字のコンテナ
   &__progress-container {
     position: relative;
@@ -76,89 +79,90 @@ $container-max-width: 1440px;
     overflow: hidden;
     top: 50%;
     transform: translateY(-50%);
+
+    // 小画面では縦配置
+    @media (max-width: 479px) {
+      position: static !important;
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      transform: none !important;
+      top: auto !important;
+      height: auto !important;
+      padding-top: 50vh !important;
+      margin-top: -100px !important;
+    }
   }
-  
+
   // プログレス表示エリア（数字 + ロゴ）
   &__progress-display {
     display: flex;
     align-items: center;
     justify-content: left;
-    gap: 1.5rem;
-    font-size: 4rem;
+    // レスポンシブgap（1.5rem → 適応）
+    gap: clamp(0.5rem, 2vw, 1.5rem);
     flex-wrap: wrap;
 
-    
-    // レスポンシブ調整
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    
-    @media (max-width: 480px) {
-      gap: 1rem;
+    // 小画面ではblock表示
+    @media (max-width: 767px) {
+      display: block !important;
+      width: fit-content !important;
+      margin: 0 !important;
+      position: static !important;
     }
   }
-  
+
   // プログレス数字
   &__progress-number {
     color: $loading-text-color;
-    font-size: $loading-font-size-desktop;
+    // レスポンシブフォントサイズ（4rem → 9rem）
+    font-size: clamp(4rem, 8vw, 9rem);
     font-weight: 500;
     font-family: "DM Sans";
     line-height: 170%;
     user-select: none;
-    letter-spacing: -0.02em; // 文字間隔を微調整
-    font-feature-settings: "tnum" 1; // 等幅数字を使用
-    
-    // 数字変更時の微細なアニメーション
+    letter-spacing: -0.02em;
+    font-feature-settings: "tnum" 1;
     animation: numberPulse 0.1s ease-out;
-    
-    // レスポンシブ対応
-    @media (max-width: 768px) {
-      font-size: $loading-font-size-tablet;
-    }
-    
-    @media (max-width: 480px) {
-      font-size: $loading-font-size-mobile;
+
+    // 小画面では固定幅・下マージン
+    @media (max-width: 767px) {
+      width: 170.18px;
+      text-align: left;
+      margin-bottom: clamp(8px, 2vw, 10px);
     }
   }
-  
+
   // ロゴ表示エリア
   &__logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    // 初期状態（上から降りてくるアニメーション用）
     opacity: 0;
     transform: translateY(-50px);
     animation: logoSlideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    
+
+    // 小画面では左寄せblock
+    @media (max-width: 767px) {
+      display: block;
+      text-align: left;
+      width: 170.18px;
+    }
+
     img {
       display: block;
-      max-width: 316px;
+      // レスポンシブ画像サイズ
+      max-width: clamp(170.18px, 25vw, 316px);
       width: 100%;
-      max-height: 109px;
+      max-height: clamp(48px, 8vw, 109px);
       height: 100%;
-    }
-    
-    // レスポンシブ対応（1440px基準から比例調整）
-    @media (max-width: 1440px) {
-      img {
-        transform: scale(calc(100vw / 1440));
-        transform-origin: center;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      img {
-        transform: scale(0.7);
-      }
-    }
-    
-    @media (max-width: 480px) {
-      img {
-        transform: scale(0.5);
+
+      // 小画面では固定サイズ
+      @media (max-width: 767px) {
+        transform: none;
+        width: 170.18px;
+        height: 48px;
+        margin: 0 auto;
       }
     }
   }
@@ -166,15 +170,9 @@ $container-max-width: 1440px;
 
 // キーフレームアニメーション定義
 @keyframes numberPulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 @keyframes logoSlideDown {
@@ -199,16 +197,15 @@ $container-max-width: 1440px;
   will-change: transform, opacity;
 }
 
-// プリロード用スタイル（フォント最適化）
+// プリロード用スタイル
 .loading-screen {
   font-display: swap;
 }
 
-// ハイコントラストモード対応
+// アクセシビリティ対応
 @media (prefers-contrast: high) {
   .loading-screen {
     background: #000;
-    
     &__progress-number {
       color: #fff;
       text-shadow: none;
@@ -216,26 +213,19 @@ $container-max-width: 1440px;
   }
 }
 
-// 減光モード対応
 @media (prefers-reduced-motion: reduce) {
   .loading-screen {
     transition-duration: 0.01ms;
-    
     &__logo {
       animation: none;
       opacity: 1;
       transform: translateY(0);
-      
-      img {
-        transform: none !important;
-      }
+      img { transform: none !important; }
     }
   }
   
   @keyframes numberPulse {
-    0%, 100% {
-      transform: scale(1);
-    }
+    0%, 100% { transform: scale(1); }
   }
   
   @keyframes logoSlideDown {
@@ -243,26 +233,5 @@ $container-max-width: 1440px;
       opacity: 1;
       transform: translateY(0);
     }
-  }
-}
-
-// デバッグ用（開発時のみ使用）
-.loading-screen--debug {
-  border: 2px solid red;
-  
-  &__progress-container {
-    border: 1px solid yellow;
-  }
-  
-  &__progress-display {
-    border: 1px solid green;
-  }
-  
-  &__progress-number {
-    border: 1px solid blue;
-  }
-  
-  &__logo {
-    border: 1px solid purple;
   }
 }

@@ -1,3 +1,20 @@
+@use "sass:map";
+
+$breakpoints: (
+  xs: "screen and (max-width: 479px)",
+  sm: "screen and (min-width: 480px) and (max-width: 767px)",
+  md: "screen and (min-width: 768px) and (max-width: 1023px)",
+  lg: "screen and (min-width: 1024px) and (max-width: 1439px)",
+  xl: "screen and (min-width: 1440px) and (max-width: 1919px)",
+  xxl: "screen and (min-width: 1920px)",
+);
+
+@mixin mq($breakpoint) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
 $base-color-white: #FFFFFF;
 $base-color-off_white: #F9F9F9;
 $main-color-dark_blue: #272E85;

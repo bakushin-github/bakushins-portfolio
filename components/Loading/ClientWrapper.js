@@ -1,4 +1,3 @@
-// components/Loading/ClientWrapper.jsx
 'use client';
 
 import { useState, useEffect, createContext, useContext } from 'react';
