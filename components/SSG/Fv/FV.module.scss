@@ -3,24 +3,70 @@
 .fv {
   position: relative;
   height: auto;
+  @include mq(xs) {
+    background: $base-color-off_white;
+  }
 }
 
 .fv_header_ball {
   position: absolute;
   top: 114px;
   left: 295px;
+    @include mq(xs) {
+    top: 113.77px;
+    left: 26px;
+    width: 23.178px;
+    height: 23.178px;
+  }
 }
 
 .fv_header_line {
   position: absolute;
   top: 0;
   left: 375px;
+    @include mq(xs) {
+    top: 0px;
+    left: 70.25px;
+  }
 }
 
-.fv_left_line {
+// FV.module.scss
+
+.fv_left_linePc{
   position: absolute;
   bottom: 0;
   left: 0;
+  // sm (例: 576px以上768px未満) および xs (例: 576px未満) で非表示
+  @include mq(sm) {
+    display: none !important;
+  }
+  @include mq(xs) {
+    display: none !important;
+  }
+  // 結果として、md (例: 768px以上) で表示されることを期待
+}
+
+.fv_left_lineSp{
+  position: absolute;
+  display: block;
+  width:calc( (82/375) * 100%);
+  height: auto;
+  bottom: 98px;
+  left: 0;
+  // md (例: 768px以上) およびそれ以上 (lg, xl, xxl) で非表示
+  @include mq(md) {
+    display: none !important;
+  }
+  @include mq(lg) {
+    display: none !important;
+  }
+  @include mq(xl) {
+    display: none !important;
+  }
+  @include mq(xxl) {
+    display: none !important;
+  }
+  // 結果として、sm (例: 768px未満) で表示されることを期待
 }
 
 .fv_right_line {
@@ -33,47 +79,105 @@
   position: absolute;
   bottom: 136px;
   right: 64.56px;
+  @include mq(xs) {
+   height:  46.2079px;
+   width:  26.50159px;
+   right: 32.39px;
+   bottom: 52.18px;
+  }
 }
 
 .fv_right_polygon_right {
   position: absolute;
   bottom: 140px;
   right: 18px;
+  @include mq(xs) {
+    height: 37.72735px;
+    width: 20.37304px;
+    right: 5.11px;
+    bottom: 57.18px;
+  }
 }
+
+.fv__pencil{
+padding-left: clamp(66.53px, 20.845vw - 0.169px, 400.06px);}
 
 .fv_image {
   position: absolute;
-  max-width: 420px;
+max-width: clamp(212.63px, calc(18.51521127vw + 153.381px), 508.87px);
   width: 100%;
   max-height: 467.478271484375px;
   top: 177px;
-  right: 188px;
+  right: clamp(20.19px, calc(10.488125vw - 19.14px ),188px);
   border-radius: 9.74px;
+  img{
+    width: 100%;
+  height: auto;
+  display: block; 
+  }
+  @include mq(xs) {
+    top: 390px;
+
+  }
 }
 
 .fv__text {
   position: absolute;
-  max-width: 576px;
-  max-height: 231px;
+  max-width: clamp(213px, calc(32.39vw + 110px), 731px);
+  min-width: 324px;
+  max-height: clamp(155px, calc(15.12vw + 106px), 397px);
   width: 100%;
-  top: 295px;
-  left: 203px;
-  gap: 24px;
+  top: clamp(198.05px, 8.638vw + 170.607px, 336.54px);
+left: clamp(7.075px, 17.277vw - 45.789px, 285.43px);
+  // gap: 24px;
+  @include mq(xs) {
+    top: 203px;
+    // left: 19px;
+  }
 }
 
 .fv__text_h1 {
   font-weight: 700;
-  font-size: 64px;
+    font-size: clamp(35px, calc(2.63vw + 26px), 77px);
+  white-space: nowrap; 
+  margin: 0;
   line-height: 150%;
   letter-spacing: 0%;
   color: $text-accent-blue;
 }
 
-.fv__text_div {
-  margin-top: 24px;
-  font-weight: 500;
-  font-size: 20px;
+.fv__text_divPC {
+margin-top: clamp(15.22px, 0.75117vw + 13.184px, 27.61px);  font-weight: 500;
+font-size: clamp(16px, 4.69vw - 3.63px, 20px);
+
   line-height: 170%;
   letter-spacing: -10%;
   color: $text-accent-blue;
+  @include mq(xs) {
+    display: none;
+  }
+}
+
+.fv__text_div {
+margin-top: clamp(15.22px, 0.75117vw + 13.184px, 27.61px);  font-weight: 500;
+font-size: clamp(16px, 4.69vw - 3.63px, 20px);
+
+  line-height: 170%;
+  letter-spacing: -10%;
+  color: $text-accent-blue;
+  @include mq(sm) {
+    display: none;
+  }
+  @include mq(md) {
+    display: none;
+  }
+  @include mq(lg) {
+    display: none;
+  }
+  @include mq(xl) {
+    display: none;
+  }
+  @include mq(xxl) {
+    display: none;
+  }
 }

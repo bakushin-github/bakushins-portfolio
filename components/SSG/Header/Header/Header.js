@@ -12,18 +12,18 @@ function Header({ toggleMenu }) {
     <div className={styles.header}>
       <div className={styles.header__inner}>
         <Link href="#Fv">
-          <Image
+          <img
             className={styles.header__logo}
             src="/Header/PC/Logo.webp"
-            width={170.18}
-            height={47.99}
+            // width={170.18}
+            // height={47.99}
             alt="ロゴ"
-            priority={true}
+            // priority={true}
           />
         </Link>
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>
-            <li>
+            <li className={styles.header__navTop}>
               <Link href="#Fv">Top</Link>
             </li>
             <li>

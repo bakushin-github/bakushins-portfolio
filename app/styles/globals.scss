@@ -449,6 +449,12 @@ a {
     }
   }
 
+  .wp-block-video{
+    video{
+    display: block !important;
+  max-width: clamp(216px, calc(34.46vw + 105.8px), 767px) !important;
+  width: 100% !important;
+  }}
   .wp-block-cocoon-blocks-tab-box-1 {
     border: 2px solid #ddd;
     padding: 24px;
@@ -466,6 +472,13 @@ a {
     left: -3px;
     border-radius: 6px 6px 0 0;
     padding: 0 1em 0 0.8em;
+  }
+
+  .wp-block-cocoon-blocks-blank-box-1{
+    border: 1px solid;
+    border-radius: 8px;
+    background: $base-color-white;
+    padding: 8px;
   }
 
   .blogcard {
