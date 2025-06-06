@@ -8,176 +8,195 @@
   }
 }
 
-.fv_header_ball {
+.fv_animation_container {
   position: absolute;
-  top: 114px;
-  left: 295px;
-    @include mq(xs) {
-    top: 113.77px;
-    left: 26px;
-    width: 23.178px;
-    height: 23.178px;
-  }
+  width: 100%;
+  height: 100%;
 }
 
+.fv_other_elements_wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.fv_svg_wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+// ヘッダーボール
+.fv_header_ball {
+  position: absolute;
+  top: clamp(68.77px, calc(4.7vw + 46.13px), 114px); // Y軸調整: 480px→68.77px, 1440px→114px
+  left: clamp(46px, calc(25.625vw - 77px), 292px); // X軸調整: 左へ3px移動 (49px→46px, 295px→292px)
+  // アスペクト比1:1を保持してレスポンシブ
+  width: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
+  height: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
+}
+
+// ヘッダーライン
 .fv_header_line {
   position: absolute;
   top: 0;
-  left: 375px;
-    @include mq(xs) {
-    top: 0px;
-    left: 70.25px;
-  }
+  left: clamp(81px, calc(30.94vw - 67.5px), 378px); // X軸調整: 右へ3px移動 (78px→81px, 375px→378px)
+  // アスペクト比194:178≈1.09を保持
+  width: clamp(120px, calc(7.708vw + 83px), 194px);
+  height: clamp(110px, calc(7.083vw + 76px), 178px);
 }
 
-// FV.module.scss
-
-.fv_left_linePc{
+// 左ライン（PC用）
+.fv_left_linePc {
   position: absolute;
   bottom: 0;
   left: 0;
-  // sm (例: 576px以上768px未満) および xs (例: 576px未満) で非表示
-  @include mq(sm) {
+  // アスペクト比390:197≈1.98を保持してレスポンシブ
+  width: clamp(200px, calc(19.792vw + 105px), 390px);
+  height: clamp(101px, calc(10vw + 53px), 197px);
+  
+  @media (max-width: 479px) {
     display: none !important;
   }
-  @include mq(xs) {
-    display: none !important;
-  }
-  // 結果として、md (例: 768px以上) で表示されることを期待
 }
 
-.fv_left_lineSp{
+// 左ライン（SP用）
+.fv_left_lineSp {
   position: absolute;
-  display: block;
-  width:calc( (82/375) * 100%);
-  height: auto;
-  bottom: 98px;
+  bottom: clamp(40px, calc(6vw + 12px), 98px);
   left: 0;
-  // md (例: 768px以上) およびそれ以上 (lg, xl, xxl) で非表示
-  @include mq(md) {
+  // アスペクト比156:602≈0.26を保持してレスポンシブ
+  width: clamp(60px, calc(10vw + 12px), 156px);
+  height: clamp(230px, calc(38.75vw + 44px), 602px);
+  
+  @media (min-width: 480px) {
     display: none !important;
   }
-  @include mq(lg) {
-    display: none !important;
-  }
-  @include mq(xl) {
-    display: none !important;
-  }
-  @include mq(xxl) {
-    display: none !important;
-  }
-  // 結果として、sm (例: 768px未満) で表示されることを期待
 }
 
+// 右ライン
 .fv_right_line {
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: clamp(-10px, calc(1.042vw - 17px), 0px);
+  // アスペクト比426:215≈1.98を保持してレスポンシブ
+  width: clamp(180px, calc(25.625vw + 57px), 426px);
+  height: clamp(91px, calc(12.917vw + 29px), 215px);
 }
 
+// 右ポリゴン（左）- Y軸5px移動調整
 .fv_right_polygon_left {
   position: absolute;
-  bottom: 136px;
-  right: 64.56px;
-  @include mq(xs) {
-   height:  46.2079px;
-   width:  26.50159px;
-   right: 32.39px;
-   bottom: 52.18px;
-  }
+  bottom: clamp(57px, calc(8.75vw + 15px), 141px); // 5px上に移動
+  right: clamp(32px, calc(3.4vw + 15.6px), 65px);
+  // アスペクト比46:79≈0.58を保持
+  width: clamp(26.5px, calc(2.042vw + 16.7px), 46px);
+  height: clamp(46px, calc(3.417vw + 29.8px), 79px);
 }
 
+// 右ポリゴン（右）- Y軸5px移動調整
 .fv_right_polygon_right {
   position: absolute;
-  bottom: 140px;
-  right: 18px;
-  @include mq(xs) {
-    height: 37.72735px;
-    width: 20.37304px;
-    right: 5.11px;
-    bottom: 57.18px;
-  }
+  bottom: clamp(62px, calc(8.65vw + 20px), 145px); // 5px上に移動
+  right: clamp(5px, calc(1.35vw - 1.4px), 18px);
+  // アスペクト比36:72≈0.5を保持
+  width: clamp(20px, calc(1.625vw + 12.2px), 36px);
+  height: clamp(37px, calc(3.563vw + 20px), 72px);
 }
 
-.fv__pencil{
-padding-left: clamp(66.53px, 20.845vw - 0.169px, 400.06px);}
-
+// メイン画像
 .fv_image {
   position: absolute;
-max-width: clamp(212.63px, calc(18.51521127vw + 153.381px), 508.87px);
+  max-width: clamp(212.63px, calc(30.86vw + 64.53px), 508.87px);
   width: 100%;
   max-height: 467.478271484375px;
-  top: 177px;
-  right: clamp(20.19px, calc(10.488125vw - 19.14px ),188px);
+  top: clamp(177px, calc(-26.666667vw + 561px), 390px);
+  right: clamp(20.19px, calc(17.5vw - 63.81px), 188px);
   border-radius: 9.74px;
-  img{
+  
+  img {
     width: 100%;
-  height: auto;
-  display: block; 
+    height: auto;
+    display: block;
   }
-  @include mq(xs) {
+  
+  @media (max-width: 480px) {
     top: 390px;
-
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 }
 
+// メインテキスト
 .fv__text {
   position: absolute;
-  max-width: clamp(213px, calc(32.39vw + 110px), 731px);
+  max-width: clamp(324px, calc(42.708333vw + 119px), 731px);
   min-width: 324px;
-  max-height: clamp(155px, calc(15.12vw + 106px), 397px);
+  max-height: clamp(155px, calc(25.208333vw + 34px), 397px);
   width: 100%;
-  top: clamp(198.05px, 8.638vw + 170.607px, 336.54px);
-left: clamp(7.075px, 17.277vw - 45.789px, 285.43px);
-  // gap: 24px;
-  @include mq(xs) {
+  top: clamp(203px, calc(14.427083vw + 128.757px), 336.54px);
+  left: clamp(19px, calc(28.90625vw - 131.565px), 285.43px);
+  
+  @media (max-width: 480px) {
     top: 203px;
-    // left: 19px;
+    left: 19px;
   }
 }
 
+// メインタイトル
 .fv__text_h1 {
   font-weight: 700;
-    font-size: clamp(35px, calc(2.63vw + 26px), 77px);
-  white-space: nowrap; 
+  font-size: clamp(35px, calc(4.375vw + 14px), 77px);
+  white-space: nowrap;
   margin: 0;
   line-height: 150%;
   letter-spacing: 0%;
   color: $text-accent-blue;
 }
 
+// PC用サブテキスト
 .fv__text_divPC {
-margin-top: clamp(15.22px, 0.75117vw + 13.184px, 27.61px);  font-weight: 500;
-font-size: clamp(16px, 4.69vw - 3.63px, 20px);
-
+  margin-top: clamp(15.22px, calc(1.302083vw + 8.993px), 27.61px);
+  font-weight: 500;
+  font-size: clamp(16px, calc(0.416667vw + 14px), 20px);
   line-height: 170%;
   letter-spacing: -10%;
   color: $text-accent-blue;
-  @include mq(xs) {
+  
+  @media (max-width: 480px) {
     display: none;
   }
 }
 
+// SP用サブテキスト
 .fv__text_div {
-margin-top: clamp(15.22px, 0.75117vw + 13.184px, 27.61px);  font-weight: 500;
-font-size: clamp(16px, 4.69vw - 3.63px, 20px);
-
+  margin-top: clamp(15.22px, calc(1.302083vw + 8.993px), 27.61px);
+  font-weight: 500;
+  font-size: clamp(16px, calc(0.416667vw + 14px), 20px);
   line-height: 170%;
   letter-spacing: -10%;
   color: $text-accent-blue;
-  @include mq(sm) {
+  
+  @media (min-width: 481px) {
     display: none;
   }
-  @include mq(md) {
-    display: none;
-  }
-  @include mq(lg) {
-    display: none;
-  }
-  @include mq(xl) {
-    display: none;
-  }
-  @include mq(xxl) {
-    display: none;
+}
+
+// SVG鉛筆ライン
+.fv__pencil {
+  position: absolute;
+  top: calc(clamp(203px, calc(14.427083vw + 128.757px), 336.54px) + clamp(80px, calc(4.166667vw + 60px), 120px));
+  left: calc(clamp(19px, calc(28.90625vw - 131.565px), 285.43px) + clamp(100px, calc(15.625vw + 25px), 250px));
+  width: clamp(123px, calc(38.333333vw - 60.5px), 491px);
+  height: 11px;
+  transform: translateY(clamp(0px, calc(9.270833vw - 44.5px), 89px)) translateX(clamp(0px, calc(-9.895833vw + 95px), 95px));
+  
+  @media (max-width: 480px) {
+    top: calc(203px + 190px);
+    left: calc(19px + 62px);
+    width: 123px;
+    height: 11px;
+    transform: translateY(0px) translateX(0px);
   }
 }
