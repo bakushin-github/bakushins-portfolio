@@ -1,8 +1,63 @@
-@use "../../../../app/styles/variables.module" as *;
+@use "../../../../../app/styles/variables.module" as *;
 
+// ========================================
+// Header部分のスタイル
+// ========================================
+.headerSp {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+  max-width: 100vw;
+  font-family: "Noto Sans JP";
+  color: $text-black;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  display: none;
+  
+  @include mq(sm) {
+    display: flex;
+  }
+  @include mq(xs) {
+    display: flex;
+  }
+}
+
+.headerSp__inner {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.headerSp__logo {
+  width: clamp(121.273px, calc(12.48vw + 74.44px), 170.18px);
+  height: clamp(34.19px, calc(3.52vw + 20.99px), 47.99px);
+  max-width: 100%;
+}
+
+.headerSp__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerAfter__drawerButton,
+.headerAfter__contact {
+  cursor: pointer;
+}
+
+.headerSP__drawerButton {
+  width: 44px;
+  height: 44px;
+}
+
+// ========================================
+// Drawer Menu部分のスタイル（既存のスタイルを統合）
+// ========================================
 .Drawer_menu {
   position: fixed;
-  background-image: url(../../../../public/Works/PC/Works_bg.webp);
+  background-image: url('/Works/PC/Works_bg.webp');
   background-size: cover;
   z-index: 4;
   flex-direction: row;
@@ -12,14 +67,12 @@
   pointer-events: none; /* 初期状態ではクリック不可 */
   transition: opacity 0.5s ease-in-out; /* 透明度の変化を0.5秒かけて行う */
   
-  
-  &.open{
+  &.open {
     display: flex;
     opacity: 1;
     pointer-events: auto;
   }
 }
-
 
 .Drawer_button {
   position: absolute;
@@ -31,12 +84,12 @@
 
 .Drawer_flexLeft {
   position: relative;
-  // flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 503px;
 }
+
 .Drawer_menu__1 {
   position: absolute;
   top: 84px;

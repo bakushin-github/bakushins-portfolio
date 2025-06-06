@@ -1,4 +1,4 @@
-@use "../../../../app/styles/variables.module" as *;
+@use "../../../../../app/styles/variables.module" as *;
 
 .drawerButton{
 
@@ -6,8 +6,8 @@
 
 .drawerButton__button{
   padding: 13.96px;
-  width: 55px;
-  height: 55px;
+  width: 48px;
+  height: 48px;
   border: none;
   background: $main-color-dark_blue;
 

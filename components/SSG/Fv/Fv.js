@@ -1,14 +1,23 @@
-// Fv.jsx (完全統合版: レスポンシブ対応 + SVG・テキスト両方表示)
+// Fv.jsx (完全統合版: レスポンシブ対応 + SVG・テキスト両方表示 + Header_Sp toggle機能追加)
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FvTextImage from "../../../components/animation/Fv_text_image.js";
 import styles from "./FV.module.scss";
 import { useLoadingContext } from '@/components/Loading/ClientWrapper';
+import Header_Sp from "../Drawer/Sp/Drawer_menu/Drawer_menuSP.js";
 
 function Fv() {
   const { shouldTriggerAnimation, isLoadingComplete } = useLoadingContext();
   console.log("LOG: Fv component rendered (COMPLETE VERSION). shouldTriggerAnimation:", shouldTriggerAnimation, "isLoadingComplete:", isLoadingComplete);
+
+  // Header_Sp用のメニュー開閉状態を追加
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // メニューの開閉を切り替える関数
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
 
   const [aElementsComplete, setAElementsComplete] = useState(false);
   const [bElementsComplete, setBElementsComplete] = useState(false);
@@ -142,6 +151,8 @@ function Fv() {
   return (
     <>
       <div id="Fv" className={styles.fv} style={{ height: "100vh" }}>
+        {/* Header_SpにtoggleMenu関数とisMenuOpen状態を渡す */}
+        <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
         {console.log("LOG: Rendering main animation block. shouldTriggerAnimation:", shouldTriggerAnimation)}
         {shouldTriggerAnimation && (
           <motion.div 

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import classNames from "classnames";
-import styles from "./Drawer_button.module.scss";
+import styles from "./Drawer_buttonSP.module.scss";
 
 function Drawer_button({ className, isOpen, toggleDrawer }) {
   const cell = 18; // 中央への距離(px)

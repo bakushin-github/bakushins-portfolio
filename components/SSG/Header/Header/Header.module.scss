@@ -30,6 +30,12 @@
   max-width: clamp(118.7px, calc(4.592394vw + 104.052px), 192.2px);
   max-height: 47.99px;
   width: 100%;
+    @include mq(sm) {
+    display: none;
+  }
+  @include mq(xs) {
+    display: none;
+  }
 }
 
 .header__nav {

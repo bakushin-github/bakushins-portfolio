@@ -10,6 +10,12 @@
   color: $text-black;
   padding: 29px 72px;
   width: 100%;
+  @include mq(sm) {
+    display: none;
+  }
+  @include mq(xs) {
+    display: none;
+  }
 }
 
 .headerAfter__inner {
