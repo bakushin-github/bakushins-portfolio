@@ -175,6 +175,20 @@ function Fv() {
                   handleAElementComplete('header_line'); 
                 }} 
               />
+              <motion.img 
+                className={styles.fv_header_lineSp} 
+                src="/Fv/Sp/header_line.webp" 
+                alt="header_lineSp" 
+                // width="102.19439" 
+                // height="147" 
+                initial="hidden" 
+                animate="visible" 
+                variants={maskAnimationVariants("top")} 
+                onAnimationComplete={() => { 
+                  console.log("LOG: fv_header_lineSp onAnimationComplete"); 
+                  handleAElementComplete('header_lineSp'); 
+                }} 
+              />
               <>
                 <motion.img 
                   className={styles.fv_left_linePc} 
@@ -220,6 +234,20 @@ function Fv() {
                   handleAElementComplete('right_line'); 
                 }} 
               />
+              <motion.img 
+                className={styles.fv_right_lineSp} 
+                src="/Fv/Sp/right_line.webp" 
+                alt="right_lineSp" 
+                width="153.10841" 
+                height="94" 
+                initial="hidden" 
+                animate="visible" 
+                variants={maskAnimationVariants("right")} 
+                onAnimationComplete={() => { 
+                  console.log("LOG: fv_right_lineSp onAnimationComplete"); 
+                  handleAElementComplete('right_lineSp'); 
+                }} 
+              />
 
               {console.log("LOG: Rendering B Elements group. aElementsComplete:", aElementsComplete)}
               {aElementsComplete && (
@@ -240,11 +268,25 @@ function Fv() {
                     }} 
                   />
                   <motion.img 
+                    className={styles.fv_header_ballSp} 
+                    src="/Fv/Sp/header_ball.webp" 
+                    alt="header_ballSp" 
+                    width="23.178" 
+                    height="23.178" 
+                    initial={{ opacity: 0, scale: 0.5 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    transition={{ duration: 1 }} 
+                    onAnimationComplete={() => { 
+                      console.log("LOG: fv_header_ballSp onAnimationComplete"); 
+                      handleBElementComplete('fv_header_ballSp'); 
+                    }} 
+                  />
+                  <motion.img 
                     className={styles.fv_right_polygon_left} 
                     src="/Fv/right_polygon_left.webp" 
                     alt="right_polygon_left" 
-                    width="46" 
-                    height="79" 
+                   width="45.24673" 
+                    height="78.89174" 
                     initial={{ opacity: 0, scale: 0.5 }} 
                     animate={{ opacity: 1, scale: 1 }} 
                     transition={{ duration: 1 }} 
@@ -254,11 +296,35 @@ function Fv() {
                     }} 
                   />
                   <motion.img 
+                    className={styles.fv_right_polygon_leftSp} 
+                    src="/Fv/Sp/right_polygon_left.webp" 
+                    alt="right_polygon_leftSp" 
+                    width="26.50159" 
+                    height="46.2079" 
+                    initial={{ opacity: 0, scale: 0.5 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    transition={{ duration: 1 }} 
+                    onAnimationComplete={() => { 
+                      console.log("LOG: fv_right_polygon_leftSp onAnimationComplete"); 
+                      handleBElementComplete('fv_right_polygon_leftSp'); 
+                    }} 
+                  />
+                  <motion.img 
                     className={styles.fv_right_polygon_right} 
                     src="/Fv/right_polygon_right.webp" 
                     alt="right_polygon_right" 
-                    width="36" 
-                    height="72" 
+                     width="46.73457" 
+                    height="81.48592" 
+                    initial={{ opacity: 0, scale: 0.5 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    transition={{ duration: 1 }} 
+                  />
+                  <motion.img 
+                    className={styles.fv_right_polygon_rightSp} 
+                    src="/Fv/Sp/right_polygon_right.webp" 
+                    alt="right_polygon_rightSp" 
+                    width="27.37304" 
+                    height="47.72735" 
                     initial={{ opacity: 0, scale: 0.5 }} 
                     animate={{ opacity: 1, scale: 1 }} 
                     transition={{ duration: 1 }} 
@@ -270,22 +336,30 @@ function Fv() {
               {aElementsComplete && (
                 <>
                   {/* Image/Text Elements */}
-                  <motion.div
-                    className={styles.fv_image}
-                    initial="hidden" 
-                    animate={bElementsComplete ? "visible" : "hidden"}
-                    variants={imageTextVariants}
-                    onAnimationComplete={() => { 
-                      console.log("LOG: fv_image onAnimationComplete"); 
-                      handleImageTextComplete('fv_image'); 
-                    }}
-                  >
-                    {console.log("LOG: Rendering fv_image content. bElementsComplete:", bElementsComplete)}
-                    <img 
-                      src={windowWidth < 480 ? "/Fv/Sp/fv_image_sp.webp" : "/Fv/fv_image.webp"} 
-                      alt="ファーストビュー メイン画像"
-                    />
-                  </motion.div>
+                 <motion.div
+  className={styles.fv_image}
+  initial="hidden" 
+  animate={bElementsComplete ? "visible" : "hidden"}
+  variants={imageTextVariants}
+  onAnimationComplete={() => { 
+    console.log("LOG: fv_image onAnimationComplete"); 
+    handleImageTextComplete('fv_image'); 
+  }}
+>
+  {console.log("LOG: Rendering fv_image content. bElementsComplete:", bElementsComplete)}
+  {/* PC用画像 */}
+  <img 
+    className={styles.fv_image_pc}
+    src="/Fv/fv_image.webp" 
+    alt="ファーストビュー メイン画像"
+  />
+  {/* SP用画像 */}
+  <img 
+    className={styles.fv_image_sp}
+    src="/Fv/Sp/fv_image.webp" 
+    alt="ファーストビュー メイン画像"
+  />
+</motion.div>
 
                   <motion.div
                     className={styles.fv__text}

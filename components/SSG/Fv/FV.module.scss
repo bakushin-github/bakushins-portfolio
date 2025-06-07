@@ -3,17 +3,12 @@
 .fv {
   position: relative;
   height: auto;
-  @include mq(xs) {
-    background: $base-color-off_white;
-  }
-}
+    @media (max-width: 1024px) {
+       background: $base-color-off_white;
 
-// .fv__drawer_buttonSP{
-//   position: fixed;
-//   z-index: 10;
-//   top: 16px;
-//   right: 20px;
-// }
+  }
+
+}
 
 .fv_animation_container {
   position: absolute;
@@ -41,16 +36,53 @@
   // アスペクト比1:1を保持してレスポンシブ
   width: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
   height: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
+    @media (max-width: 1023px) {
+    display: none !important;
+  
+}
+}
+
+.fv_header_ballSp {
+  position: absolute;
+  top: clamp(107.77px, calc(-5.78vw + 129.45px), 110.95px);
+  // [修正] 左に5px移動
+  left: clamp(28.42px, calc(26.058vw - 54.97px), 211.6px);
+
+  width: clamp(20px, calc(5.778vw + 1.51px), 35px);
+  height: clamp(20px, calc(5.778vw + 1.51px), 35px);
+
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
 }
 
 // ヘッダーライン
 .fv_header_line {
   position: absolute;
+  // [修正] ご指定のtop位置に調整
   top: 0;
-  left: clamp(81px, calc(30.94vw - 67.5px), 378px); // X軸調整: 右へ3px移動 (78px→81px, 375px→378px)
-  // アスペクト比194:178≈1.09を保持
+  left: clamp(81px, calc(30.94vw - 67.5px), 378px);
   width: clamp(120px, calc(7.708vw + 83px), 194px);
   height: clamp(110px, calc(7.083vw + 76px), 178px);
+  @media (max-width: 1023px) {
+    display: none !important;
+  }
+}
+
+.fv_header_lineSp {
+  position: absolute;
+  // [修正] topを0に戻す
+  top: 0;
+  // [修正] さらに右に5px移動
+  left: clamp(68px, calc(31.84vw - 51.4px), 378px);
+
+  width: clamp(90px, calc(22.16vw + 19.09px), 246px);
+  height: auto !important;
+  aspect-ratio: 205 / 294;
+
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
 }
 
 // 左ライン（PC用）
@@ -62,21 +94,22 @@
   width: clamp(200px, calc(19.792vw + 105px), 390px);
   height: clamp(101px, calc(10vw + 53px), 197px);
   
-  @media (max-width: 479px) {
+  @media (max-width: 1023px) {
     display: none !important;
   }
 }
 
+
 // 左ライン（SP用）
 .fv_left_lineSp {
   position: absolute;
-  bottom: clamp(40px, calc(6vw + 12px), 98px);
+  bottom: 0; // 1023px時点で0に
   left: 0;
-  // アスペクト比156:602≈0.26を保持してレスポンシブ
-  width: clamp(60px, calc(10vw + 12px), 156px);
-  height: clamp(230px, calc(38.75vw + 44px), 602px);
+  // width: 1023px→218px, アスペクト比156:602≈0.259から高さを計算  
+  width: clamp(134px, calc(8.453vw + 99.294px), 218px); // 320px→134px, 375px→156px, 1023px→218px
+  height: clamp(517px, calc(32.627vw + 383.345px), 841.7px); // 320px→517px, 375px→602px, 1023px→841.7px
   
-  @media (min-width: 480px) {
+  @media (min-width: 1024px) {
     display: none !important;
   }
 }
@@ -89,6 +122,38 @@
   // アスペクト比426:215≈1.98を保持してレスポンシブ
   width: clamp(180px, calc(25.625vw + 57px), 426px);
   height: clamp(91px, calc(12.917vw + 29px), 215px);
+    @media (max-width: 1023px) {
+    display: none !important;
+  }
+}
+
+.fv_right_lineSp{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  
+  // [修正] 元のサイズから20%拡大
+  width: clamp(157.5px, calc(24.812vw + 78.088px), 384px);
+  height: clamp(96.6px, calc(15.233vw + 47.921px), 194.4px);
+  
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
+}
+
+// 左ライン（SP用）
+.fv_left_lineSp {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  // [修正] 元のサイズから30%縮小
+  width: clamp(93.8px, calc(5.917vw + 69.506px), 152.6px);
+  height: clamp(361.9px, calc(22.839vw + 268.342px), 589.19px);
+  
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
 }
 
 // 右ポリゴン（左）- Y軸5px移動調整
@@ -99,6 +164,24 @@
   // アスペクト比46:79≈0.58を保持
   width: clamp(26.5px, calc(2.042vw + 16.7px), 46px);
   height: clamp(46px, calc(3.417vw + 29.8px), 79px);
+    @media (max-width: 1023px) {
+    display: none !important;
+  }
+}
+
+.fv_right_polygon_leftSp{
+  position: absolute;
+  // [修正] translateY(27px)の効果を反映
+  bottom: clamp(68px, calc(5.867vw + 49.2px), 114px); 
+  // [修正] translateX(4px)の効果を反映
+  right: clamp(24px, calc(4.627vw + 6.648px), 61px);
+  
+  width: clamp(22.7px, calc(1.732vw + 17.162px), 38px);
+  height: clamp(39.6px, calc(3.021vw + 29.935px), 65px);
+  
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
 }
 
 // 右ポリゴン（右）- Y軸5px移動調整
@@ -109,8 +192,26 @@
   // アスペクト比36:72≈0.5を保持
   width: clamp(20px, calc(1.625vw + 12.2px), 36px);
   height: clamp(37px, calc(3.563vw + 20px), 72px);
+      @media (max-width: 1023px) {
+    display: none !important;
+  }
 }
 
+.fv_right_polygon_rightSp{
+  position: absolute;
+  // [修正] leftSpとY軸を合わせるため、bottomの値をleftSpと同一に
+  bottom: clamp(68px, calc(5.867vw + 49.2px), 114px); 
+  right: clamp(0px, calc(1.387vw - 3.416px), 14px);
+  
+  width: clamp(23.4px, calc(0.647vw + 21.33px), 29px);
+  height: clamp(40.8px, calc(1.943vw + 33.513px), 57px);
+  
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
+}
+
+// メイン画像
 // メイン画像
 .fv_image {
   position: absolute;
@@ -127,11 +228,44 @@
     display: block;
   }
   
+  // PC用画像
+  .fv_image_pc {
+    display: block;
+    @media (max-width: 479px) {
+      display: none;
+    }
+  }
+  
+  // SP用画像
+  .fv_image_sp {
+    display: none;
+    @media (max-width: 479px) {
+      display: block;
+    }
+  }
+  
   @media (max-width: 480px) {
     top: 390px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    left: auto;
+    right: clamp(17.3px, calc(0.929vw + 13.81px), 20.19px); // 320px→17.3px, 375px→20.19px, 480px→20.19px
+    transform: none;
+
+    // 320px→191px, 375px→222.813px, 480px→250px になるよう調整
+    width: clamp(191px, calc(57.842vw + 5.906px), 250px);
+    max-width: clamp(191px, calc(57.842vw + 5.906px), 250px);
+
+    // 375pxで高さ248px、アスペクト比を維持するよう調整
+    // min-height: 191px * (248 / 222.813) ≈ 212.594px
+    // max-height: 250px * (248 / 222.813) ≈ 278.275px
+    height: clamp(212.594px, calc(64.374vw + 6.598px), 278.275px);
+    max-height: none; // clampで最大値を指定しているため不要
+    
+    img {
+      width: 100%;
+      // 親要素のclampされた高さに追従させる
+      height: 100%;
+      object-fit: contain;
+    }
   }
 }
 
