@@ -3,6 +3,7 @@
 .fv {
   position: relative;
   height: auto;
+  min-height: 772px; 
     @media (max-width: 1024px) {
        background: $base-color-off_white;
 
@@ -71,10 +72,10 @@
 
 .fv_header_lineSp {
   position: absolute;
-  // [修正] topを0に戻す
   top: 0;
-  // [修正] さらに右に5px移動
-  left: clamp(68px, calc(31.84vw - 51.4px), 378px);
+
+  /* [修正] translateX(15px)の効果を反映するため、各値に15pxを加算 */
+  left: clamp(83px, calc(31.84vw - 36.4px), 393px);
 
   width: clamp(90px, calc(22.16vw + 19.09px), 246px);
   height: auto !important;
@@ -132,9 +133,12 @@
   bottom: 0;
   right: 0;
   
-  // [修正] 元のサイズから20%拡大
   width: clamp(157.5px, calc(24.812vw + 78.088px), 384px);
-  height: clamp(96.6px, calc(15.233vw + 47.921px), 194.4px);
+  height: auto;
+  
+  /* [修正] 要素全体を1.5倍に拡大 */
+  transform: scale(1.5);
+  transform-origin: bottom right; /* 拡大の基点を右下に設定 */
   
   @media (min-width: 1024px) {
     display: none !important;
@@ -144,7 +148,7 @@
 // 左ライン（SP用）
 .fv_left_lineSp {
   position: absolute;
-  bottom: 0;
+  bottom: calc((98 /772)*100%);
   left: 0;
 
   // [修正] 元のサイズから30%縮小
@@ -171,13 +175,15 @@
 
 .fv_right_polygon_leftSp{
   position: absolute;
-  // [修正] translateY(27px)の効果を反映
-  bottom: clamp(68px, calc(5.867vw + 49.2px), 114px); 
-  // [修正] translateX(4px)の効果を反映
-  right: clamp(24px, calc(4.627vw + 6.648px), 61px);
+
+  /* [修正] translateY(10px)の効果を反映 → 10px引く */
+  bottom: clamp(62.45px, calc(11.42475vw + 25.94075px), 135.8px);
+  /* [修正] translateX(-5px)の効果を反映 → 5px足す */
+  right: clamp(40.1px, calc(0.9705vw + 36.995px), 48.5px);
   
-  width: clamp(22.7px, calc(1.732vw + 17.162px), 38px);
-  height: clamp(39.6px, calc(3.021vw + 29.935px), 65px);
+  /* [維持] 1.5倍のサイズ */
+  width: clamp(34.05px, calc(2.598vw + 25.743px), 57px);
+  height: clamp(59.4px, calc(4.5315vw + 44.9025px), 97.5px);
   
   @media (min-width: 1024px) {
     display: none !important;
@@ -199,12 +205,15 @@
 
 .fv_right_polygon_rightSp{
   position: absolute;
-  // [修正] leftSpとY軸を合わせるため、bottomの値をleftSpと同一に
-  bottom: clamp(68px, calc(5.867vw + 49.2px), 114px); 
-  right: clamp(0px, calc(1.387vw - 3.416px), 14px);
   
-  width: clamp(23.4px, calc(0.647vw + 21.33px), 29px);
-  height: clamp(40.8px, calc(1.943vw + 33.513px), 57px);
+  /* [修正] translateY(10px)の効果を反映 → 10px引く */
+  bottom: clamp(62.45px, calc(11.42475vw + 25.94075px), 135.8px);
+  /* [修正] translateX(-5px)の効果を反映 → 5px足す */
+  right: 5px;
+  
+  /* [維持] 1.5倍のサイズ */
+  width: clamp(35.1px, calc(0.9705vw + 31.995px), 43.5px);
+  height: clamp(61.2px, calc(2.9145vw + 50.2695px), 85.5px);
   
   @media (min-width: 1024px) {
     display: none !important;

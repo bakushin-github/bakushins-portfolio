@@ -15,7 +15,7 @@
   box-sizing: border-box;
   width: 100%;
   display: none;
-  
+
   @include mq(sm) {
     display: flex;
   }
@@ -57,7 +57,7 @@
 // ========================================
 .Drawer_menu {
   position: fixed;
-  background-image: url('/Works/PC/Works_bg.webp');
+  background-image: url("/Works/PC/Works_bg.webp");
   background-size: cover;
   z-index: 4;
   flex-direction: row;
@@ -66,7 +66,7 @@
   opacity: 0; /* 初期状態では透明 */
   pointer-events: none; /* 初期状態ではクリック不可 */
   transition: opacity 0.5s ease-in-out; /* 透明度の変化を0.5秒かけて行う */
-  
+
   &.open {
     display: flex;
     opacity: 1;
@@ -80,6 +80,12 @@
   right: 74px;
   z-index: 4;
   cursor: pointer;
+  @media(max-width:767px){
+    width: 44px;
+    height: 44px;
+    top: 16px;
+    right: 20px;
+  }
 }
 
 .Drawer_flexLeft {
@@ -88,6 +94,10 @@
   justify-content: center;
   align-items: center;
   min-width: 503px;
+  @media (max-width: 767px) {
+    width: 107px;
+    min-width: 0;
+  }
 }
 
 .Drawer_menu__1 {
@@ -97,6 +107,23 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+    @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.Drawer_menu__1Sp {
+  position: absolute;
+  top: 43.28px;
+  left: -55.28PX;
+width: 98.137px;
+height: 98.137px;
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+    @media (min-width: 768px) {
+        display: none;;
+  }
 }
 
 .Drawer_menu__2 {
@@ -106,6 +133,23 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+      @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.Drawer_menu__2Sp{
+position: absolute;
+top: 181.98px;
+left: 49.28px;
+width: 105.885px;
+height: 105.885px;
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+      @media (min-width: 768px) {
+        display: none;;
+  }
 }
 
 .Drawer_menu__3 {
@@ -119,6 +163,23 @@
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+        @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.Drawer_menu__3Sp{
+  position: absolute;
+  top: 584px;
+  left: 33px;
+  width: 151px;
+height: 151px;
+  animation-name: y--loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+        @media (min-width: 768px) {
+        display: none;;
+  }
 }
 
 @keyframes y-loop {
@@ -150,6 +211,21 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.Drawer_menu__logoSp {
+  position: absolute;
+  top: calc(255/772*100%);
+  left: 50%;
+  transform: translateX( -50%);
+  width: 39.6px;
+  height: 158px;
+  @media (min-width: 768px) {
+    display: none;
+  }
 }
 
 .Drawer_flexRight {
@@ -158,19 +234,26 @@
   flex-direction: column;
   justify-content: center;
   width: calc(100vw - 503px);
+  position: relative;
+  @media (max-width: 767px) {
+    width: calc(100vw - 103px);
+    align-items: center;
+  }
 }
 
 .Drawer_menu__boxInner {
   background: $base-color-off_white;
   margin: 0;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 100vh;
   padding-top: 118px;
   padding-bottom: 118px;
   padding-left: 173px;
+  @media(max-width:767px){
+    padding-inline: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .Drawer_menu__List {
@@ -192,6 +275,16 @@
   padding-bottom: 10px;
   border-bottom-width: 0.5px;
   border-bottom: 0.5px solid #adaeae;
+  @media(max-width:767px ){
+    display: flex;
+width: 208px;
+height: 50px;
+color: var(--black, #282828);
+text-align: center;
+font-size: 16px;
+
+letter-spacing: 0.48px;
+  }
 }
 
 .Drawer_menu__buttons {
@@ -199,6 +292,13 @@
   gap: 20px;
   margin-top: 56px;
   transform: translateX(-17px);
+  @media(max-width: 767px){
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    transform: none;
+  }
 }
 
 .Drawer_menu__faq {
@@ -212,6 +312,13 @@
   max-height: 64px !important;
   background: transparent !important;
   padding: 16px 40px !important;
+    @media(max-width:767px){
+    width: 208px !important;
+  height: 56px !important;
+  max-width: 208px !important;
+  max-height: 56px !important;
+  
+  }
 }
 
 .Drawer_menu__contact {
@@ -220,4 +327,11 @@
   max-width: 212px;
   max-height: 64px;
   cursor: pointer;
+  @media(max-width:767px){
+    width: 208px;
+  height: 56px;
+  max-width: 208px;
+  max-height: 56px;
+  
+  }
 }
