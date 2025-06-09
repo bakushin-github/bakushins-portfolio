@@ -281,6 +281,7 @@
     padding-top: 118px;
     padding-bottom: 118px;
     width: 100%; 
+    height: 100%;
     /* ★変更点：375pxで30px、767pxで110pxになるようclamp()で可変に修正 */
     padding-inline: clamp(30px, 20.41vw - 46.53px, 110px);
   }
