@@ -3,6 +3,7 @@
 // ========================================
 // Header部分のスタイル
 // ========================================
+// 省略（変更なし）
 .headerSp {
   position: fixed;
   display: flex;
@@ -52,6 +53,7 @@
   height: 44px;
 }
 
+
 // ========================================
 // Drawer Menu部分のスタイル（既存のスタイルを統合）
 // ========================================
@@ -60,15 +62,15 @@
   background-image: url("/Works/PC/Works_bg.webp");
   background-size: cover;
   z-index: 4;
+  display: flex;
   flex-direction: row;
+  width: 100%;
   height: 100vh;
-  display: flex; /* 常に表示されるようにする */
-  opacity: 0; /* 初期状態では透明 */
-  pointer-events: none; /* 初期状態ではクリック不可 */
-  transition: opacity 0.5s ease-in-out; /* 透明度の変化を0.5秒かけて行う */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
 
   &.open {
-    display: flex;
     opacity: 1;
     pointer-events: auto;
   }
@@ -94,12 +96,15 @@
   justify-content: center;
   align-items: center;
   min-width: 503px;
+
   @media (max-width: 767px) {
-    width: 107px;
     min-width: 0;
+    width: clamp(83.05px, 31.38vw - 34.61px, 230px);
   }
 }
 
+// ( decorative elements: .Drawer_menu__1, .Drawer_menu__1Sp etc. )
+// 省略（変更なし）
 .Drawer_menu__1 {
   position: absolute;
   top: 84px;
@@ -114,15 +119,19 @@
 
 .Drawer_menu__1Sp {
   position: absolute;
-  top: 43.28px;
-  left: -55.28PX;
-width: 98.137px;
-height: 98.137px;
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-    @media (min-width: 768px) {
-        display: none;;
+
+  @media (max-width: 767px) {
+    top: 43.28px;
+    left: -55.28PX;
+    width: clamp(90.1px, 8.12vw + 61.64px, 130px);
+    height: clamp(90.1px, 8.12vw + 61.64px, 130px);
+  }
+
+  @media (min-width: 768px) {
+    display: none;
   }
 }
 
@@ -133,22 +142,26 @@ height: 98.137px;
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-      @media (max-width: 768px) {
+  @media (max-width: 768px) {
     display: none;
   }
 }
 
 .Drawer_menu__2Sp{
-position: absolute;
-top: 181.98px;
-left: 49.28px;
-width: 105.885px;
-height: 105.885px;
+  position: absolute;
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-      @media (min-width: 768px) {
-        display: none;;
+
+  @media (max-width: 767px) {
+    top: clamp(159.26px, 17.55vw + 93.45px, 250px);
+    left: clamp(19.29px, 28.24vw - 86.63px, 160px);
+    width: clamp(98.14px, 8.12vw + 67.69px, 130px);
+    height: clamp(98.14px, 8.12vw + 67.69px, 130px);
+  }
+
+  @media (min-width: 768px) {
+    display: none;
   }
 }
 
@@ -163,47 +176,39 @@ height: 105.885px;
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-        @media (max-width: 768px) {
+  @media (max-width: 768px) {
     display: none;
   }
 }
 
 .Drawer_menu__3Sp{
   position: absolute;
-  top: 584px;
-  left: 33px;
-  width: 151px;
-height: 151px;
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-        @media (min-width: 768px) {
-        display: none;;
+
+  @media (max-width: 767px) {
+    top: clamp(586.84px, -1.73vw + 592.39px, 580px);
+    left: clamp(13.68px, 19.13vw - 47.95px, 108px);
+    width: clamp(135.59px, 16.41vw + 83.05px, 200px);
+    height: clamp(135.59px, 16.41vw + 83.05px, 200px);
+  }
+  
+  @media (min-width: 768px) {
+    display: none;
   }
 }
 
 @keyframes y-loop {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes y--loop {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+  100% { transform: translateY(0); }
 }
 
 .Drawer_menu__logo {
@@ -218,27 +223,31 @@ height: 151px;
 
 .Drawer_menu__logoSp {
   position: absolute;
-  top: calc(255/772*100%);
   left: 50%;
-  transform: translateX( -50%);
-  width: 39.6px;
-  height: 158px;
+  transform: translateX(-50%);
+
+  @media (max-width: 767px) {
+    // ★修正1: ロゴの位置を再計算。767pxでtop: 118pxになるように調整。
+    top: clamp(118px, -34.95vw + 386.06px, 255px);
+    
+    // ★修正2: ロゴのサイズを再計算。375pxで指定通りのサイズになるように修正。
+    width: clamp(31.27px, 15.15vw - 17.22px, 99px);
+    height: clamp(124.75px, 60.46vw - 68.72px, 395px);
+  }
+
   @media (min-width: 768px) {
     display: none;
   }
 }
 
 .Drawer_flexRight {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: calc(100vw - 503px);
+  align-items: center;
   position: relative;
-  @media (max-width: 767px) {
-    width: calc(100vw - 103px);
-    align-items: center;
-  }
+  flex: 1;
+  width: auto;
 }
 
 .Drawer_menu__boxInner {
@@ -247,17 +256,21 @@ height: 151px;
   padding-top: 118px;
   padding-bottom: 118px;
   padding-left: 173px;
-  @media(max-width:767px){
-    padding-inline: 30px;
+
+  @media (max-width: 767px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    padding-inline: clamp(20.31px, 11.48vw - 22.75px, 75px);
+    width: 100%; 
+    box-sizing: border-box;
   }
 }
 
 .Drawer_menu__List {
   list-style: none;
+  padding: 0;
 }
 
 .Drawer_menu__list {
@@ -273,17 +286,16 @@ height: 151px;
   align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom-width: 0.5px;
   border-bottom: 0.5px solid #adaeae;
+
   @media(max-width:767px ){
     display: flex;
-width: 208px;
-height: 50px;
-color: var(--black, #282828);
-text-align: center;
-font-size: 16px;
-
-letter-spacing: 0.48px;
+    width: 100%;
+    height: 50px;
+    color: var(--black, #282828);
+    text-align: center;
+    font-size: clamp(15.49px, 0.51vw + 13.86px, 18px);
+    letter-spacing: 0.48px;
   }
 }
 
@@ -306,32 +318,30 @@ letter-spacing: 0.48px;
   border-radius: 32px !important;
   border: solid 1px $main-color-blue !important;
   box-sizing: border-box !important;
+  background: transparent !important;
+  padding: 16px 40px !important;
+
+  @media (max-width: 767px) {
+    width: clamp(206.96px, 1.02vw + 203.7px, 212px) !important;
+    height: clamp(53.96px, 2.04vw + 47.43px, 64px) !important;
+  }
+
   width: 212px !important;
   height: 64px !important;
   max-width: 212px !important;
   max-height: 64px !important;
-  background: transparent !important;
-  padding: 16px 40px !important;
-    @media(max-width:767px){
-    width: 208px !important;
-  height: 56px !important;
-  max-width: 208px !important;
-  max-height: 56px !important;
-  
-  }
 }
 
 .Drawer_menu__contact {
+  cursor: pointer;
+
+  @media (max-width: 767px) {
+    width: clamp(206.96px, 1.02vw + 203.7px, 212px);
+    height: clamp(53.96px, 2.04vw + 47.43px, 64px);
+  }
+
   width: 212px;
   height: 64px;
   max-width: 212px;
   max-height: 64px;
-  cursor: pointer;
-  @media(max-width:767px){
-    width: 208px;
-  height: 56px;
-  max-width: 208px;
-  max-height: 56px;
-  
-  }
 }
