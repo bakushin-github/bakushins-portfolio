@@ -22,9 +22,7 @@ function Works() {
           ></H2>
         </div>
         <SwiperGallery />
-        <div className={styles.works__listButton}>
-          <ListViewButton href="all-works" />
-        </div>
+
       </div>
     </>
   );
