@@ -103,13 +103,13 @@ function About() {
           </motion.div>
         )}
 
-        <div className={styles.about__inner}>
           <H2
             subText="私について"
             mainText="About"
             className={styles.about__title}
           />
 
+        <div className={styles.about__inner}>
           <motion.div
             className={styles.about__content}
             initial="hidden"
@@ -120,12 +120,15 @@ function About() {
               className={styles.about__1st}
               variants={contentItemVariants}
             >
-              <Image
+              <img
                 className={styles.about__icon}
                 src="/About/PC/icon.webp"
-                width={213}
-                height={213}
                 alt="icon"
+              />
+              <img
+                className={styles.about__iconSp}
+                src="/About/Sp/icon.webp"
+                alt="iconSp"
               />
               <div className={styles.about__textBlock}>
                 <div className={styles.about__textImages}>
@@ -146,9 +149,23 @@ function About() {
                     />
                   </Link>
                 </div>
+                <div className={styles.about__textImagesSp}>
+                  <img
+                    className={styles.logoSp}
+                    src="/About/Sp/logo.webp"
+                    alt="logoSp"
+                  />
+                  <Link href={"https://x.com/official_bksn"}>
+                    <img
+                      className={styles.xSp}
+                      src="/About/Sp/x.webp"
+                      alt="xSp"
+                    />
+                  </Link>
+                </div>
                 <div className={styles.about__text}>
                   医療の現場から Web
-                  の世界へ。10年以上培った課題解決力と徹底的な技術習得で、お客様のニーズに応えます。ホームページはもちろん、決済機能付きのECサイトもご提供できます！モダンなJavaScript、WordPressのスキルを駆使し、使いやすく効果的なサイトを制作します。医療で培った細やかな配慮で、お客様に寄り添ったサービスを提供します。
+                  の世界へ。10年以上培った課題解決力と徹底的な技術習得で、お客様のニーズに応えます。ホームページはもちろん、決済機能付きのECサイトもご提供できます！<br />モダンなJavaScript、WordPressのスキルを駆使し、使いやすく効果的なサイトを制作します。医療で培った細やかな配慮で、お客様に寄り添ったサービスを提供します。
                 </div>
               </div>
             </motion.div>
@@ -165,39 +182,44 @@ function About() {
                   height={41}
                   alt="coding"
                 />
+                <img
+                  className={styles.about__codingTitleSp}
+                  src="/About/Sp/coding.webp"
+                  alt="codingSp"
+                />
                 <ul className={styles.coding__lists}>
                   <li className={styles.about__list}>
-                    <Image className={styles.wordpress} src="/About/PC/wp.webp" width={75} height={75} alt="wordpress" />
+                    <Image className={styles.wordpress} src="/About/Sp/wp.webp" width={75} height={75} alt="wordpress" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.shopify} src="/About/PC/shopify.webp" width={66} height={75} alt="shopify" />
+                    <Image className={styles.shopify} src="/About/Sp/shopify.webp" width={75} height={75} alt="shopify" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.nextJs} src="/About/PC/next.js.webp" width={67} height={67} alt="next.js" />
+                    <Image className={styles.nextJs} src="/About/Sp/next.js.webp" width={75} height={75} alt="next.js" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.gsap} src="/About/PC/gsap.webp" width={68} height={68} alt="gsap" />
+                    <Image className={styles.gsap} src="/About/Sp/gsap.webp" width={75} height={75} alt="gsap" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.jq} src="/About/PC/jq.webp" width={75} height={75} alt="jQuery" />
+                    <Image className={styles.jq} src="/About/Sp/jq.webp" width={75} height={75} alt="jQuery" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.sass} src="/About/PC/sass.webp" width={69} height={52} alt="sass" />
+                    <Image className={styles.sass} src="/About/Sp/sass.webp" width={75} height={75} alt="sass" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.html} src="/About/PC/html.webp" width={61} height={68} alt="html" />
+                    <Image className={styles.html} src="/About/Sp/html.webp" width={75} height={75} alt="html" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.css} src="/About/PC/css.webp" width={60} height={68} alt="css" />
+                    <Image className={styles.css} src="/About/Sp/css.webp" width={75} height={75} alt="css" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.js} src="/About/PC/js.webp" width={69} height={68} alt="JavaScript" />
+                    <Image className={styles.js} src="/About/Sp/js.webp" width={75} height={75} alt="JavaScript" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.php} src="/About/PC/php.webp" width={74} height={38} alt="php" />
+                    <Image className={styles.php} src="/About/Sp/php.webp" width={75} height={75} alt="php" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.github} src="/About/PC/github.webp" width={75} height={75} alt="github" />
+                    <Image className={styles.github} src="/About/Sp/github.webp" width={75} height={75} alt="github" />
                   </li>
                 </ul>
               </div>
@@ -209,18 +231,23 @@ function About() {
                   height={41}
                   alt="design"
                 />
+                <img
+                  className={styles.about__designTitleSp}
+                  src="/About/Sp/design.webp"
+                  alt="designSp"
+                />
                 <ul className={styles.design__lists}>
                   <li className={styles.about__list}>
-                    <Image className={styles.figma} src="/About/PC/figma.webp" width={75} height={75} alt="figma" />
+                    <Image className={styles.figma} src="/About/Sp/figma.webp" width={75} height={75} alt="figma" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.xd} src="/About/PC/xd.webp" width={69} height={67} alt="xd" />
+                    <Image className={styles.xd} src="/About/Sp/xd.webp" width={75} height={75} alt="xd" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.ps} src="/About/PC/ps.webp" width={69} height={67} alt="Photoshop" />
+                    <Image className={styles.ps} src="/About/Sp/ps.webp" width={75} height={75} alt="Photoshop" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.ai} src="/About/PC/ai.webp" width={69} height={67} alt="Adobe Illustrator" />
+                    <Image className={styles.ai} src="/About/Sp/ai.webp" width={75} height={75} alt="Adobe Illustrator" />
                   </li>
                 </ul>
               </div>

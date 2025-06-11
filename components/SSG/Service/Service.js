@@ -58,7 +58,7 @@ function Service() {
   return (
     <>
       <div id="Service" className={styles.service} ref={sectionRef}>
-        <div className={styles.service__inner}>
+
           <MotionImage
             className={styles.line}
             src="/Service/PC/line.webp"
@@ -100,6 +100,7 @@ function Service() {
               mainText="Service"
               className={styles.service__title}
             ></H2>
+                    <div className={styles.service__inner}>
             <motion.div
               className={styles.service__motion}
               variants={contentItemVariants}
