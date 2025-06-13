@@ -8,30 +8,74 @@
 .service__inner {
   position: relative;
   padding-bottom: clamp(48px, calc(48px + (96 - 48) * (100vw - 1024px) / (1440 - 1024)), 96px);
-  // NOTE: この下のpadding-inlineは、後述の質問をご確認の上、最終決定します。
   padding-inline: clamp(104px, calc(104px + (170 - 104) * (100vw - 768px) / (1024 - 768)), 170px);
   margin: auto;
+
+  @media (max-width: 767px) {
+    padding-inline: 20px;
+    padding-bottom: 0;
+  }
 }
 
 .line {
   position: absolute;
-  top: clamp(300px, calc(300px + (500 - 300) * (100vw - 1024px) / 896), 500px);
+  // topの値を全体的に+40px
+  top: clamp(340px, calc(340px + (540 - 340) * (100vw - 1024px) / 896), 540px);
   left: clamp(-150px, calc(-150px + (0 - -150) * (100vw - 1024px) / 896), 0px);
   width: 256px;
   height: 700px;
   object-fit: cover;
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+.lineSp {
+  position: absolute;
+  // topの値を全体的に+40px
+  top: clamp(340px, calc(340px + (540 - 340) * (100vw - 1024px) / 896), 540px);
+  left: clamp(-150px, calc(-150px + (0 - -150) * (100vw - 1024px) / 896), 0px);
+  object-fit: cover;
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .polygon1 {
   position: absolute;
-  top: clamp(940px, calc(940px + (983.62 - 940) * (100vw - 1024px) / 896), 983.62px);
+  // topの値を全体的に+40px
+  top: clamp(980px, calc(980px + (1023.62 - 980) * (100vw - 1024px) / 896), 1023.62px);
   left: clamp(20px, calc(20px + (168.11 - 20) * (100vw - 1024px) / 896), 168.11px);
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+.polygon1Sp {
+  position: absolute;
+  // topの値を全体的に+40px
+  top: clamp(980px, calc(980px + (1023.62 - 980) * (100vw - 1024px) / 896), 1023.62px);
+  left: clamp(20px, calc(20px + (168.11 - 20) * (100vw - 1024px) / 896), 168.11px);
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .polygon2 {
   position: absolute;
-  top: clamp(995px, calc(995px + (1071.69 - 995) * (100vw - 1024px) / 896), 1071.69px);
+  // topの値を全体的に+40px
+  top: clamp(1035px, calc(1035px + (1111.69 - 1035) * (100vw - 1024px) / 896), 1111.69px);
   left: clamp(10px, calc(10px + (159 - 10) * (100vw - 1024px) / 896), 159px);
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+.polygon2Sp {
+  position: absolute;
+  // topの値を全体的に+40px
+  top: clamp(1035px, calc(1035px + (1111.69 - 1035) * (100vw - 1024px) / 896), 1111.69px);
+  left: clamp(10px, calc(10px + (159 - 10) * (100vw - 1024px) / 896), 159px);
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .h2Content {
@@ -42,9 +86,14 @@
 
 .service__title {
   height: 114px;
+  @media (max-width: 767px) {
+    height: 68px;
+  }
 }
 
 .service__text {
+  // margin-top: 40px; を追加
+  margin-top: 40px;
   padding-left: 4px;
   max-width: 770px;
   width: 100%;
@@ -53,26 +102,37 @@
   font-size: 16px;
   line-height: 180%;
   letter-spacing: 0%;
-  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+
+  @media (max-width: 767px) {
+    // 320px: 13.72px, 767px: 16px (375pxで14pxになるように調整)
+    font-size: clamp(13.72px, calc(13.72px + (16 - 13.72) * (100vw - 320px) / (767 - 320)), 16px);
+    margin-top: 32px;
+  }
 }
 
 .figure {
-  // 768px-1023pxで縮小するclampをデフォルトに設定
   width: clamp(328px, calc(328px + (391 - 328) * (100vw - 768px) / (1023 - 768)), 391px);
-  // heightをご指定の451pxを元に再計算
   height: clamp(447px, calc(451px - 4 * (100vw - 768px) / 255), 451px);
   margin: auto;
 
-  // 1024pxから1439pxまではサイズを固定
   @media (min-width: 1024px) {
     width: 391px;
     height: 447px;
   }
   
-  // 1440px以上で拡大するclampを適用
   @media (min-width: 1440px) {
     width: clamp(391px, calc(391px + (455.9 - 391) * (100vw - 1440px) / (1920 - 1440)), 455.9px);
     height: clamp(447px, calc(447px + (519.8 - 447) * (100vw - 1440px) / (1920 - 1440)), 519.8px);
+  }
+
+  @media (max-width: 767px) {
+    // 320px: 311.18px, 767px: 391px
+    width: clamp(311.18px, calc(311.18px + (391 - 311.18) * (100vw - 320px) / (767 - 320)), 391px);
+    // 320px: 370.6px, 767px: 447px
+    height: clamp(370.6px, calc(370.6px + (447 - 370.6) * (100vw - 320px) / (767 - 320)), 447px);
   }
 }
 
@@ -84,6 +144,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width:767px) {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .image {
@@ -95,6 +160,23 @@
   box-sizing: border-box;
   border-radius: 8px;
   display: block;
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+
+.imageSp{
+  max-width: 391px;
+  max-height: 252px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: block;
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .service__content {
@@ -105,7 +187,8 @@
   margin-top: 72px;
   position: relative;
   
-  grid-row-gap: clamp(36px, calc(36px + (96 - 36) * (100vw - 1024px) / (1440 - 1024)), 96px);
+  // figureの重なり解消のため、最小gapを36pxから60pxに修正
+  grid-row-gap: clamp(60px, calc(60px + (96 - 60) * (100vw - 1024px) / (1440 - 1024)), 96px);
   grid-column-gap: clamp(30px, calc(30px + (80 - 30) * (100vw - 1024px) / (1440 - 1024)), 80px);
   
   padding-left: clamp(0px, calc(0px + (222 - 0) * (100vw - 1024px) / (1440 - 1024)), 375px);
@@ -121,18 +204,48 @@
     &:nth-child(3) {
       margin-top: 52px;
     }
+    
+    @media (max-width: 767px) {
+      &:nth-child(n) {
+        margin-top: 64px;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    display: block;
+    margin-top: 0;
+    // 375px: 60px, 767px: 120px になるように修正
+    padding-bottom: clamp(60px, calc(60px + (120 - 60) * (100vw - 375px) / (767 - 375)), 120px);
   }
 }
 
 .figcaption {
-
 }
 
 .title {
   margin-top: clamp(23px, calc(23px + (32 - 23) * (100vw - 1024px) / (1440 - 1024)), 32px);
   margin-bottom: clamp(17px, calc(17px + (24 - 17) * (100vw - 1024px) / (1440 - 1024)), 24px);
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+
+.titleSp{
+  margin-top: 32px;
+  margin-bottom: 24px;
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .caption {
   margin: auto;
+  @media (max-width: 767px) {
+    // 320px: 13.72px, 767px: 16px (375pxで14pxになるように調整)
+    font-size: clamp(13.72px, calc(13.72px + (16 - 13.72) * (100vw - 320px) / (767 - 320)), 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%; 
+  }
 }
