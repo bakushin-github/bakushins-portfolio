@@ -85,8 +85,8 @@ function Service() {
               <MotionImage
                 className={styles.polygon2}
                 src="/Service/PC/polygon2.webp"
-                width={104}
-                height={52}
+                width={119}
+                height={69}
                 alt="polygon2"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
@@ -109,7 +109,7 @@ function Service() {
             >
               <div className={styles.service__text}>
                 お客様一人ひとりの希望に合わせた、世界に一つだけのホームページを作ります。既製品のデザインは
-                <br />
+                {/* <br /> */}
                 使わず、お客様の会社やサービスの魅力を最大限に引き出す、オリジナルのデザインを提案します。見た目だけでなく、使いやすさや検索エンジンでの表示のしやすさにも気を配ります。また、お客様自身で簡単に内容を更新できるシステムも用意できます。
               </div>
             </motion.div>
@@ -125,13 +125,13 @@ function Service() {
             <motion.figure
               className={styles.figure}
               variants={contentItemVariants}
-            >
+            ><div className={styles.imageWrap}>
               <img
                 className={styles.image}
                                src="/Service/PC/hp.webp"
                 alt="hp"
                 loading="lazy"
-              />
+              /></div>
               <figcaption className={styles.figcaption}>
                 <Image
                   className={styles.title}

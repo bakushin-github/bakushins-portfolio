@@ -21,7 +21,8 @@
   &::before {
     content: "";
     position: absolute;
-    top: clamp(50%, 0%, 2px);
+    top: 50%;
+    transform: translateY(-50%);
     left: 0;
     border: solid 2px $accent-color-red;
     width: clamp(7px, 0.31vw + 6px, 16px);

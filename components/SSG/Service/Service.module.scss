@@ -3,101 +3,120 @@
 .service {
   position: relative;
   background: $base-color-off_white;
-  max-width: 3000px;
-  width: 100%;
 }
 
-.service__inner{
-position: relative;
-padding-bottom: 96px;
-padding-inline: 170px;
-margin: auto;
+.service__inner {
+  position: relative;
+  padding-bottom: clamp(48px, calc(48px + (96 - 48) * (100vw - 1024px) / (1440 - 1024)), 96px);
+  // NOTE: この下のpadding-inlineは、後述の質問をご確認の上、最終決定します。
+  padding-inline: clamp(104px, calc(104px + (170 - 104) * (100vw - 768px) / (1024 - 768)), 170px);
+  margin: auto;
 }
 
 .line {
   position: absolute;
-  top: 772.82px;
-  left: 0;
+  top: clamp(300px, calc(300px + (500 - 300) * (100vw - 1024px) / 896), 500px);
+  left: clamp(-150px, calc(-150px + (0 - -150) * (100vw - 1024px) / 896), 0px);
   width: 256px;
   height: 700px;
   object-fit: cover;
 }
 
-.polygon1{
+.polygon1 {
   position: absolute;
-  top: 1260.82px;
-  left: 168.11PX;
+  top: clamp(940px, calc(940px + (983.62 - 940) * (100vw - 1024px) / 896), 983.62px);
+  left: clamp(20px, calc(20px + (168.11 - 20) * (100vw - 1024px) / 896), 168.11px);
 }
 
-.polygon2{
+.polygon2 {
   position: absolute;
-  top: 1358.6px;
-  left: 168PX;
+  top: clamp(995px, calc(995px + (1071.69 - 995) * (100vw - 1024px) / 896), 1071.69px);
+  left: clamp(10px, calc(10px + (159 - 10) * (100vw - 1024px) / 896), 159px);
 }
 
-.h2Content{
-H2{
-  margin-bottom: 0;
-}
+.h2Content {
+  h2 {
+    margin-bottom: 0;
+  }
 }
 
-.service__title{
+.service__title {
   height: 114px;
-  // margin-left: 0;
 }
 
-.service__text{
-padding-left: 4px;
-width: 770px;
-font-family: "Noto Sans JP";
-font-weight: 400;
-font-size: 16px;
-line-height: 180%;
-letter-spacing: 0%;
-margin: 0;
+.service__text {
+  padding-left: 4px;
+  max-width: 770px;
+  width: 100%;
+  font-family: "Noto Sans JP";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 180%;
+  letter-spacing: 0%;
+  margin: 0;
 }
 
-.figure{
-  width: 391px;
-  height: 447px;
+.figure {
+  // 768px-1023pxで縮小するclampをデフォルトに設定
+  width: clamp(328px, calc(328px + (391 - 328) * (100vw - 768px) / (1023 - 768)), 391px);
+  // heightをご指定の451pxを元に再計算
+  height: clamp(447px, calc(451px - 4 * (100vw - 768px) / 255), 451px);
   margin: auto;
 
+  // 1024pxから1439pxまではサイズを固定
+  @media (min-width: 1024px) {
+    width: 391px;
+    height: 447px;
+  }
+  
+  // 1440px以上で拡大するclampを適用
+  @media (min-width: 1440px) {
+    width: clamp(391px, calc(391px + (455.9 - 391) * (100vw - 1440px) / (1920 - 1440)), 455.9px);
+    height: clamp(447px, calc(447px + (519.8 - 447) * (100vw - 1440px) / (1920 - 1440)), 519.8px);
+  }
 }
-.imageWrap{
-overflow: hidden;
+
+.imageWrap {
+  overflow: hidden;
   border-radius: 8px;
-border: 8px solid  #FFF;
-// background:  lightgray;
-box-shadow: 0px 2.983px 14.913px 0px rgba(25, 33, 61, 0.05);
-display: flex;
-justify-content: center;
-align-items: center;
+  border: 8px solid #FFF;
+  box-shadow: 0px 2.983px 14.913px 0px rgba(25, 33, 61, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.image{
+
+.image {
   max-width: 391px;
   max-height: 252px;
   object-fit: cover;
   width: 100%;
   height: 100%;
-box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 8px;
-display: block;
+  display: block;
 }
 
-.service__content{
+.service__content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-row-gap: 96px;
-  grid-column-gap: 80px;
-  padding-left: 222px;
-  padding-bottom: 38px;
+  padding-bottom: 120px;
   margin-top: 72px;
+  position: relative;
+  
+  grid-row-gap: clamp(36px, calc(36px + (96 - 36) * (100vw - 1024px) / (1440 - 1024)), 96px);
+  grid-column-gap: clamp(30px, calc(30px + (80 - 30) * (100vw - 1024px) / (1440 - 1024)), 80px);
+  
+  padding-left: clamp(0px, calc(0px + (222 - 0) * (100vw - 1024px) / (1440 - 1024)), 375px);
+  padding-right: clamp(1px, calc(1px + 135 * (100vw - 1441px) / 479), 136px);
+
   figure {
     &:nth-child(2),
     &:nth-child(4) {
-      margin-top: 0; // 明示的に 0 に設定
+      margin-top: 0;
     }
+
     &:first-child,
     &:nth-child(3) {
       margin-top: 52px;
@@ -105,15 +124,15 @@ display: block;
   }
 }
 
-.figcaption{
+.figcaption {
 
 }
 
-.title{
-  margin-top: 32px;
-  margin-bottom: 24px;
+.title {
+  margin-top: clamp(23px, calc(23px + (32 - 23) * (100vw - 1024px) / (1440 - 1024)), 32px);
+  margin-bottom: clamp(17px, calc(17px + (24 - 17) * (100vw - 1024px) / (1440 - 1024)), 24px);
 }
 
-.caption{
+.caption {
   margin: auto;
 }
