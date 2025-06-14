@@ -32,72 +32,72 @@
   grid-template-rows: repeat(2, auto);    // 行の高さはコンテンツに合わせる
   grid-row-gap: 32px;
   grid-column-gap: 32px;
-  padding-inline: 275px; // 左右のパディング
+  /* 768pxで60px、1920pxで428.6pxに変化 */
+  padding-inline: clamp(60px, -185.7px + 32vw, 428.6px);
   padding-bottom: 96px;
-  // padding-top: 56px; // 必要なら
+  padding-top: 32px;
 }
 
 .flow__figure {
-  // max-width: 274px; // width: 100% とグリッドで制御されるので max-width は不要な場合も
-  width: 100%;        // グリッドアイテムとして幅100%
-  // height: 331.99px; // 高さはコンテンツに合わせるか、アスペクト比で制御
-  display: flex;        // figure 内の要素をflexで管理
-  flex-direction: column; // 縦方向に並べる
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   background: $base-color-white;
   border-radius: 8px;
   margin: 0;
   text-align: center;
-  overflow: hidden; // 角丸を画像にも適用するため
+  overflow: hidden;
 }
 
-// Imageコンポーネントをラップするコンテナのスタイル
 .imageContainer {
-  width: 100%; // 親の幅いっぱい
-  // 例: アスペクト比を 200:100 (2:1) にしたい場合
-  // paddingTop: 50%; // height (100) / width (200) * 100%
-  // または固定の高さを指定
-  height: 120px; // 仮の高さ、実際のデザインに合わせて調整してください
-  position: relative; // Image の fill のために必須
-  margin-top: 24px;    // 元の .image の padding-top
-  margin-inline: 32px; // 元の .image の padding-inline
-  // margin-bottom: 40px; // 元の .image の padding-bottom は figcaption との間に
+  width: auto;
+  height: 120px;
+  position: relative;
+  /* 768pxで0px、1920pxで41.1pxに変化 */
+  margin-top: clamp(0px, -27.4px + 3.57vw, 41.1px);
+  margin-inline: 32px;
 }
 
-.image { // Next.js Image コンポーネントに適用するクラス
-  object-fit: contain; // または 'cover', 'scale-down' など、デザインに合わせて
-  // border-radius: ...; // 画像自体に角丸をつけたい場合など
+.image {
+  object-fit: contain;
 }
 
 .figcaption {
-  padding: 24px 32px 32px; // figcaption内のパディング (元の.imageのpadding-bottomはここに含めるなど調整)
-  flex-grow: 1; // 残りの高さを埋める
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; // キャプションとリンクを上下に配置
+  justify-content: space-between;
+  /* 768pxで15px、1920pxで30.4pxに変化 */
+  padding-top: clamp(15px, 0.2px + 1.95vw, 30.4px);
+  /* 768pxで10px、1440pxで30px、1920pxで44.3pxに変化するよう再計算 */
+  padding-inline: clamp(10px, -12.86px + 2.98vw, 44.3px);
+  /* 768pxで15px、1920pxで44.1pxに変化 */
+  padding-bottom: clamp(15px, -8.6px + 3.08vw, 44.1px);
 }
 
 .h3 {
   font-family: "Noto Sans JP";
   font-weight: 700;
-  font-size: 20px;
-  line-height: 150%; // <br /> を使う場合は line-height の調整も考慮
+  /* 768pxで18px、1920pxで21.4pxに変化 */
+  font-size: clamp(18px, 15.7px + 0.3vw, 21.4px);
+  line-height: 150%;
   letter-spacing: 0%;
   text-align: center;
   color: $main-color-dark_blue;
   margin: 0;
-  padding-bottom: 16px; // 元の24pxから調整（例）
+  padding-bottom: 16px;
 }
 
 .h3__caption {
   font-family: "Noto Sans JP";
   font-weight: 400;
-  font-size: 14px;
+  /* 768pxで12px、1920pxで15.4pxに変化 */
+  font-size: clamp(12px, 9.7px + 0.3vw, 15.4px);
   line-height: 180%;
   letter-spacing: 0%;
   text-align: center;
   margin: 0;
-  // padding-inline: 32px; // figcaptionにパディングがあるので不要な場合も
-  flex-grow: 1; // キャプションが可変長の場合に高さを埋める
+  flex-grow: 1;
 }
 
 .price {
@@ -109,9 +109,9 @@
   text-align: center;
   color: $accent-color-red;
   margin: 0;
-  padding-top: 16px; // 元の19pxから調整（例）
+  padding-top: 16px;
 }
 
 .price__link {
-  text-decoration: none; // 必要であれば
+  text-decoration: none;
 }

@@ -80,7 +80,7 @@ function Flow() {
     {
       id: 4,
       title: "コーディング・<br />動作確認", // dangerouslySetInnerHTML を使うか、React要素で分割
-      caption: "デザインをWeb上で正しく表示できるようコーディングし、各デバイスで動作確認を行います。",
+      caption: "デザインをWeb上で正しく表示できるようコーディングし、各デバイスで動作確認します。",
       imageSrc: "/Flow/PC/4.webp",
       imageAlt: "コーディング・動作確認",
     },
