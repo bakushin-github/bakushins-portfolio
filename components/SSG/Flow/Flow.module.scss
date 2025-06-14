@@ -18,6 +18,15 @@
     position: relative;
     z-index: 2;
   }
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.flowSp {
+  @media (min-width: 768px) {
+    display: none;
+  }
 }
 
 .flow__title {
@@ -29,13 +38,16 @@
 .flow__contain {
   display: grid;
   grid-template-columns: repeat(3, 1fr); // 3列グリッド
-  grid-template-rows: repeat(2, auto);    // 行の高さはコンテンツに合わせる
+  grid-template-rows: repeat(2, auto); // 行の高さはコンテンツに合わせる
   grid-row-gap: 32px;
   grid-column-gap: 32px;
   /* 768pxで60px、1920pxで428.6pxに変化 */
   padding-inline: clamp(60px, -185.7px + 32vw, 428.6px);
   padding-bottom: 96px;
   padding-top: 32px;
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
 .flow__figure {
@@ -114,4 +126,98 @@
 
 .price__link {
   text-decoration: none;
+}
+
+// 767px以下のスタイル
+.flowSp {
+  background-image: url("../../../public/Flow/PC/Flow_bg.webp");
+}
+
+.flow__containSp {
+  display: block;
+  /* 320pxで20px、767pxで150pxに変化 */
+  padding-inline:clamp(20px, -104.36px + 33.16vw, 150px);
+  padding-bottom: 60px;
+  padding-top: 32px;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.flow__figureSp {
+  display: flex;
+  gap: 0;
+  padding: 20.27px 16px 24px 16px;
+  margin: 0;
+  align-items: flex-start;
+  background: $base-color-white;
+  border-radius: 4.708px;
+  box-shadow: 0px 1.177px 5.884px 0px rgba(25, 33, 61, 0.05);
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+  position: relative;
+}
+
+.imgSpStyle {
+  /* 320pxで約60px、767pxで100pxに変化 */
+  width: clamp(60.1px, 31.37px + 8.95vw, 100px);
+  height: 89px;
+}
+
+.h3Sp {
+  font-weight: 700;
+  line-height: 150%;
+  text-align: center;
+  color: $main-color-dark_blue;
+  margin: 0;
+  font-size: clamp(14px, 2.36px + 3.64vw, 20px);
+}
+
+.figcaptionSp {
+  /* 320pxで約12.9px、767pxで14pxに変化 */
+  font-size: clamp(12.86px, 12.04px + 0.26vw, 14px);
+  p {
+    margin: 0;
+  }
+}
+
+.h3__container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+.imageNumberStyle {
+}
+
+.imgSpParent {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+left: clamp(0px, 0.98px + 5.74vw, 45px);
+}
+
+.imageNumberStyle {
+}
+.imgNumberParent {
+  position: relative;
+  width: 34px;
+  height: 17px;
+}
+
+.priceSp {
+  font-family: "Noto Sans JP";
+  font-weight: 700;
+  /* 320pxで約12.9px、767pxで14pxに変化 */
+  font-size: clamp(12.86px, 12.04px + 0.26vw, 14px);
+  line-height: 170%;
+  letter-spacing: 0%;
+  color: $accent-color-red;
+  margin: 0;
+  padding-top: 16px;
+  padding-left: 5px;
 }

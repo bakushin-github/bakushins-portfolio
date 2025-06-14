@@ -4,6 +4,7 @@ import styles from "./Flow.module.scss";
 import Image from "next/image";
 import { motion, useAnimation, useInView } from "framer-motion";
 import Link from "next/link";
+import FlowSp from "./FlowItemMobile";
 
 function Flow() {
   const sectionRef = useRef(null);
@@ -60,6 +61,8 @@ function Flow() {
       title: "お問い合わせ（無料）",
       caption: "まずはお気軽にご相談ください。\n課題やご希望を丁寧に伺い、\n制作の流れをご説明します。",
       imageSrc: "/Flow/PC/1.webp",
+      imageSrcMobile1:"/Flow/Sp/01.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/01-icon.webp", // モバイル用 右上アイコン
       imageAlt: "お問い合わせ",
     },
     {
@@ -68,6 +71,8 @@ function Flow() {
       caption: "ヒアリング内容をもとに、\nお見積りをご提案します。",
       link: { href: "/price", text: "費用のめやすはこちら >" },
       imageSrc: "/Flow/PC/2.webp",
+      imageSrcMobile1:"/Flow/Sp/02.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/02-icon.webp", // モバイル用 右上アイコン
       imageAlt: "お見積り",
     },
     {
@@ -75,6 +80,8 @@ function Flow() {
       title: "設計・デザイン制作",
       caption: "サイトの構成を設計し、デザインを制作。フィードバックを反映しながら仕上げます。",
       imageSrc: "/Flow/PC/3.webp",
+      imageSrcMobile1:"/Flow/Sp/03.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/03-icon.webp", // モバイル用 右上アイコン
       imageAlt: "設計・デザイン制作",
     },
     {
@@ -82,6 +89,8 @@ function Flow() {
       title: "コーディング・<br />動作確認", // dangerouslySetInnerHTML を使うか、React要素で分割
       caption: "デザインをWeb上で正しく表示できるようコーディングし、各デバイスで動作確認します。",
       imageSrc: "/Flow/PC/4.webp",
+      imageSrcMobile1:"/Flow/Sp/04.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/04-icon.webp", // モバイル用 右上アイコン
       imageAlt: "コーディング・動作確認",
     },
     {
@@ -89,6 +98,8 @@ function Flow() {
       title: "サイト公開",
       caption: "問題がなければ本番環境へアップし、公開。ドメイン・サーバー取得のサポートも可能です。",
       imageSrc: "/Flow/PC/5.webp",
+      imageSrcMobile1:"/Flow/Sp/05.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/05-icon.webp", // モバイル用 右上アイコン
       imageAlt: "サイト公開",
     },
     {
@@ -96,6 +107,8 @@ function Flow() {
       title: "アフターサポート",
       caption: "公開後1ヶ月間、軽微な修正（テキスト・画像の変更など）を無料対応。その後の運用サポートもご相談いただけます。",
       imageSrc: "/Flow/PC/6.webp",
+      imageSrcMobile1:"/Flow/Sp/06.webp", // モバイル用 左画像
+      imageSrcMobile2:"/Flow/Sp/06-icon.webp", // モバイル用 右上アイコン
       imageAlt: "アフターサポート",
     },
   ];
@@ -150,6 +163,7 @@ function Flow() {
           </div>
         </div>
       </div>
+      <FlowSp/>
     </>
   );
 }
