@@ -2,26 +2,40 @@
 
 .worksContents {
   position: relative;
-  // padding-top: 56px;
   padding-bottom: 40px;
-  // margin-bottom: 92px;
   display: flex;
   gap: 24px;
   justify-content: center;
+  // 768pxで40px、1440pxで1px、1920pxで1px(下限)に変化
+  padding-top: clamp(1px, -3.39vw + 66px, 40px);
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-inline: 20px;
+  }
 }
 
 .postCard {
   position: relative;
   margin: 0;
-  width: 353px;
-  height: 397px;
-  // left: 190px;
+  // width: 768px->230px, 1440px->353px, 1920px->441px(推論)
+  width: clamp(230px, 18.47vw + 88.57px, 441px);
+  // height: 768px->259px, 1440px->397px, 1920px->496px(推論)
+  height: clamp(259px, 20.75vw + 100px, 496px);
   gap: 10px;
   border-radius: 8px;
   background: $base-color-white;
   text-align: center;
   overflow: hidden;
   cursor: pointer;
+  @media (max-width: 767px) {
+    // 320px->344px, 375px->330px, 767px->230px
+    width: clamp(230px, -25.51vw + 425.67px, 344px);
+    //【修正】320px->365px, 375px->352px, 767px->259px
+    height: clamp(259px, -23.72vw + 440.97px, 365px);
+  }
+
   &:hover {
     .title {
       &::after {
@@ -32,15 +46,11 @@
 
     .worksLink {
       background-position: 0 0;
-    } // グラデーションを左から表示
+    }
 
     .worksLink::before {
-      // ホバー時の初期変化（矢印の色と背景）
-      background-color: transparent; // 親のグラデーションが見えるように
-      background-image: url("../../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
-
-      // 矢印の連続アニメーションを適用
-      // initial_hover_duration (0.4s) の後に開始
+      background-color: transparent;
+      background-image: url("../../../public/Works/PC/ArrowWhite.webp");
       animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
     }
   }
@@ -52,27 +62,40 @@
   /* header内の画像 */
   .postHeader {
     transition: 0.3s ease-in-out;
+    // height: 768px->130px, 1440px->200px, 1920px->250px(推論)
+    height: clamp(130px, 10.53vw + 49.47px, 250px);
+    width: 100%;
+    @media (max-width: 767px) {
+      // 320px->198px, 375px->187px, 767px->130px
+      height: clamp(130px, -15.24vw + 246.78px, 198px);
+    }
     img {
-      height: 200px;
-      width: 353px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
   }
+
   .Category {
     position: absolute;
     max-width: 300px;
     width: auto;
-    height: 30px;
-    top: 16px;
-    right: 19px;
+    // height: 768px->20px, 1440px->30px, 1920px->37px(推論)
+    height: clamp(20px, 1.49vw + 8.6px, 37px);
+    // top: 768px->7px, 1440px->16px, 1920px->22px(推論)
+    top: clamp(7px, 1.32vw + -3.05px, 22px);
+    // right: 768px->7px, 1440px->19px, 1920px->28px(推論)
+    right: clamp(7px, 1.84vw + -7.16px, 28px);
     border-radius: 3px;
     border-width: 1px;
-    padding: 10px;
+    // padding: 768px->5px, 1440px->10px, 1920px->14px(推論)
+    padding: clamp(5px, 0.79vw + -1.05px, 14px);
     color: $main-color-dark_blue;
     background: $base-color-white;
     font-family: "Inter";
     font-weight: 600;
-    font-size: 14px;
+    // font-size: 768px->12px(仮), 1440px->14px. 1920px->15.4px(推論)
+    font-size: clamp(12px, 0.3vw + 9.6px, 15.4px);
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
@@ -82,23 +105,60 @@
     justify-content: center;
     align-items: center;
     z-index: 1;
+    @media (max-width: 767px) {
+      // 320px->31px, 375px->29px, 767px->20px
+      height: clamp(20px, -2.46vw + 38.88px, 31px);
+      // 320px->10.7px, 375px->10px, 767px->7px
+      top: clamp(7px, -0.82vw + 13.61px, 10.7px);
+      // 320px->13.1px, 375px->12px, 767px->7px
+      right: clamp(7px, -1.35vw + 17.33px, 13.1px);
+      // 320px->10.3px, 375px->9.35px, 767px->5px
+      padding: clamp(5px, -1.18vw + 14.1px, 10.3px);
+    }
   }
 
   .postFooter {
-    height: 197px;
-    padding-inline: 31.5px;
+    // height: 768px->128px, 1440px->197px, 1920px->246px(推論)
+    height: clamp(128px, 10.35vw + 48.98px, 246px);
+    // padding-inline: 768px->10px, 1440px->31.5px, 1920px->47px(推論)
+    padding-inline: clamp(10px, 3.25vw + -14.84px, 47px);
     text-align: left;
     box-sizing: border-box;
+    @media (max-width: 767px) {
+      // 320px->173px, 375px->165px, 767px->128px
+      height: clamp(128px, -10.11vw + 205.36px, 173px);
+    }
+
     h3 {
-      padding-top: 24px;
-      padding-bottom: 13px;
+      // padding-top: 768px->18px, 1440px->24px, 1920px->28px(推論)
+      padding-top: clamp(18px, 0.88vw + 11.26px, 28px);
+      // 【再修正】768px->30px, 1440px->50px, 1920px->64px(推論)
+      padding-bottom: clamp(30px, 2.95vw + 7.34px, 64px);
       margin: 0;
       box-sizing: border-box;
+      // 768px->14px, 1440px->18px, 1920px->21px(推論)
+      font-size: clamp(14px, 0.61vw + 9.3px, 21px);
+      @media (max-width: 767px) {
+        // 320px->23.5px, 375px->22.5px, 767px->18px
+        padding-top: clamp(18px, -1.23vw + 27.92px, 23.5px);
+        // 320px->42.2px, 375px->40px, 767px->30px
+        padding-bottom: clamp(30px, -2.74vw + 50.78px, 42.2px);
+        // 320px->16.4px, 375px->16px, 767px->14px
+        font-size: clamp(14px, -0.54vw + 18.14px, 16.4px);
+      }
     }
     p {
       margin: 0;
-      height: 82px;
+      // 元のautoを考慮し、postFooterの高さに比例する形で高さを推論
+      // height: 768px->53px, 1440px->82px, 1920px->102px
+      height: clamp(53px, 4.3vw + 20.04px, 102px);
       box-sizing: border-box;
+      // font-size: 768px->14px, 1440px->16px(仮), 1920px->17.4px(推論)
+      font-size: clamp(14px, 0.3vw + 11.6px, 17.4px);
+      @media (max-width: 767px) {
+        // 320px->12.9px, 375px->13px, 767px->14px
+        font-size: clamp(12.9px, 0.25vw + 12.09px, 14px);
+      }
     }
   }
 }
@@ -107,93 +167,68 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  right: 31px;
-  bottom: 23px;
+  // right: 768px->14px, 1440px->31px, 1920px->43px(推論)
+  right: clamp(14px, 2.54vw + -5.53px, 43px);
+  // 768px->9px, 1440px->35px, 1920px->54px(推論)
+  bottom: clamp(9px, 3.91vw - 21px, 54px);
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; // はみ出した要素をクリップするために重要
-
-  // グラデーションボーダーのための余白
+  overflow: hidden;
   padding: 1px;
-
-  // 背景グラデーション（ホバーで表示される部分）
   background: linear-gradient(282.13deg, #366195 10.86%, #333398 77.59%);
-  background-size: 200% 100%; // アニメーションのために幅を2倍に
-  background-position: 100% 0; // 初期状態ではグラデーションの左側を隠す
-  transition: background-position 0.4s ease-in-out; // グラデーションの出現アニメーション
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 0.4s ease-in-out;
+  @media (max-width: 767px) {
+    // 320px->33.2px, 375px->30.5px, 767px->14px
+    right: clamp(14px, -4.3vw + 46.96px, 33.2px);
+    // 320px->28.2px, 375px->25.5px, 767px->9px
+    bottom: clamp(9px, -4.3vw + 41.96px, 28.2px);
+  }
 
-  // 矢印アイコンと内側背景のコンテナ
   &::before {
     content: "";
-    display: block; // transformとサイズ指定のため
-    width: 100%; // 親要素のpadding領域いっぱいに広がる
-    height: 100%; // 親要素のpadding領域いっぱいに広がる
-
-    background-color: $base-color-white; // 通常時の背景色
-    background-image: url("../../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: $base-color-white;
+    background-image: url("../../../public/Works/PC/ArrowBlue.webp");
     background-size: 18px;
     background-position: center;
     background-repeat: no-repeat;
-
-    border-radius: 7px; // 親要素のradiusより少し小さくして内側感を出す
-
-    // 初期状態とホバー解除時のためのトランジション
-    // transform と opacity はアニメーション終了後にスムーズに戻るように
+    border-radius: 7px;
     transition: background-color 0.4s ease-in-out,
       background-image 0.4s ease-in-out, transform 0.3s ease-out,
-      // ホバー解除時の戻りアニメーション
-      opacity 0.3s ease-out; // ホバー解除時の戻りアニメーション
-
-    // アニメーションのための初期transformとopacity
+      opacity 0.3s ease-out;
     transform: translateX(0%);
     opacity: 1;
   }
 }
 
-// 矢印の連続アニメーションのキーフレーム
 @keyframes arrow-cycle {
-  // アニメーション開始時 (白い矢印が中央にある状態)
   0% {
     transform: translateX(0%);
     opacity: 1;
   }
-
-  // --- Phase 1: 右へ移動して消える ---
-  // (アニメーション全体の 0% から 50% を使用)
-
-  // 少し中央で待機
   20% {
-    // 例: 1.2s * 0.2 = 0.24s 地点
     transform: translateX(0%);
     opacity: 1;
   }
-  // 右端へ移動し、完全に透明になる
   50% {
-    // 例: 1.2s * 0.5 = 0.6s 地点
-    transform: translateX(100%); // 要素の幅分、右へ移動
+    transform: translateX(100%);
     opacity: 0;
   }
-
-  // --- Phase 2: 左から出現して中央へ移動 ---
-  // (アニメーション全体の 50% から 100% を使用)
-
-  // 右で消えた直後、瞬時に左端へ移動 (まだ透明)
   50.01% {
-    // ほぼ50%と同時
-    transform: translateX(-100%); // 要素の幅分、左へ移動
-    opacity: 0;
-  }
-  // 左端で少し待機 (まだ透明)
-  70% {
-    // 例: 1.2s * 0.7 = 0.84s 地点
     transform: translateX(-100%);
     opacity: 0;
   }
-  // 左端から中央へ移動し、完全に表示される
+  70% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
   100% {
-    // 例: 1.2s * 1.0 = 1.2s 地点
     transform: translateX(0%);
     opacity: 1;
   }

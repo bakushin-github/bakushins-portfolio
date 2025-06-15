@@ -12,6 +12,21 @@
   padding-bottom: 77px;
   overflow: hidden;
   box-sizing: border-box;
+  @media (width:768px) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    height: auto;
+  }
+  @media (width:767px) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    height: auto;
+  }
+  @media (width:375px) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    height: auto;
+  }
 }
 
 // --- 画像ラッパーのスタイル ---
@@ -29,6 +44,41 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1; // 必要に応じて
+  @media (width:768px) {
+    width: 110px;
+    height: 110px;
+    top: 120px;
+    left: 60px;
+  }
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+
+.cta__image_left_wrapperSp {
+  position: absolute;
+  top: 67px;
+  left: calc(1440px - 1406.2px); // この計算が意図通りか確認
+  width: 206px;  // max-width ではなく固定 width (または %指定)
+  height: 206px; // max-height ではなく固定 height (または %指定、または aspect-ratio)
+  // Image に fill を使うので、ラッパーで明確なサイズを指定
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  z-index: 1; // 必要に応じて
+    @media (width:767px) {
+       width: 220.90px;
+       top: -20px;
+       left: 0;
+  }
+    @media (width:375px) {
+       width: 108px;
+       top: -20px;
+       left: 0;
+  }
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .cta__image_center_wrapper {
@@ -41,6 +91,41 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1; // 必要に応じて
+    @media (width:768px) {
+      width: 83px;
+      height: 83px;
+    top: -12px;
+    left: 350px;
+  }
+    @media (max-width:767px) {
+    display: none;
+   }
+}
+.cta__image_center_wrapperSp {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 155px;
+  height: 155px;
+  animation-name: y--loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  z-index: 1; // 必要に応じて
+   @media (width:767px) {
+       width: 151.35px;
+       right: 0;
+       left: initial;
+       top: -40px;
+  }
+   @media (width:375px) {
+       width: 74px;
+       right: 0;
+       left: initial;
+       top: -40px;
+  }
+    @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .cta__image_right_wrapper {
@@ -54,6 +139,43 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1; // 必要に応じて
+      @media (width:768px) {
+      width: 132px;
+      height: 116px;
+      top: inherit;
+    bottom: 0px;
+right: 0;  }
+
+      @media (max-width:767px) {
+    display: none;
+   }
+}
+.cta__image_right_wrapperSp {
+  position: absolute;
+  top: 18px;
+  right: -16px;
+  width: 248px; // 元のSCSSのmax-widthを採用
+  height: 217px; // 元のSCSSのmax-heightを採用
+  // またはアスペクト比を維持するなら片方を auto にしてもう片方を指定
+  animation-name: y-loop;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  z-index: 1; // 必要に応じて
+     @media (width:767px) {
+       width: 370.21px;
+       top: initial;
+       bottom: -90px;
+       right: -20px;
+  }
+     @media (width:375px) {
+       width: 181px;
+       top: initial;
+       bottom: -90px;
+       right: -20px;
+  }
+    @media (min-width:768px) {
+    display: none;
+  }
 }
 
 // Imageコンポーネント自体に適用するクラスは不要になるか、
@@ -83,6 +205,14 @@
   position: relative;
   z-index: 2; // 背景画像より手前
   height: 100%; // .cta の padding を考慮した上で中央配置のため (必要なら)
+  @media (width:767px) {
+    display: block;
+    padding-inline: 200px;
+  }
+  @media (width:375px) {
+    display: block;
+    padding-inline: 20px;
+  }
 }
 
 .cta_text {
@@ -92,6 +222,17 @@
   line-height: 170%;
   color: $base-color-white;
   // max-width: 440px; // 必要に応じて
+  @media (width:768px) {
+font-size: 25px;
+  }
+  @media (width:767px) {
+font-size: 20px;
+margin-bottom: 40px;
+  }
+  @media (width:375px) {
+font-size: 20px;
+margin-bottom: 40px;
+  }
 }
 
 .cta__buttons {

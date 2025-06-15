@@ -18,6 +18,15 @@ function Cta() {
           sizes="206px" // CSSで指定したラッパーの幅に合わせる (またはレスポンシブな値を指定)
         />
       </div>
+      <div className={styles.cta__image_left_wrapperSp}>
+        <Image
+          src="/Cta/Sp/cta_left.webp"
+          alt="CTA左側の装飾画像"
+          fill
+          style={{ objectFit: 'contain' }} // または 'cover'
+          priority // ビューポート内に表示される可能性が高い場合はtrue
+        />
+      </div>
 
       {/* cta_center.webp */}
       <div className={styles.cta__image_center_wrapper}>
@@ -30,6 +39,15 @@ function Cta() {
           sizes="155px" // CSSで指定したラッパーの幅に合わせる
         />
       </div>
+      <div className={styles.cta__image_center_wrapperSp}>
+        <Image
+          src="/Cta/Sp/cta_center.webp"
+          alt="CTA中央の装飾画像"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </div>
 
       {/* cta_right.webp */}
       <div className={styles.cta__image_right_wrapper}>
@@ -40,6 +58,15 @@ function Cta() {
           style={{ objectFit: 'contain' }}
           priority
           sizes="248px" // CSSで指定したラッパーの幅に合わせる
+        />
+      </div>
+      <div className={styles.cta__image_right_wrapperSp}>
+        <Image
+          src="/Cta/Sp/cta_right.webp"
+          alt="CTA右側の装飾画像"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
         />
       </div>
 
