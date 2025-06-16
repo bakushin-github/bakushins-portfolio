@@ -1,30 +1,22 @@
 @use "../../../app/styles/variables.module" as *;
 
 .blogs {
-  background: $base-color-off_white;
-  // height: 800px;
-  max-width: 3000px;
-  width: 100%;
-  padding-bottom: 96px;
+background: $base-color-off_white;
+// height: 800px;
+max-width: 3000px;
+width: 100%;
+padding-bottom: 96px;
 }
 
 .listViewButton_blog {
-  display: block;
-  position: relative;
-  width: 131px;
-  height: 52px;
-  box-sizing: border-box;
-  left: calc((1139px / 1440px) * 100%);
-  @media (width: 375px) {
-    width: 121px !important;
-    height: 48px !important;
-    box-sizing: border-box !important;
-    font-size: 14px !important;
-    right: 20px !important;
-    left:initial !important;
-  }
+position: relative;
+box-sizing: border-box;
+left: calc((1139px / 1440px) * 100%);
+@media (max-width: 767px) {
+  left: clamp(214px, 214px + (400 - 214) * (100vw - 320px) / (767 - 320), 400px);
+}
 }
 
 .article_worksContents__WBdS3 {
-  margin-bottom: 0 !important;
+margin-bottom: 0 !important;
 }

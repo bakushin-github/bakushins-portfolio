@@ -1,16 +1,16 @@
 @use "../../../app/styles/variables.module" as *;
 
 .listLink {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;;
-  z-index: 2;
+
+
 }
 
 .ListViewButton {
-  width: 131px;
-  height: 52px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  width: clamp(116px, 22.32vw + 44.57px, 131px);
+  height: clamp(46px, 1.34vw + 41.71px, 52px);
   padding-top: 16px;
   padding-right: 24px;
   padding-bottom: 16px;
@@ -20,7 +20,7 @@
   box-sizing: border-box;
   font-family: "Noto Sans JP";
   font-weight: 700;
-  font-size: 16px;
+  font-size: clamp(13px, 0.67vw + 10.86px, 16px);
   line-height: 135%;
   letter-spacing: 4%;
   vertical-align: top;
@@ -32,6 +32,13 @@
   transition: color 0.5s ease;
   z-index: 1;
   overflow: hidden;
+    position: relative;;
+  z-index: 2;
+  @media (min-width: 768px) {
+      width: 131px;
+  height: 52px;
+  font-size: 16px;
+  }
 
   &:hover{
     color: $base-color-white;
