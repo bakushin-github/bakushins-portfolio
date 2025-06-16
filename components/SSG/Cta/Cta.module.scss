@@ -1,237 +1,182 @@
 @use "../../../app/styles/variables.module" as *;
 
 .cta {
-  position: relative; // Imageのラッパーが absolute 配置されるため必須
+  position: relative;
   background-image: url(../../../public/Cta/PC/cta_background.webp);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 230px; // 高さを固定 (または min-height や aspect-ratio で制御)
-  padding-top: 80px;
-  padding-bottom: 77px;
+  // デスクトップは固定高、モバイルはauto
+  height: 230px;
+  padding-top: clamp(60px, 1.88vw + 45.6px, 80px); // 768px:60px → 1440px:80px
+  padding-bottom: clamp(60px, 2.54vw + 40.5px, 77px); // 768px:60px → 1440px:77px
   overflow: hidden;
   box-sizing: border-box;
-  @media (width:768px) {
+  
+  @media (max-width: 767px) {
+    height: auto;
     padding-top: 60px;
     padding-bottom: 60px;
-    height: auto;
-  }
-  @media (width:767px) {
-    padding-top: 60px;
-    padding-bottom: 60px;
-    height: auto;
-  }
-  @media (width:375px) {
-    padding-top: 60px;
-    padding-bottom: 60px;
-    height: auto;
   }
 }
 
-// --- 画像ラッパーのスタイル ---
-// 元の .cta__image_left, .cta__image_center, .cta__image_right のスタイルを
-// ラッパーdivのクラス (例: .cta__image_left_wrapper) に移します。
-
+// PC表示用ラッパー（768px以上）
 .cta__image_left_wrapper {
   position: absolute;
-  top: 67px;
-  left: calc(1440px - 1406.2px); // この計算が意図通りか確認
-  width: 206px;  // max-width ではなく固定 width (または %指定)
-  height: 206px; // max-height ではなく固定 height (または %指定、または aspect-ratio)
-  // Image に fill を使うので、ラッパーで明確なサイズを指定
+  top: clamp(111px, -8.18vw + 228.85px, 166px); // 768px:166px → 1440px:111px (1920pxも111pxとして推論)
+  left: clamp(80px, 2.80vw + 58.52px, 98.8px); // 768px:80px → 1440px:98.8px (1920pxも98.8pxとして推論)
+  width: clamp(110px, 14.29vw + 0.2px, 206px); // 768px:110px → 1440px:206px
+  height: clamp(63px, 8.18vw + 0.1px, 118px); // アスペクト比1.7468に基づく高さ
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-  @media (width:768px) {
-    width: 110px;
-    height: 110px;
-    top: 120px;
-    left: 60px;
-  }
-  @media (max-width:767px) {
+  z-index: 1;
+  
+  @media (max-width: 767px) {
     display: none;
   }
 }
 
+// スマホ表示用ラッパー（767px以下）
 .cta__image_left_wrapperSp {
   position: absolute;
-  top: 67px;
-  left: calc(1440px - 1406.2px); // この計算が意図通りか確認
-  width: 206px;  // max-width ではなく固定 width (または %指定)
-  height: 206px; // max-height ではなく固定 height (または %指定、または aspect-ratio)
-  // Image に fill を使うので、ラッパーで明確なサイズを指定
+  top: 41px; // 375px-767px: 41px
+  left: clamp(-41px, -4.85vw - 3.82px, -22px); // 320px:-22px → 767px:-41px （右に9px寄せ）
+  width: clamp(108px, 28.83vw + 15.8px, 220.90px); // 375px:108px → 767px:220.90px
+  height: clamp(62px, 16.51vw + 9.0px, 126.5px); // アスペクト比1.7468に基づく高さ
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-    @media (width:767px) {
-       width: 220.90px;
-       top: -20px;
-       left: 0;
-  }
-    @media (width:375px) {
-       width: 108px;
-       top: -20px;
-       left: 0;
-  }
-  @media (min-width:768px) {
+  z-index: 1;
+  
+  @media (min-width: 768px) {
     display: none;
   }
 }
 
 .cta__image_center_wrapper {
   position: absolute;
-  top: -25px;
-  left: calc(1440px - (1440px - 569.58px)); // この計算が意図通りか確認
-  width: 155px;
-  height: 155px;
+  top: clamp(-25px, -1.93vw + 2.8px, -12px); // 768px:-12px → 1440px:-25px (当初の値)
+  left: clamp(350px, 32.68vw + 99.2px, 569.58px); // 768px:350px → 1440px:569.58px (元に戻す)
+  width: clamp(83px, 10.71vw + 0.7px, 155px); // 768px:83px → 1440px:155px
+  height: clamp(83px, 10.71vw + 0.7px, 155px);
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-    @media (width:768px) {
-      width: 83px;
-      height: 83px;
-    top: -12px;
-    left: 350px;
-  }
-    @media (max-width:767px) {
+  z-index: 1;
+  
+  @media (max-width: 767px) {
     display: none;
-   }
+  }
 }
+
 .cta__image_center_wrapperSp {
   position: absolute;
-  top: 0px;
-  left: 0;
-  width: 155px;
-  height: 155px;
+  top: 20px; // 375px-767px: 20px
+  right: 0;
+  left: initial;
+  width: clamp(74px, 19.72vw + 0.15px, 151.35px); // 375px:74px → 767px:151.35px
+  height: clamp(74px, 19.72vw + 0.15px, 151.35px);
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-   @media (width:767px) {
-       width: 151.35px;
-       right: 0;
-       left: initial;
-       top: -40px;
-  }
-   @media (width:375px) {
-       width: 74px;
-       right: 0;
-       left: initial;
-       top: -40px;
-  }
-    @media (min-width:768px) {
+  z-index: 1;
+  
+  @media (min-width: 768px) {
     display: none;
   }
 }
 
 .cta__image_right_wrapper {
   position: absolute;
-  top: 18px;
-  right: -16px;
-  width: 248px; // 元のSCSSのmax-widthを採用
-  height: 217px; // 元のSCSSのmax-heightを採用
-  // またはアスペクト比を維持するなら片方を auto にしてもう片方を指定
+  bottom: 0px;
+  right: 0px;
+  width: clamp(132px, 17.26vw + -0.6px, 248px); // 768px:132px → 1440px:248px
+  height: clamp(116px, 15.03vw + 0.8px, 217px); // 768px:116px → 1440px:217px
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-      @media (width:768px) {
-      width: 132px;
-      height: 116px;
-      top: inherit;
-    bottom: 0px;
-right: 0;  }
-
-      @media (max-width:767px) {
+  z-index: 1;
+  
+  // 1440pxでのみtop配置に変更
+  @media (min-width: 1440px) {
+    top: 18px;
+    bottom: initial;
+    right: -16px;
+  }
+  
+  @media (max-width: 767px) {
     display: none;
-   }
+  }
 }
+
 .cta__image_right_wrapperSp {
   position: absolute;
-  top: 18px;
-  right: -16px;
-  width: 248px; // 元のSCSSのmax-widthを採用
-  height: 217px; // 元のSCSSのmax-heightを採用
-  // またはアスペクト比を維持するなら片方を auto にしてもう片方を指定
+  bottom: clamp(-148px, -19.39vw + 0.70px, -72px); // 375px:-72px → 767px:-148px
+  right: -20px;
+  width: clamp(181px, 48.22vw + 0.1px, 370.21px); // 375px:181px → 767px:370.21px
+  height: clamp(181px, 48.22vw + 0.1px, 370.21px);
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-  z-index: 1; // 必要に応じて
-     @media (width:767px) {
-       width: 370.21px;
-       top: initial;
-       bottom: -90px;
-       right: -20px;
-  }
-     @media (width:375px) {
-       width: 181px;
-       top: initial;
-       bottom: -90px;
-       right: -20px;
-  }
-    @media (min-width:768px) {
+  z-index: 1;
+  
+  @media (min-width: 768px) {
     display: none;
   }
 }
 
-// Imageコンポーネント自体に適用するクラスは不要になるか、
-// object-fit以外の微調整に使う程度になります。
-// .thumbnailImage のような共通クラスは不要になる可能性が高いです。
-
-/* 元のキーフレームアニメーションは変更なし */
 @keyframes y-loop {
   0% { transform: translateY(0); }
   50% { transform: translateY(20px); }
   100% { transform: translateY(0); }
 }
+
 @keyframes y--loop {
   0% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
   100% { transform: translateY(0); }
 }
 
-
 .cta__inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1090px; // 例: (1440 - 167*2 - ボタン等の幅) に基づくような値
+  max-width: 1090px;
   margin-inline: auto;
-  padding-inline: 20px; // コンテナ左右の余白 (任意)
   position: relative;
-  z-index: 2; // 背景画像より手前
-  height: 100%; // .cta の padding を考慮した上で中央配置のため (必要なら)
-  @media (width:767px) {
-    display: block;
-    padding-inline: 200px;
-  }
-  @media (width:375px) {
-    display: block;
+  z-index: 2;
+  height: 100%;
+  
+  // デスクトップ用padding
+  @media (min-width: 768px) {
     padding-inline: 20px;
+  }
+  
+  // モバイル用padding（767px以下）
+  @media (max-width: 767px) {
+    display: block;
+    padding-inline: clamp(20px, 45.92vw + -152.3px, 200px); // 375px:20px → 767px:200px
   }
 }
 
 .cta_text {
   font-family: "Noto Sans JP";
   font-weight: 700;
-  font-size: 30px;
   line-height: 170%;
   color: $base-color-white;
-  // max-width: 440px; // 必要に応じて
-  @media (width:768px) {
-font-size: 25px;
+  
+  // デスクトップ
+  @media (min-width: 768px) {
+    font-size: clamp(25px, 0.74vw + 19.3px, 30px); // 768px:25px → 1440px:30px
+    margin-bottom: 0;
   }
-  @media (width:767px) {
-font-size: 20px;
-margin-bottom: 40px;
-  }
-  @media (width:375px) {
-font-size: 20px;
-margin-bottom: 40px;
+  
+  // モバイル
+  @media (max-width: 767px) {
+    font-size: 20px;
+    margin-bottom: 40px;
   }
 }
 
@@ -242,5 +187,5 @@ margin-bottom: 40px;
 }
 
 .cta_contact {
-  // スタイル指定があれば
+  // 必要に応じてスタイルを追加
 }
