@@ -42,11 +42,10 @@
   padding-bottom: 96px;
 }
 
-.Breadcrumb {
+.Bread {
   position: absolute;
-  top: 140px;
-  left: 170px;
-  margin: 0;
+top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
+  left: clamp(20px, 5vw + 10px, 170px);
 }
 
 .price__title {

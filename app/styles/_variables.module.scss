@@ -72,6 +72,21 @@ $text-accent-gray:#6C6C6C;
 .singleBlog_inner{
   background: $base-color-off_white;
 }
+
+.breadcrumbWrapper{
+  padding-top: 120px;
+  position: absolute;
+top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
+  left: clamp(20px, 5vw + 10px, 170px);
+}
+
+.singleBlog_breadcrumbWrapper{
+padding-top: 120px;
+padding-left: clamp(12.25px, calc(14.08vw + -32.82px), 237.61px);
+
+}
+
+
 .info_SearchToWordPress{
   display: flex;
   justify-content: center;
@@ -103,6 +118,13 @@ $text-accent-gray:#6C6C6C;
         left: 80%;
         transform: translateY(-50%);
       }
+}
+
+.blog-main{
+  h1{
+    margin-top: 65px;
+width: clamp(458px, calc(58.04vw + -136.29px), 978px);
+  }
 }
 
 .singleBlog_separatorLine{

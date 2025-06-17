@@ -6,8 +6,8 @@
 
 .drawerButton__button{
   padding: 13.96px;
-  width: 55px;
-  height: 55px;
+ width: clamp(47.6px, calc(0.657vw + 45.536px), 58.2px);
+  height: clamp(47.6px, calc(0.657vw + 45.536px), 58.2px);
   border: none;
   background: $main-color-dark_blue;
 

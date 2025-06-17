@@ -1,8 +1,12 @@
-import React from "react";
+// FaqPage.jsx (PCとSPのヘッダー出し分け対応版)
+"use client"; // クライアントコンポーネントとして宣言
+
+import React, { useState, useEffect } from "react";
 import Toggle from "@/components/SSG/Faq/Toggle/Toggle";
 import styles from "./page.module.scss";
 import Cta from "@/components/SSG/Cta/Cta";
-import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
+import Header from "../../../components/SSG/Header/Header/Header"; // Header_otherPageを再インポート
+import Header_Sp from "../../../components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP"; // Header_Spをインポート
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
@@ -10,8 +14,11 @@ import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb('/faq');
 
-
 // 複数の質問データを取得（静的にビルド時に実行される）
+// このgetData関数はServer Componentのライフサイクルで実行されることを想定しています。
+// "use client" と一緒に使う場合、useEffect内で呼び出すか、
+// 親のServer ComponentからpropsとしてfaqItemsを渡すのがベストプラクティスです。
+// 今回は簡略化のため、useEffect内で呼び出す形に修正します。
 async function getData() {
   return [
     {
@@ -42,8 +49,47 @@ async function getData() {
   ];
 }
 
-export default async function FaqPage() {
-  const faqItems = await getData();
+export default function FaqPage() {
+  const [faqItems, setFaqItems] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(0); // 画面幅を管理するstate
+
+  // SPヘッダー用のメニュー開閉状態
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // メニューの開閉を切り替える関数 (SPヘッダー用)
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  useEffect(() => {
+    // FAQデータを取得
+    const fetchFaqData = async () => {
+      const data = await getData();
+      setFaqItems(data);
+    };
+    fetchFaqData();
+
+    // 画面幅の初期設定とリサイズイベントリスナー
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // コンポーネントマウント時に初期の画面幅を設定
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+    }
+
+    // クリーンアップ関数
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []); // 空の依存配列でマウント時とアンマウント時にのみ実行
+
+  // PCとSPのブレイクポイントを定義
+  const BREAKPOINT_SP = 768; // 例として768px。必要に応じて調整してください。
 
   return (
     <div className={styles.faq}>
@@ -53,6 +99,7 @@ export default async function FaqPage() {
         alt="left_1stLine"
         width={439}
         height={565}
+        priority={true}
       />
       <Image
         className={styles.left_2ndLine}
@@ -60,6 +107,7 @@ export default async function FaqPage() {
         alt="left_2ndLine"
         width={547}
         height={350}
+        priority={true}
       />
       <Image
         className={styles.right_1stLine}
@@ -67,6 +115,7 @@ export default async function FaqPage() {
         alt="right_1stLine"
         width={342}
         height={429}
+        priority={true}
       />
       <Image
         className={styles.ball}
@@ -74,6 +123,7 @@ export default async function FaqPage() {
         alt="ball"
         width={169}
         height={169}
+        priority={true}
       />
       <Image
         className={styles.right_2ndLine}
@@ -81,6 +131,7 @@ export default async function FaqPage() {
         alt="right_2ndLine"
         width={644}
         height={1009}
+        priority={true}
       />
       <Image
         className={styles.right_polygon1}
@@ -88,6 +139,7 @@ export default async function FaqPage() {
         alt="right_polygon1"
         width={232}
         height={117}
+        priority={true}
       />
       <Image
         className={styles.right_polygon2}
@@ -95,12 +147,22 @@ export default async function FaqPage() {
         alt="right_polygon2"
         width={239}
         height={120}
+        priority={true}
       />
-      <Header_otherPage />
+
+      {/* 画面幅に基づいてヘッダーを出し分ける */}
+      {windowWidth > BREAKPOINT_SP ? (
+        // PCサイズの場合
+        <Header />
+      ) : (
+        // SPサイズの場合
+        <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+      )}
+
       <div className={styles.faq__inner}>
-      <div className={styles.Breadcrumb}>
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+        <div className={styles.Bread}>
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
         <div className={styles.faq__title}>
           <h1 className={styles.faq__h1}>よくある質問</h1>
           <h2 className={styles.faq__h2}>FAQ</h2>
@@ -111,7 +173,7 @@ export default async function FaqPage() {
               className={styles.faq__itemsToggle}
               key={index}
               content={item}
-              isFirst={index === 0} // 最初の項目だけtrueを渡す
+              isFirst={index === 0}
             />
           ))}
         </div>

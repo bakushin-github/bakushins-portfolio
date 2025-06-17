@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './Breadcrumb.module.scss';
 
-export default function Breadcrumb({ items }) {
+export default function Breadcrumb({ items, className }) {
   if (!items || items.length <= 1) return null;
 
   // JSON-LDスキーマデータの生成
@@ -25,7 +25,7 @@ export default function Breadcrumb({ items }) {
       />
       
       {/* パンくずリストUI */}
-      <nav aria-label="breadcrumb" className={styles.breadcrumb}>
+      <nav aria-label="breadcrumb"  className={`${styles.bread} ${className || ''}`}>
         <ol className={styles.list}>
           {items.map((item, index) => {
             const isLast = index === items.length - 1;

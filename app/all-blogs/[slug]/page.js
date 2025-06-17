@@ -1,15 +1,18 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
+import Image from "next/image";
+import Link from "next/link";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import BlogOthers from "@/components/FetchLowerLayer/BlogOhters";
 import styles from "../../styles/_variables.module.scss";
 // WordPress コンテンツ用のグローバルスタイルは globals.scss で読み込む
-import { processWordPressContent } from '../../../lib/utils/content-processor';
-import { generateSocialMetadata, generateJsonLd } from '../../../lib/utils/sidebar-utils';
-import Cta from '@/components/SSG/Cta/Cta';
-import BlogLayoutWithSidebar from '@/components/sidebar/BlogLayoutWithSidebar';
+import { processWordPressContent } from "../../../lib/utils/content-processor";
+import {
+  generateSocialMetadata,
+  generateJsonLd,
+} from "../../../lib/utils/sidebar-utils";
+import Cta from "@/components/SSG/Cta/Cta";
+import BlogLayoutWithSidebar from "@/components/sidebar/BlogLayoutWithSidebar";
 
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
@@ -72,14 +75,14 @@ const GET_BLOG_BY_SLUG = gql`
 // パンくずリストを作成する関数
 function createBreadcrumbs(slug, title) {
   return [
-    { name: 'ホーム', path: '/' },
-    { name: '全ブログ一覧', path: '/all-blogs' },
-    { name: title || 'ブログ詳細', path: `/all-blogs/${slug}` }
+    { name: "ホーム", path: "/" },
+    { name: "全ブログ一覧", path: "/all-blogs" },
+    { name: title || "ブログ詳細", path: `/all-blogs/${slug}` },
   ];
 }
 
 // SSGを有効化
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 export const revalidate = 3600;
 
 // すべてのブログ記事のスラッグを取得してSSGのパスを生成
@@ -90,12 +93,12 @@ export async function generateStaticParams() {
     });
 
     const posts = data?.posts?.nodes || [];
-    
+
     return posts.map((post) => ({
       slug: post.slug,
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
+    console.error("Error generating static params:", error);
     return [];
   }
 }
@@ -103,7 +106,7 @@ export async function generateStaticParams() {
 // ✅ メタデータを動的に生成（params await対応、SSG最適化版）
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  
+
   try {
     const { data } = await client.query({
       query: GET_BLOG_BY_SLUG,
@@ -111,11 +114,11 @@ export async function generateMetadata({ params }) {
     });
 
     const post = data?.post;
-    
+
     if (!post) {
       return {
-        title: 'ブログ記事が見つかりません',
-        description: '指定されたブログ記事は存在しません。',
+        title: "ブログ記事が見つかりません",
+        description: "指定されたブログ記事は存在しません。",
       };
     }
 
@@ -123,8 +126,8 @@ export async function generateMetadata({ params }) {
     return generateSocialMetadata(post, resolvedParams.slug);
   } catch (error) {
     return {
-      title: 'ブログ記事',
-      description: 'ブログ記事の詳細ページです。',
+      title: "ブログ記事",
+      description: "ブログ記事の詳細ページです。",
     };
   }
 }
@@ -132,8 +135,8 @@ export async function generateMetadata({ params }) {
 // ✅ メインコンポーネント（params await対応）
 export default async function BlogDetailPage({ params }) {
   const resolvedParams = await params;
-  const slug = resolvedParams?.slug || '';
-  
+  const slug = resolvedParams?.slug || "";
+
   try {
     // 特定のスラッグの記事を取得
     const { data } = await client.query({
@@ -147,16 +150,20 @@ export default async function BlogDetailPage({ params }) {
     if (!blog) {
       return (
         <>
-          <Header_otherPage className={styles.blogsHeader} />
+          <ResponsiveHeaderWrapper className={styles.blogsHeader} />
           <div className={styles.breadcrumbWrapper}>
-            <Breadcrumb items={createBreadcrumbs(slug, '記事が見つかりません')} />
+            <Breadcrumb
+              items={createBreadcrumbs(slug, "記事が見つかりません")}
+            />
           </div>
-          
+
           <main className={styles.container}>
             <div className={styles.notFound}>
               <h1>ブログが見つかりませんでした</h1>
               <p>スラッグ: {slug}</p>
-              <Link href="/all-blogs" className={styles.backButton}>全ブログ一覧に戻る</Link>
+              <Link href="/all-blogs" className={styles.backButton}>
+                全ブログ一覧に戻る
+              </Link>
             </div>
           </main>
         </>
@@ -164,103 +171,108 @@ export default async function BlogDetailPage({ params }) {
     }
 
     // コンテンツ処理（blogが定義された後）
-    const processedContent = blog?.content 
-      ? processWordPressContent(blog.content) 
-      : '';
+    const processedContent = blog?.content
+      ? processWordPressContent(blog.content)
+      : "";
 
     // 記事が見つかった場合
     const breadcrumbItems = createBreadcrumbs(slug, blog.title);
 
     // 現在のページURLを生成（SSG対応）
-    const articleUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bakushin.blog'}/all-blogs/${slug}`;
+    const articleUrl = `${
+      process.env.NEXT_PUBLIC_SITE_URL || "https://bakushin.blog"
+    }/all-blogs/${slug}`;
 
     // 構造化データ生成
     const jsonLd = generateJsonLd(blog, slug);
 
     return (
       <>
-        <Header_otherPage className={styles.blogsHeader} />
+        <ResponsiveHeaderWrapper className={styles.blogsHeader} />
         <div className={styles.singleBlog_inner}>
-        <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={breadcrumbItems} />
-        </div>
-        
-        {/* 構造化データの追加 */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
-          }}
-        />
+          <div className={styles.singleBlog_breadcrumbWrapper}>
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
 
-        <main className="blog-main">
-                <span className={styles["singleBlog_separatorLine"]}></span>
-          <BlogLayoutWithSidebar 
-            articleTitle={blog.title}
-            articleUrl={articleUrl}
-          >
-            <article className="blog-article">
-              <h1>{blog.title}</h1>
-              
-              {blog.featuredImage?.node && (
-                <div className="blog-thumbnailBox">
-                  <Image 
-                    src={blog.featuredImage.node.sourceUrl} 
-                    alt={blog.featuredImage.node.altText || blog.title} 
-                    fill
-                    sizes="(max-width: 666px) 100vw, 666px"
-                    className="blog-thumbnail"
-                    priority
-                  />
-                </div>
-              )}
-              
-       <Link
-          href="https://bakushin.blog/"
-          className={styles.info_SearchToWordPress}
-          aria-label="記事を検索"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          記事を見つけよう
-        </Link>
+          {/* 構造化データの追加 */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(jsonLd),
+            }}
+          />
 
-              {/* WordPressコンテンツ用のクラス名を追加 */}
-              <div 
-                className="wordpress-content"
-                dangerouslySetInnerHTML={{ __html: processedContent }} 
-              />
-              
-              <div className={styles.navigation}>
-                <Link href="/all-blogs" className={styles.singleBlog_backButton}>
-                  他の記事を見つける
+          <main className="blog-main">
+            <h1 className={styles.singleBlogH1}>{blog.title}</h1>
+            <span className={styles["singleBlog_separatorLine"]}></span>
+            <BlogLayoutWithSidebar
+              articleTitle={blog.title}
+              articleUrl={articleUrl}
+            >
+              <article className="blog-article">
+                {blog.featuredImage?.node && (
+                  <div className="blog-thumbnailBox">
+                    <Image
+                      src={blog.featuredImage.node.sourceUrl}
+                      alt={blog.featuredImage.node.altText || blog.title}
+                      fill
+                      sizes="(max-width: 666px) 100vw, 666px"
+                      className="blog-thumbnail"
+                      priority
+                    />
+                  </div>
+                )}
+
+                <Link
+                  href="https://bakushin.blog/"
+                  className={styles.info_SearchToWordPress}
+                  aria-label="記事を検索"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  記事を見つけよう
                 </Link>
-              </div>
-            </article>
 
-            {/* <BlogOthers currentId={blog.id} /> */}
-          </BlogLayoutWithSidebar>
-          
-        </main>
+                {/* WordPressコンテンツ用のクラス名を追加 */}
+                <div
+                  className="wordpress-content"
+                  dangerouslySetInnerHTML={{ __html: processedContent }}
+                />
+
+                <div className={styles.navigation}>
+                  <Link
+                    href="/all-blogs"
+                    className={styles.singleBlog_backButton}
+                  >
+                    他の記事を見つける
+                  </Link>
+                </div>
+              </article>
+
+              {/* <BlogOthers currentId={blog.id} /> */}
+            </BlogLayoutWithSidebar>
+          </main>
         </div>
-          <Cta/>
+        <Cta />
       </>
     );
   } catch (error) {
     // エラーが発生した場合
     return (
       <>
-        <Header_otherPage className={styles.blogsHeader} />
+        <ResponsiveHeaderWrapper className={styles.blogsHeader} />
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={createBreadcrumbs(slug, 'エラーが発生しました')} />
+          <Breadcrumb items={createBreadcrumbs(slug, "エラーが発生しました")} />
         </div>
-        
+
         <main className={styles.container}>
           <div className={styles.error}>
             <h1>エラーが発生しました</h1>
             <p>スラッグ: {slug}</p>
             <p>エラー: {error.message}</p>
-            <Link href="/all-blogs" className={styles.backButton}>全ブログ一覧に戻る</Link>
+            <Link href="/all-blogs" className={styles.backButton}>
+              全ブログ一覧に戻る
+            </Link>
           </div>
         </main>
       </>

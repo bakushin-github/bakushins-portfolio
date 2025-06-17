@@ -15,6 +15,9 @@ left: calc((1139px / 1440px) * 100%);
 @media (max-width: 767px) {
   left: clamp(214px, 214px + (400 - 214) * (100vw - 320px) / (767 - 320), 400px);
 }
+@media (max-width: 374px) {
+  left: clamp(160px, 160px + (214 - 160) * (100vw - 320px) / (374 - 320), 214px);
+}
 }
 
 .article_worksContents__WBdS3 {

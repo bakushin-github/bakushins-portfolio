@@ -1,14 +1,40 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import Header from "@/components/SSG/Header/Header/Header";
+import Header_Sp from "@/components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
 import styles from "./page.module.scss";
-import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumb";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 
 // パスを静的に渡して生成
-const breadcrumbItems = generateBreadcrumb('/contact/thanks');
+const breadcrumbItems = generateBreadcrumb("/contact/thanks");
 
 export default function Page() {
+  // ========== レスポンシブヘッダー切り替えロジック ==========
+  const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
+  const BREAKPOINT_SP = 768; // PC/SP切り替え境界値
+
+  // SPメニュー開閉切り替え関数
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  // 画面幅監視とリサイズイベント処理
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+  // ========================================================
   return (
     <>
       <div className={styles.thanks}>
@@ -47,20 +73,28 @@ export default function Page() {
           width={239}
           height={120}
         />
-        <Header_otherPage className={styles.thanksHeader} />
-        <div className={styles.Breadcrumb}>
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
-      <main>
-        <h1 className={styles.thanks404}>Thank you !</h1>
-        <p className={styles.thanksP}>
-          お問い合わせいただきありがとうございました。
-          <br />
-          当日、または翌営業日までにご連絡差し上げます。
-        </p>
-        <div className={styles.thanksAttention}>
-          <p><strong>返信メールが届かない場合は、迷惑メールフォルダもあわせてご確認ください。</strong></p>
+        {windowWidth > BREAKPOINT_SP ? (
+          <Header className={styles.thanksHeader} />
+        ) : (
+          <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+        )}
+        <div className={styles.Bread}>
+          <Breadcrumb items={breadcrumbItems} />
         </div>
+        <main>
+          <h1 className={styles.thanks404}>Thank you !</h1>
+          <p className={styles.thanksP}>
+            お問い合わせいただきありがとうございました。
+            <br />
+            当日、または翌営業日までにご連絡差し上げます。
+          </p>
+          <div className={styles.thanksAttention}>
+            <p>
+              <strong>
+                返信メールが届かない場合は、迷惑メールフォルダもあわせてご確認ください。
+              </strong>
+            </p>
+          </div>
         </main>
       </div>
     </>
