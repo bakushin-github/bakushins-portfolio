@@ -12,56 +12,72 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
   return (
     <>
       <div className={styles.sidebarWidget}>
-        {/* ヘッダー */}
-        <div className={styles.header}>
-          ブログ投稿者
-        </div>
-
-        {/* 投稿者セクション */}
-        <div className={styles.authorSection}>
-          <Image 
-            src={authorData.avatar}
-            alt={authorData.name}
-            width={80}
-            height={80}
-            className={styles.avatar}
-          />
-          <div>
-            <h3 className={styles.name}>
-              {authorData.name}
-              <a href="https://x.com/official_bksn">𝕏</a>
-            </h3>
-            <p className={styles.description}>
-              {authorData.description}
-            </p>
+        {/* ブログ投稿者ブロック */}
+        <div className={styles.authorBlock}>
+          <div className={styles.header}>
+            ブログ投稿者
+          </div>
+          <div className={styles.authorSection}>
+            <Image 
+              src={authorData.avatar}
+              alt={authorData.name}
+              width={60}
+              height={60}
+              className={styles.avatar}
+            />
+            <div className={styles.authorInfo}>
+              <h3 className={styles.name}>
+                <Image
+                  src={"/SidebarLogo.webp"}
+                  alt={"バクシン"}
+                  width={87}
+                  height={21.5}      
+                  className={styles.authorImage}          />
+                <a href="https://x.com/official_bksn">
+                <Image
+                className={styles.authorX}
+                src={"/About/Sp/x.webp"}
+                alt="X"
+                width={22}
+                height={19}/></a>
+              </h3>
+              <p className={styles.description}>
+               医療現場で培った細やかな心配りを、Webの世界でも大切にしています。お客様一人ひとりのご要望に丁寧に耳を傾け、ホームページ制作から決済機能付きECサイトまで、安心してお任せいただけるよう心を込めてサポートいたします。
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* シェアボタン */}
-        <div className={styles.shareButtons}>
+        {/* 記事をシェアするブロック */}
+        <div className={styles.shareBlock}>
           <div className={styles.shareTitle}>
             記事をシェアする
           </div>
-          
-          {/* Xシェア */}
-          <a
-            href={twitterShareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${styles.shareButton} ${styles.shareTwitter}`}
-            title="Xで記事をシェア"
-          >
-            𝕏 でシェア
-          </a>
-          
-          {/* URLコピー - SSG対応でJavaScriptを使用 */}
-          <button
-            className={`${styles.shareButton} ${styles.shareCopy}`}
-            data-url={articleUrl || ''}
-            title="記事のURLをコピー"
-          >
-            🔗 URLをコピー
-          </button>
+          <div className={styles.shareButtons}>
+            {/* Xシェア */}
+            <a
+              href={twitterShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.shareButton} ${styles.shareTwitter}`}
+              title="Xで記事をシェア"
+            >
+              𝕏
+            </a>
+            
+            {/* URLコピー - SSG対応でJavaScriptを使用 */}
+            <button
+              className={`${styles.shareButton} ${styles.shareCopy}`}
+              data-url={articleUrl || ''}
+              title="記事のURLをコピー"
+            >
+              <Image
+              src={"/SidebarLink.webp"}
+              width={32}
+              height={32}
+              alt={"URL"}/>
+            </button>
+          </div>
         </div>
       </div>
 

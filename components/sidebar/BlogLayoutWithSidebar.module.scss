@@ -2,11 +2,11 @@
 
 .blogLayoutWithSidebar {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 40px;
-  max-width: 1200px;
+  grid-template-columns: 1fr 353px;
+  gap: 23.5px;
+  // max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  // padding: 0 20px;
   min-height: 100vh;
 }
 
@@ -42,10 +42,10 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .blogLayoutWithSidebar {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 0;
   }
 }
 
