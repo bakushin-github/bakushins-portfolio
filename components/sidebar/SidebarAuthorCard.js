@@ -1,6 +1,9 @@
+'use client'; // この行がファイルの先頭に必要です！
+
 import Image from 'next/image';
 import { getAuthorData } from '../../lib/utils/sidebar-utils';
 import styles from './SidebarAuthorCard.module.scss';
+import { useEffect } from 'react'; // useEffect をインポート
 
 export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
   // 投稿者データをユーティリティから取得
@@ -8,6 +11,89 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
 
   // Xシェア用URL（SSG対応）
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(articleTitle || 'おすすめの記事')}&url=${encodeURIComponent(articleUrl || '')}`;
+
+  // CSS Modulesのクラス名を直接文字列として取得 (JavaScript内で使用するため)
+  const shareCopyClass = styles.shareCopy;
+  const copiedClass = styles.copied;
+
+  // コンポーネントがマウントされた後にJavaScriptロジックを実行
+  useEffect(() => {
+    console.log('✅ SidebarAuthorCard Client Component がマウントされ、スクリプト実行を開始します。'); // デバッグログ
+
+    // CSS Modulesによって生成された実際のクラス名を使用して要素を選択
+    const copyButton = document.querySelector(`.${shareCopyClass}`);
+
+    if (copyButton) {
+      console.log('✅ コピーボタンが見つかりました:', copyButton); // デバッグログ
+      copyButton.addEventListener('click', function() {
+        console.log('✅ コピーボタンがクリックされました！'); // デバッグログ
+        // data-url属性からURLを取得、なければ現在のページのURLを使用
+        const url = this.getAttribute('data-url') || window.location.href;
+
+        // navigator.clipboard APIが利用可能かチェック
+        if (navigator.clipboard) {
+          console.log('✅ navigator.clipboardが利用可能です。'); // デバッグログ
+          navigator.clipboard.writeText(url).then(function() {
+            console.log('✅ クリップボードにコピー成功！'); // デバッグログ
+            const originalText = copyButton.textContent;
+            copyButton.textContent = '✓ コピー完了';
+            copyButton.classList.add(copiedClass); // コピー完了時のクラスを追加
+
+            // 2秒後に元のテキストに戻す
+            setTimeout(function() {
+              copyButton.textContent = originalText;
+              copyButton.classList.remove(copiedClass); // コピー完了時のクラスを削除
+            }, 2000);
+          }).catch(function(err) {
+            // コピー失敗時のエラーハンドリング
+            console.error('❌ クリップボードAPIエラー:', err); // デバッグログ
+            fallbackCopy(url); // フォールバック関数を呼び出す
+          });
+        } else {
+          console.log('❌ navigator.clipboardが利用できません。フォールバックを開始します。'); // デバッグログ
+          fallbackCopy(url); // フォールバック関数を呼び出す
+        }
+      });
+    } else {
+      console.log('❌ エラー: コピーボタンが見つかりませんでした。セレクタを確認してください。'); // デバッグログ
+    }
+
+    // クリーンアップ関数: コンポーネントがアンマウントされるときにイベントリスナーを削除
+    return () => {
+      if (copyButton) {
+        copyButton.removeEventListener('click', () => {}); // ダミー関数を渡してイベントリスナーを削除
+      }
+    };
+  }, [shareCopyClass, copiedClass]); // 依存配列にクラス名を追加 (変更の可能性は低いが推奨)
+
+  // Clipboard APIが利用できない場合のフォールバック機能 (useEffectの外に定義)
+  const fallbackCopy = (text) => {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      // 画面外にtextareaを配置
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      // 古い execCommand を使用してコピー
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea); // 作成したtextareaを削除
+
+      if (successful) {
+        alert('記事のURLをコピーしました！');
+      } else {
+        alert('コピーに失敗しました。');
+      }
+    } catch (error) {
+      console.error('❌ フォールバックコピーエラー:', error); // デバッグログ
+      alert('コピーに失敗しました。');
+    }
+  };
+
 
   return (
     <>
@@ -18,7 +104,7 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
             ブログ投稿者
           </div>
           <div className={styles.authorSection}>
-            <Image 
+            <Image
               src={authorData.avatar}
               alt={authorData.name}
               width={60}
@@ -31,8 +117,9 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
                   src={"/SidebarLogo.webp"}
                   alt={"バクシン"}
                   width={87}
-                  height={21.5}      
-                  className={styles.authorImage}          />
+                  height={21.5}
+                  className={styles.authorImage}
+                />
                 <a href="https://x.com/official_bksn">
                 <Image
                 className={styles.authorX}
@@ -64,10 +151,10 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
             >
               𝕏
             </a>
-            
-            {/* URLコピー - SSG対応でJavaScriptを使用 */}
+
+            {/* URLコピーボタン */}
             <button
-              className={`${styles.shareButton} ${styles.shareCopy}`}
+              className={`${styles.shareButton} ${shareCopyClass}`} // JavaScriptで使用するクラス名を指定
               data-url={articleUrl || ''}
               title="記事のURLをコピー"
             >
@@ -80,64 +167,6 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
           </div>
         </div>
       </div>
-
-      {/* SSG対応のためのスクリプト（最小限のJavaScript） */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            document.addEventListener('DOMContentLoaded', function() {
-              const copyButton = document.querySelector('.${styles.shareCopy}');
-              if (copyButton) {
-                copyButton.addEventListener('click', function() {
-                  const url = this.getAttribute('data-url') || window.location.href;
-                  
-                  if (navigator.clipboard) {
-                    navigator.clipboard.writeText(url).then(function() {
-                      const originalText = copyButton.textContent;
-                      copyButton.textContent = '✓ コピー完了';
-                      copyButton.classList.add('${styles.copied}');
-                      
-                      setTimeout(function() {
-                        copyButton.textContent = originalText;
-                        copyButton.classList.remove('${styles.copied}');
-                      }, 2000);
-                    }).catch(function() {
-                      fallbackCopy(url);
-                    });
-                  } else {
-                    fallbackCopy(url);
-                  }
-                });
-              }
-              
-              function fallbackCopy(text) {
-                try {
-                  const textArea = document.createElement('textarea');
-                  textArea.value = text;
-                  textArea.style.position = 'fixed';
-                  textArea.style.left = '-999999px';
-                  textArea.style.top = '-999999px';
-                  document.body.appendChild(textArea);
-                  textArea.focus();
-                  textArea.select();
-                  
-                  const successful = document.execCommand('copy');
-                  document.body.removeChild(textArea);
-                  
-                  if (successful) {
-                    alert('記事のURLをコピーしました！');
-                  } else {
-                    alert('コピーに失敗しました。');
-                  }
-                } catch (error) {
-                  console.error('コピーエラー:', error);
-                  alert('コピーに失敗しました。');
-                }
-              }
-            });
-          `
-        }}
-      />
     </>
   );
 }
