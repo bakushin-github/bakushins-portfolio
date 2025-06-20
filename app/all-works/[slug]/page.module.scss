@@ -90,7 +90,7 @@
 .content {
   margin-top: 72px;
   margin-bottom: 116px;
-  padding-left: (280.11px / 1440px) * 100vw;
+  padding-left: calc(280.11px / 1440px) * 100vw;
   figure {
     margin: 0;
     font-family: "Noto Sans JP";

@@ -11,7 +11,7 @@ import Image from "next/image";
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/privacy_policy");
 
-function page() {
+export default function PrivacyPolicyPage() {
     // ========== レスポンシブヘッダー切り替えロジック ==========
     const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
     const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
@@ -139,4 +139,4 @@ function page() {
   );
 }
 
-export default page;
+// export default PrivacyPolicyPage;

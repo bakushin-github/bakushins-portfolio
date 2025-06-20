@@ -3,30 +3,28 @@
 
 .sidebarWidget {
   position: fixed;
-  top: 370px;
+  // topの値はJavaScriptで動的に制御（1440px: 370px, 1920px: 400px）
+  top: clamp(370px, calc(370px + (100vw - 1440px) * 30 / (1920 - 1440)), 400px);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
   width: 100%;
   background: transparent;
   max-width: 353px;
   color: $text-black;
   margin-bottom: 24px;
-  transition: all 0.2s ease;
+  // transitionはJavaScriptで制御
   animation: slideInRight 0.5s ease-out;
   z-index: 10 !important;
   
   &:hover {
-
     transform: translateY(-2px);
   }
 }
 
 .authorBlock {
-  // padding-bottom: 16px;
   padding: 24px 17.5px 32px;
-   background-color: $base-color-white;
-   border-radius: 8px;
-box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
-
+  background-color: $base-color-white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
 }
 
 .header {
@@ -45,22 +43,25 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
   flex-direction: row;
   align-items: flex-start;
   gap: 8px;
-  width: 318px;
+  width: 100%;
+  max-width: 318px;
 }
 
 .avatar {
-
-width: 157.533px;
-height: 157.533px;
-@media (max-width:370px) {
-  width: clamp(5.625rem, -21.388rem + 135.07vw, 9.846rem);
-  height: clamp(5.625rem, -21.388rem + 135.07vw, 9.846rem);
-}
+  width: 158px;
+  height: 158px;
+  
+  @media (max-width: 370px) {
+    width: clamp(5.625rem, -21.388rem + 135.07vw, 9.846rem);
+    height: clamp(5.625rem, -21.388rem + 135.07vw, 9.846rem);
+  }
 }
 
 .authorInfo {
   flex: 1;
   min-width: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 .name {
@@ -79,7 +80,7 @@ height: 157.533px;
     text-decoration: underline;
   }
 
-  .authorX{
+  .authorX {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,16 +93,19 @@ height: 157.533px;
   color: #666666;
   margin: 0;
   font-weight: 300;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  width: 100%;
+  max-width: 100%;
 }
 
 .shareBlock {
   margin-top: 16px;
-  // padding-bottom: 16px;
   padding: 24px 25px 32px;
-   background-color: $base-color-white;
-   border-radius: 8px;
-box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
-
+  background-color: $base-color-white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
 }
 
 .shareTitle {
@@ -111,7 +115,7 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
   text-align: left;
   font-weight: 500;
   border-bottom: 1px solid #e1e5e9;
-    padding-bottom: 16px;
+  padding-bottom: 16px;
   box-sizing: border-box;
 }
 
@@ -138,9 +142,11 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
   position: relative;
   overflow: hidden;
   box-sizing: border-box !important;
-&:not(:last-child){
+
+  &:not(:last-child) {
     margin-bottom: 8px;
-}
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -174,13 +180,14 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
   }
 }
 
-.shareTwitter{
+.shareTwitter {
   font-size: 29.5px;
 }
 
-.shareCopy{
+.shareCopy {
   font-size: 14px;
 }
+
 // アニメーション
 @keyframes slideInRight {
   from {
@@ -194,22 +201,61 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
 }
 
 // レスポンシブ対応
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  .sidebarWidget {
+    max-width: 200px;
+    margin: auto;
+  }
+
+  .authorSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 165px;
+    max-width: 165px;
+  }
+
+  .avatar {
+    margin-bottom: 4px;
+  }
+
+  .name {
+    justify-content: center;
+  }
+
+  .description {
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebarWidget {
+    // デスクトップでのサイドバー位置制御強化
+    transition: top 0.1s ease-out;
+  }
+}
+
 @media (max-width: 1023px) {
   .sidebarWidget {
-    position: static;
-    top: auto;
-    // max-width: 100vw- (40/375*100%);
+    // モバイルではposition: staticに戻す
+    position: static !important;
+    top: auto !important;
     margin: auto;
+    // JavaScriptで設定されたstyleを上書き
+    transform: none !important;
 
-    .authorSection{
-      @media (max-width:370px) {
+    .authorSection {
+      @media (max-width: 370px) {
         width: auto;
+        max-width: 100%;
       }
     }
   }
   
   .authorSection {
-    // flex-direction: column; // モバイルでは縦並びに戻す
+    // モバイル時の調整
+    // flex-direction: column; // 必要に応じてコメントアウト解除
     // align-items: center;
     // text-align: center;
     // gap: 12px;
@@ -229,5 +275,13 @@ box-shadow: 0px 2px 10px 0px rgba(25, 33, 61, 0.05);
 @media print {
   .sidebarWidget {
     display: none;
+  }
+}
+
+// フッター/CTA被り防止のための追加スタイル
+@media (min-width: 1024px) {
+  .sidebarWidget {
+    // フッター手前での自動調整（600px手前から押し上げ開始）
+    will-change: top;
   }
 }

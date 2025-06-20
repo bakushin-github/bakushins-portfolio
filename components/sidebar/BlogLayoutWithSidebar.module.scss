@@ -35,7 +35,18 @@
 }
 
 // レスポンシブ対応
-@media (max-width: 1024px) {
+@media (max-width: 1279px) {
+  .blogLayoutWithSidebar {
+    grid-template-columns: 1fr 353px;
+    gap: 30px;
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  .blogLayoutWithSidebar {
+    grid-template-columns: 1fr 300px; /* 353px → 300px */
+  }
+}
+@media (max-width: 1023px) {
   .blogLayoutWithSidebar {
     grid-template-columns: 1fr 280px;
     gap: 30px;
@@ -44,8 +55,11 @@
 
 @media (max-width: 1023px) {
   .blogLayoutWithSidebar {
-    grid-template-columns: 1fr;
-    gap: 0;
+   display: block;
+  }
+  .blogSidebar{
+   display: flex;
+   justify-content: center;
   }
 }
 
@@ -53,5 +67,9 @@
   .blogLayoutWithSidebar {
     padding: 0 16px;
     display: block;
+  }
+  .blogSidebar{
+   display: flex;
+   justify-content: center;
   }
 }

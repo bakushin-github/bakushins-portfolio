@@ -52,10 +52,15 @@ a {
   // @media (width:375px) {
   //   padding-inline: 0px;
   // }
+
+  @media screen and (min-width: 1024px) and (max-width: 1279px) {
+    padding-inline: 50px !important;
+  }
+
   @media (max-width:1023px) {
-  padding-bottom: 60px;
-  padding-inline: clamp(0px, 9.26vw - 34.72px, 60px);
-}
+    padding-bottom: 60px;
+    padding-inline: clamp(0px, 9.26vw - 34.72px, 60px);
+  }
 }
 
 .blog-article {
