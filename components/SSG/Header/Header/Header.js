@@ -24,22 +24,22 @@ function Header({ toggleMenu }) {
         <nav className={styles.header__nav}>
           <ul className={styles["header__nav-list"]}>
             <li className={styles.header__navTop}>
-              <Link href="#Fv">Top</Link>
+              <Link href="/#Fv">Top</Link>
             </li>
             <li>
-              <Link href="#Works">Works</Link>
+              <Link href="/#Works">Works</Link>
             </li>
             <li>
-              <Link href="#About">About</Link>
+              <Link href="/#About">About</Link>
             </li>
             <li>
-              <Link href="#Service">Service</Link>
+              <Link href="/#Service">Service</Link>
             </li>
             <li>
-              <Link href="#Flow">Flow</Link>
+              <Link href="/#Flow">Flow</Link>
             </li>
             <li>
-              <Link href="#Blogs">Blog</Link>
+              <Link href="/#Blogs">Blog</Link>
             </li>
           </ul>
           <Contact_button className={styles.header__contact} />
