@@ -378,3 +378,16 @@
     height: clamp(53.96px, 1.86vw + 48.01px, 64px);
   }
 }
+
+.headerSp {
+  display: none;
+  
+  @include mq(sm) {
+    display: flex;
+  }
+  
+  // 768px専用ルール追加
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+}

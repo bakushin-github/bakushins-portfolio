@@ -3,7 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import styles from "./page.module.scss";
-import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import H2 from "@/components/SSG/H2/H2";
 import WorkOthers from "@/components/FetchLowerLayer/WorkOther";
@@ -121,7 +121,7 @@ export default async function WorkDetailPage({ params }) {
       console.log("Work not found for slug:", slug); // ここで内容を確認
       return (
         <>
-          <Header_otherPage className={styles.worksHeader} />
+          <ResponsiveHeaderWrapper className={styles.worksHeader} />
           <div className={styles.breadcrumbWrapper}>
             <Breadcrumb
               items={createBreadcrumbs(slug, "作品が見つかりません")}
@@ -144,7 +144,7 @@ export default async function WorkDetailPage({ params }) {
 
     return (
       <>
-        <Header_otherPage className={styles.worksHeader} />
+        <ResponsiveHeaderWrapper className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -246,7 +246,7 @@ export default async function WorkDetailPage({ params }) {
   } catch (error) {
     return (
       <>
-        <Header_otherPage className={styles.worksHeader} />
+        <ResponsiveHeaderWrapper className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={createBreadcrumbs(slug, "エラーが発生しました")} />
         </div>

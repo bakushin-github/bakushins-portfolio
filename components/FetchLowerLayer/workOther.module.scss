@@ -2,24 +2,47 @@
 
 .worksContents {
   position: relative;
-  // padding-left: 200px;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(2,1fr);
-  grid-column-gap: 24px;
-  grid-row-gap: 56px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  /* 1024px: 17px | 1920px: 32px */
+  grid-column-gap: clamp(17px, 1.667vw, 32px);
+  /* 1024px: 40px | 1920px: 75px */
+  grid-row-gap: clamp(40px, 3.889vw, 75px);
+  @media (max-width: 1023px) {
+    place-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  @media (max-width: 767px) {
+    display: block;
+  }
 }
 
 /* 作品カード全体のスタイル */
 .workCard {
   position: relative;
-  width: 353px;
-  height: 346px;
+  /* 1024px: 251px | 1920px: 471px */
+  width: clamp(251px, 24.514vw, 471px);
+  /* 1024px: 246px | 1920px: 461px */
+  height: clamp(246px, 24.028vw, 461px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: clamp(16.563rem, -0.002rem + 34.51vw, 22.063rem);
+    height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
+  }
+  @media (max-width: 767px) {
+    /* 320px: 283px | 767px: 353px */
+    width: clamp(283px, 15.64vw + 233px, 353px);
+    /* 320px: 277px | 767px: 346px */
+    height: clamp(277px, 15.43vw + 227px, 346px);
+    margin-top: 30px;
+  }
   border-radius: 8px;
   overflow: hidden;
   background: $base-color-white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+
   &:hover {
     .title {
       &::after {
@@ -30,15 +53,11 @@
 
     .worksLink {
       background-position: 0 0;
-    } // グラデーションを左から表示
+    }
 
     .worksLink::before {
-      // ホバー時の初期変化（矢印の色と背景）
-      background-color: transparent; // 親のグラデーションが見えるように
-      background-image: url("../../public/Works/PC/ArrowWhite.webp"); // 白い矢印に変更
-
-      // 矢印の連続アニメーションを適用
-      // initial_hover_duration (0.4s) の後に開始
+      background-color: transparent;
+      background-image: url("../../public/Works/PC/ArrowWhite.webp");
       animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
     }
   }
@@ -48,8 +67,17 @@
 .workHeader {
   position: relative;
   width: 100%;
-  height: 200px;
+  /* 1024px: 142px | 1920px: 267px */
+  height: clamp(142px, 13.889vw, 267px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    height: clamp(9.375rem, -0.037rem + 19.61vw, 12.5rem);
+  }
 
+  @media (max-width: 767px) {
+    /* 320px: 160px | 767px: 200px */
+    width: clamp(283px, 15.64vw + 233px, 353px);
+    height: clamp(160px, 8.95vw + 131px, 200px);
+  }
   .thumbnailImage {
     width: 100%;
     height: 100%;
@@ -60,17 +88,21 @@
     position: absolute;
     max-width: 300px;
     width: auto;
-    height: 30px;
-    top: 16px;
-    right: 16px;
+    /* 1024px: 21px | 1920px: 40px */
+    height: clamp(21px, 2.083vw, 40px);
+    /* 1024px: 11px | 1920px: 21px */
+    top: clamp(11px, 1.111vw, 21px);
+    right: clamp(11px, 1.111vw, 21px);
     border-radius: 3px;
     border-width: 1px;
-    padding: 10px;
+    /* 1024px: 7px | 1920px: 13px */
+    padding: clamp(7px, 0.694vw, 13px);
     color: $main-color-dark_blue;
     background: $base-color-white;
     font-family: "Inter";
     font-weight: 600;
-    font-size: 14px;
+    /* 1024px: 10px | 1920px: 19px */
+    font-size: clamp(10px, 0.972vw, 19px);
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
@@ -79,47 +111,84 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      height: clamp(1.438rem, 0.12rem + 2.75vw, 1.875rem);
+    }
   }
 }
 
 /* フッター部分（タイトル、スキル、説明文を含む） */
 .workFooter {
   position: relative;
-  height: 146px;
-  padding: 24px 31.5px;
+  /* 1024px: 17px 22px | 1920px: 32px 42px */
+  @media (min-width: 1024px) {
+    /* 1024px: 104px | 1920px: 195px */
+    height: clamp(104px, 10.139vw, 195px);
+  }
+  padding: clamp(17px, 1.667vw, 32px) clamp(22px, 2.188vw, 42px);
   box-sizing: border-box;
+  @media screen and (min-width: 768px) and (max-width: 1023.98px) {
+    height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
+  }
+  @media (max-width: 767px) {
+    /* 320px: 117px | 767px: 146px */
+    height: clamp(117px, 6.49vw + 96px, 146px);
+  }
+}
 
-  .title {
-    margin: 0;
-    padding-bottom: 13px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    position: relative;
-    transition: border-bottom 0.4s ease-in-out;
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 28px;
-      left: 0;
-      width: 100%;
-      height: 0.5px;
-      background-color: $main-color-blue;
-      opacity: 0;
-    }
+.title {
+  margin: 0;
+  /* 1024px: 9px | 1920px: 17px */
+  padding-bottom: clamp(9px, 0.903vw, 17px);
+  /* 1024px: 11px | 1920px: 21px */
+  font-size: clamp(11px, 1.111vw, 21px);
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  transition: border-bottom 0.4s ease-in-out;
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: clamp(0.875rem, 0.122rem + 1.57vw, 1.125rem);
   }
 
-  .skill {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 8px;
+  @media (max-width: 767px) {
+    /* 320px: 14px | 767px: 18px */
+    font-size: clamp(14px, 0.89vw + 11px, 18px);
   }
+  @media (width:375px) {
+    padding-inline: 22px;
+  }
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    /* 1024px: 20px | 1920px: 37px */
+    top: clamp(20px, 1.944vw, 37px);
+    left: 0;
+    width: 100%;
+    height: 0.5px;
+    background-color: $main-color-blue;
+    opacity: 0;
+  }
+}
 
+.skill {
+  margin: 0;
+  /* 1024px: 10px | 1920px: 19px */
+  font-size: clamp(10px, 0.972vw, 19px);
+  color: #666;
+  /* 1024px: 6px | 1920px: 11px */
+  margin-bottom: clamp(6px, 0.556vw, 11px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: clamp(0.688rem, 0.123rem + 1.18vw, 0.875rem);
+  }
+  @media (max-width: 767px) {
+    /* 320px: 11px | 767px: 14px */
+    font-size: clamp(11px, 0.67vw + 9px, 14px);
+  }
   .caption {
     margin: 0;
-    font-size: 14px;
+    /* 1024px: 10px | 1920px: 19px */
+    font-size: clamp(10px, 0.972vw, 19px);
     color: #666;
     line-height: 1.4;
     overflow: hidden;
@@ -143,110 +212,91 @@
 
 .worksLink {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  right: 31px;
-  bottom: 23px;
+  /* 1024px: 28px | 1920px: 53px */
+  width: clamp(28px, 2.778vw, 53px);
+  height: clamp(28px, 2.778vw, 53px);
+  /* 1024px: 22px | 1920px: 41px */
+  bottom: 24px;
+  right: 32px;
+  @media (max-width: 1024px) {
+    bottom: 17px;
+    right: 23px;
+  }
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; // はみ出した要素をクリップするために重要
-
-  // グラデーションボーダーのための余白
+  overflow: hidden;
   padding: 1px;
-
-  // 背景グラデーション（ホバーで表示される部分）
   background: linear-gradient(282.13deg, #366195 10.86%, #333398 77.59%);
-  background-size: 200% 100%; // アニメーションのために幅を2倍に
-  background-position: 100% 0; // 初期状態ではグラデーションの左側を隠す
-  transition: background-position 0.4s ease-in-out; // グラデーションの出現アニメーション
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 0.4s ease-in-out;
 
-  // 矢印アイコンと内側背景のコンテナ
   &::before {
     content: "";
-    display: block; // transformとサイズ指定のため
-    width: 100%; // 親要素のpadding領域いっぱいに広がる
-    height: 100%; // 親要素のpadding領域いっぱいに広がる
-
-    background-color: $base-color-white; // 通常時の背景色
-    background-image: url("../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
-    background-size: 18px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: $base-color-white;
+    background-image: url("../../public/Works/PC/ArrowBlue.webp");
+    /* 1024px: 13px | 1920px: 24px */
+    background-size: clamp(13px, 1.25vw, 24px);
     background-position: center;
     background-repeat: no-repeat;
-
-    border-radius: 7px; // 親要素のradiusより少し小さくして内側感を出す
-
-    // 初期状態とホバー解除時のためのトランジション
-    // transform と opacity はアニメーション終了後にスムーズに戻るように
+    border-radius: 7px;
     transition: background-color 0.4s ease-in-out,
       background-image 0.4s ease-in-out, transform 0.3s ease-out,
-      // ホバー解除時の戻りアニメーション
-      opacity 0.3s ease-out; // ホバー解除時の戻りアニメーション
-
-    // アニメーションのための初期transformとopacity
+      opacity 0.3s ease-out;
     transform: translateX(0%);
     opacity: 1;
   }
 }
 
-// 矢印の連続アニメーションのキーフレーム
+// 矢印のアニメーション（変更なし）
 @keyframes arrow-cycle {
-  // アニメーション開始時 (白い矢印が中央にある状態)
   0% {
     transform: translateX(0%);
     opacity: 1;
   }
-
-  // --- Phase 1: 右へ移動して消える ---
-  // (アニメーション全体の 0% から 50% を使用)
-
-  // 少し中央で待機
   20% {
-    // 例: 1.2s * 0.2 = 0.24s 地点
     transform: translateX(0%);
     opacity: 1;
   }
-  // 右端へ移動し、完全に透明になる
   50% {
-    // 例: 1.2s * 0.5 = 0.6s 地点
-    transform: translateX(100%); // 要素の幅分、右へ移動
+    transform: translateX(100%);
     opacity: 0;
   }
-
-  // --- Phase 2: 左から出現して中央へ移動 ---
-  // (アニメーション全体の 50% から 100% を使用)
-
-  // 右で消えた直後、瞬時に左端へ移動 (まだ透明)
   50.01% {
-    // ほぼ50%と同時
-    transform: translateX(-100%); // 要素の幅分、左へ移動
-    opacity: 0;
-  }
-  // 左端で少し待機 (まだ透明)
-  70% {
-    // 例: 1.2s * 0.7 = 0.84s 地点
     transform: translateX(-100%);
     opacity: 0;
   }
-  // 左端から中央へ移動し、完全に表示される
+  70% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
   100% {
-    // 例: 1.2s * 1.0 = 1.2s 地点
     transform: translateX(0%);
     opacity: 1;
   }
 }
 
-/* レスポンシブ対応 */
-@media (max-width: 768px) {
-  .worksContents {
-    padding-left: 20px;
-    padding-bottom: 60px;
-  }
+/* 1920pxまでのclamp()に対応したため、1279pxのメディアクエリは実質不要になる場合があります */
+@media (max-width: 1920px) {
+  /* 1024pxから1920pxの間はclampが機能します。
+     もしこの範囲で特別なスタイル変更が必要な場合はここに記述します。 */
+}
 
-  .workCard {
-    width: 100%;
-  }
+/* 1024px未満のブレークポイントはそのまま残します */
+@media (max-width: 1023.98px) {
+  /* clampの最小値が適用され始めます。
+     768px以下のスタイルをここに集約・上書きすることも可能です。 */
+}
+
+@media (max-width: 768px) {
+
+
+
 
   .swiper-slide {
     width: auto !important;

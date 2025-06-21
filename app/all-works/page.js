@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import styles from "./page.module.scss";
-import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
 
@@ -452,7 +452,7 @@ export default async function WorksPage() {
   if (error) {
     return (
       <div className={styles.allWorks}>
-        <Header_otherPage className={styles.worksHeader} />
+        <ResponsiveHeaderWrapper className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -474,7 +474,7 @@ export default async function WorksPage() {
   if (works.length === 0) {
     return (
       <div className={styles.allWorks}>
-        <Header_otherPage className={styles.worksHeader} />
+        <ResponsiveHeaderWrapper className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -494,7 +494,7 @@ export default async function WorksPage() {
 
   return (
     <div className={styles.allWorks}>
-      <Header_otherPage className={styles.worksHeader} />
+      <ResponsiveHeaderWrapper className={styles.worksHeader} />
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
       </div>

@@ -92,3 +92,15 @@
     display: none;
   }
 }
+
+
+.header__logo, .header__nav, .header__contact {
+  @include mq(sm) {
+    display: none;
+  }
+  
+  // 768px専用ルール追加
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
