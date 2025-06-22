@@ -21,9 +21,14 @@ margin-bottom: 0 !important;
 }
 
 .blogs-container{
-  width: 1106px;
+  /* 1024px: 1106px | 1920px: 1106px (固定値を維持) */
+width: (1106px/1400px*100%);
   margin: auto;
-  padding-bottom: 96px;
+  /* 1024px: 96px | 1920px: 96px */
+  padding-bottom: clamp(60px, 6.25vw, 96px);
+  @media (max-width: 767px) {
+    // width: 90%;
+  }
 }
 
 .info_blogsSearch{
@@ -36,8 +41,7 @@ margin-bottom: 0 !important;
   border-radius: 1.5rem;
   width: 200px;
   height: 50px;
-  left: calc((906px /1106px)*100%);
-  
+left: clamp(412px, 77.3vw - 182px, 1303px);  
 }
 
 .blogs_separatorLine{
@@ -86,27 +90,47 @@ margin-bottom: 0 !important;
 
 
 .blogCard-grid {
-  position: relative;
-  padding-bottom: 40px;
   display: grid;
-  grid-template-columns: repeat(3,353px);
-  grid-row-gap: 56px;
- grid-column-gap:  24px;
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  /* 1024px: 17px | 1920px: 32px */
+  grid-column-gap: clamp(17px, 1.667vw, 32px);
+  /* 1024px: 40px | 1920px: 75px */
+  grid-row-gap: clamp(40px, 3.889vw, 75px);
+  @media (max-width: 1023px) {
+    place-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  @media (max-width: 767px) {
+    // display: block;
+     grid-template-columns: repeat(1, 1fr);
+    place-items: center;
+    
+  }
 }
 
 .blog-card {
-  position: relative;
-  margin: 0;
-  width: 353px;
-  height: 397px;
-  // left: 190px;
-  gap: 10px;
-  border: 0.5px light grey;
+   position: relative;
+  /* 1024px: 251px | 1920px: 471px */
+  width: clamp(251px, 24.514vw, 471px);
+  /* 1024px: 282px | 1920px: 529px */
+  height: clamp(282px, 27.57vw, 529px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: clamp(16.563rem, -0.002rem + 34.51vw, 22.063rem);
+    height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
+  }
+  @media (max-width: 767px) {
+    /* 320px: 283px | 767px: 353px */
+    width: clamp(283px, 15.64vw + 233px, 353px);
+    /* 320px: 301px | 767px: 376px */
+    height: clamp(301px, 12.83vw + 280px, 376px);
+    margin-top: 30px;
+  }
   border-radius: 8px;
-  background: $base-color-white;
-  text-align: center;
   overflow: hidden;
+  background: $base-color-white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   &:hover {
     .blog-title {
@@ -137,16 +161,22 @@ margin-bottom: 0 !important;
 
   /* header内の画像 */
   .blog-header {
-    
-    height: 200px;
-        box-sizing: border-box;
-        border: 1px solid #caccd3;
-        border-bottom-width: 0;
-        border-radius: 8px 8px 0 0;
-        overflow: hidden;
+  position: relative;
+  width: 100%;
+  /* 1024px: 142px | 1920px: 267px */
+  height: clamp(142px, 13.889vw, 267px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    height: clamp(9.375rem, -0.037rem + 19.61vw, 12.5rem);
+  }
+
+  @media (max-width: 767px) {
+    /* 320px: 160px | 767px: 200px */
+    width: clamp(283px, 15.64vw + 233px, 353px);
+    height: clamp(160px, 8.95vw + 131px, 200px);
+  }
     img {
-      height: 200px;
-      width: 353px;
+    width: 100%;
+    height: 100%;
       object-fit: cover;
       transition: 0.3s ease-in-out;
       transform: translateZ(0);
@@ -156,17 +186,21 @@ margin-bottom: 0 !important;
     position: absolute;
     max-width: 300px;
     width: auto;
-    height: 30px;
-    top: 16px;
-    right: 19px;
+    z-index: 2;
+    /* 1024px: 21px | 1920px: 40px */
+    height: clamp(21px, 2.083vw, 40px);
+ top: clamp(11px, 1.114vw, 21px);
+right: clamp(13px, 1.337vw, 25px);
     border-radius: 3px;
     border-width: 1px;
-    padding: 10px;
+    /* 1024px: 7px | 1920px: 13px */
+    padding: clamp(7px, 0.694vw, 13px);
     color: $main-color-dark_blue;
     background: $base-color-white;
     font-family: "Inter";
     font-weight: 600;
-    font-size: 14px;
+    /* 1024px: 10px | 1920px: 19px */
+    font-size: clamp(10px, 0.972vw, 19px);
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
@@ -175,29 +209,47 @@ margin-bottom: 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      height: clamp(1.438rem, 0.12rem + 2.75vw, 1.875rem);
+    }
   }
 
   .blog-footer {
-    height: 197px;
-    padding-inline: 31.5px;
-    text-align: left;
-    box-sizing: border-box;
-        border: 1px solid #caccd3;
-        border-top-width: 0;
-        border-radius: 0 0 8px 8px;
-
+  
+    padding-inline: clamp(17.5px, 3.37vw - 17px, 47.5px);
+    // position: relative;
+  /* 1024px: 17px 22px | 1920px: 32px 42px */
+  @media (min-width: 1024px) {
+    /* 1024px: 104px | 1920px: 195px */
+    height: clamp(104px, 10.139vw, 195px);
+  }
+  padding: clamp(17px, 1.667vw, 32px) clamp(22px, 2.188vw, 42px);
+  box-sizing: border-box;
+  @media screen and (min-width: 768px) and (max-width: 1023.98px) {
+    height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
+  }
+  @media (max-width: 767px) {
+    /* 320px: 117px | 767px: 146px */
+    height: clamp(117px, 6.49vw + 96px, 146px);
+  }
     h2 {
-      padding-top: 24px;
-      padding-bottom: 13px;
+@media (max-width: 1440px) {
+  padding-top: clamp(2px, 0.96vw - 8px, 6px);
+}
+@media (min-width: 1441px) {
+  padding-top: clamp(6px, 1.25vw - 12px, 12px);
+}
+padding-bottom: clamp(26px, 2.45vw + 1px, 48px);
       margin: 0;
       box-sizing: border-box;
-      font-size: 18px;
+      font-size: clamp(12px, 1.337vw, 24px);
+
     }
-    p {
+    time {
       margin: 0;
       height: 82px;
       box-sizing: border-box;
+      font-size: clamp(11px, 1.228vw, 22px);
     }
   }
 }
@@ -206,8 +258,8 @@ margin-bottom: 0 !important;
   position: absolute;
   width: 40px;
   height: 40px;
-  right: 31px;
-  bottom: 23px;
+right: clamp(18px, 1.53vw + 5px, 32px);
+bottom: 10%;
   border-radius: 8px;
   display: flex;
   justify-content: center;
