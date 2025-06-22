@@ -205,7 +205,7 @@ function WorkOthers({ currentWorkId }) {
   const [isClient, setIsClient] = useState(false);
   const [accessMethod, setAccessMethod] = useState(null);
   const [finalQuery, setFinalQuery] = useState(null);
-  const [renderCounter, setRenderCounter] = useState(0);
+  // const [renderCounter, setRenderCounter] = useState(0);
 
   // テストクエリの実行 (変更なし)
   const {
@@ -256,15 +256,12 @@ function WorkOthers({ currentWorkId }) {
   });
 
   // クライアント側でのマウントをマーク
+ // 🔥 修正: setIntervalを削除してクライアント側マウントのみマーク
   useEffect(() => {
     console.log("Initial useEffect running - setting isClient to true");
     setIsClient(true);
-    const renderTimer = setInterval(() => {
-      setRenderCounter(prev => prev + 1);
-    }, 1000);
     return () => {
       console.log("Cleanup function called");
-      clearInterval(renderTimer);
     };
   }, []);
 
@@ -415,7 +412,7 @@ function WorkOthers({ currentWorkId }) {
           }}
         >
           <p style={{ color: '#333' }}>
-            ギャラリーを読み込み中... (isClient: {String(isClient)}, render: {renderCounter})
+            ギャラリーを読み込み中...
           </p>
         </div>
       </div>
@@ -452,7 +449,7 @@ function WorkOthers({ currentWorkId }) {
           }}
         >
           <p style={{ color: '#333' }}>
-            作品データを読み込み中... (loading: {String(loading)}, render: {renderCounter})
+            作品データを読み込み中...
           </p>
         </div>
       </div>

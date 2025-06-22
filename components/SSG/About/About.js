@@ -195,7 +195,7 @@ function About() {
                     <Image className={styles.shopify} src="/About/Sp/shopify.webp" width={75} height={75} alt="shopify" />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.nextJs} src="/About/Sp/next.js.webp" width={75} height={75} alt="next.js" />
+                    <Image className={styles.nextJs} src="/About/Sp/next.webp" width={75} height={75} alt="next.js" />
                   </li>
                   <li className={styles.about__list}>
                     <Image className={styles.gsap} src="/About/Sp/gsap.webp" width={75} height={75} alt="gsap" />
