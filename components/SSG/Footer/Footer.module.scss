@@ -3,7 +3,7 @@
 .footer {
   font-family: "Inter";
   font-weight: 400;
-  font-size: 16px;
+  font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
   line-height: 170%;
   letter-spacing: 0%;
   text-align: center;
