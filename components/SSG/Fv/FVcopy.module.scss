@@ -224,10 +224,11 @@
 // メイン画像
 .fv_image {
   position: absolute;
-width: 440px;
-    height: 480px;
-    top: 167px;
-    left: 822px;
+  max-width: clamp(212.63px, calc(30.86vw + 64.53px), 508.87px);
+  width: 100%;
+  max-height: 467.478271484375px;
+  top: clamp(177px, calc(-26.666667vw + 561px), 390px);
+  right: clamp(20.19px, calc(17.5vw - 63.81px), 188px);
   border-radius: 9.74px;
   
   img {
@@ -284,8 +285,8 @@ width: 440px;
   min-width: 324px;
   max-height: clamp(155px, calc(25.208333vw + 34px), 397px);
   width: 100%;
- top: 296px;
-    left: 203px;
+  top: clamp(203px, calc(14.427083vw + 128.757px), 336.54px);
+  left: clamp(19px, calc(28.90625vw - 131.565px), 285.43px);
   
   @media (max-width: 480px) {
     top: 203px;
@@ -296,7 +297,7 @@ width: 440px;
 // メインタイトル
 .fv__text_h1 {
   font-weight: 700;
-  font-size: clamp(35px, calc(2.629vw + 26.587px), 77px);
+  font-size: clamp(35px, calc(4.375vw + 14px), 77px);
   white-space: nowrap;
   margin: 0;
   line-height: 150%;
@@ -306,7 +307,7 @@ width: 440px;
 
 // PC用サブテキスト
 .fv__text_divPC {
-  margin-top: 10px;
+  margin-top: clamp(15.22px, calc(1.302083vw + 8.993px), 27.61px);
   font-weight: 500;
   font-size: clamp(16px, calc(0.416667vw + 14px), 20px);
   line-height: 170%;
@@ -335,10 +336,11 @@ width: 440px;
 // SVG鉛筆ライン
 .fv__pencil {
   position: absolute;
-    top: 375px;
-    left: 491px;
-    width: 271px;
-    height: 22px;
+  top: calc(clamp(203px, calc(14.427083vw + 128.757px), 336.54px) + clamp(80px, calc(4.166667vw + 60px), 120px));
+  left: calc(clamp(19px, calc(28.90625vw - 131.565px), 285.43px) + clamp(100px, calc(15.625vw + 25px), 250px));
+  width: clamp(123px, calc(38.333333vw - 60.5px), 491px);
+  height: 11px;
+  transform: translateY(clamp(0px, calc(9.270833vw - 44.5px), 89px)) translateX(clamp(0px, calc(-9.895833vw + 95px), 95px));
   
   @media (max-width: 480px) {
     top: calc(203px + 190px);

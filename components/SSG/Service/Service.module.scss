@@ -36,7 +36,7 @@
   left: clamp(-150px, calc(-150px + (0 - -150) * (100vw - 1024px) / 896), 0px);
   object-fit: cover;
   @media (min-width:768px) {
-    display: none;
+    display: none !important;
   }
 }
 
