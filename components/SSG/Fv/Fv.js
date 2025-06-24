@@ -1,4 +1,3 @@
-// Fv.jsx (修正版)
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -258,21 +257,42 @@ function Fv() {
                   handleAElementComplete("header_line_pc");
                 }}
               />
-              <motion.img
-                className={styles.fv_header_lineSp}
-                src="/Fv/Sp/header_line.webp"
-                alt="header_lineSp"
-                // widthとheightはスタイルで制御されている場合があるためコメントアウト
-                // width="102.19439"
-                // height="147"
-                initial="hidden"
-                animate="visible"
-                variants={maskAnimationVariants("top")}
-                onAnimationComplete={() => {
-                  console.log("LOG: fv_header_lineSp (SP) onAnimationComplete");
-                  handleAElementComplete("header_line_sp");
-                }}
-              />
+
+              {/* ▼▼▼ 修正箇所 ▼▼▼ */}
+              {/* fv_header_lineSpとfv_header_ballSpを一つのdivで囲む */}
+              <div className={styles.fv_header_lineBallSp}>
+                <motion.img
+                  className={styles.fv_header_lineSp}
+                  src="/Fv/Sp/header_line.webp"
+                  alt="header_lineSp"
+                  initial="hidden"
+                  animate="visible"
+                  variants={maskAnimationVariants("top")}
+                  onAnimationComplete={() => {
+                    console.log("LOG: fv_header_lineSp (SP) onAnimationComplete");
+                    handleAElementComplete("header_line_sp");
+                  }}
+                />
+                {/* fv_header_ballSpはA要素完了後に表示する条件を維持 */}
+                {aElementsComplete && (
+                   <motion.img
+                    className={styles.fv_header_ballSp}
+                    src="/Fv/Sp/header_ball.webp"
+                    alt="header_ballSp"
+                    width="23.178"
+                    height="23.178"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
+                    onAnimationComplete={() => {
+                      console.log("LOG: fv_header_ballSp (SP) onAnimationComplete");
+                      handleBElementComplete("header_ball_sp");
+                    }}
+                  />
+                )}
+              </div>
+              {/* ▲▲▲ 修正箇所 ▲▲▲ */}
+
               <>
                 <motion.img
                   className={styles.fv_left_linePc}
@@ -354,20 +374,9 @@ function Fv() {
                       handleBElementComplete("header_ball_pc");
                     }}
                   />
-                  <motion.img
-                    className={styles.fv_header_ballSp}
-                    src="/Fv/Sp/header_ball.webp"
-                    alt="header_ballSp"
-                    width="23.178"
-                    height="23.178"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                    onAnimationComplete={() => {
-                      console.log("LOG: fv_header_ballSp (SP) onAnimationComplete");
-                      handleBElementComplete("header_ball_sp");
-                    }}
-                  />
+                  {/* ▼▼▼ 修正箇所 ▼▼▼ */}
+                  {/* fv_header_ballSp は上でグループ化したため、ここからは削除 */}
+                  {/* ▲▲▲ 修正箇所 ▲▲▲ */}
                   <motion.img
                     className={styles.fv_right_polygon_left}
                     src="/Fv/right_polygon_left.webp"
@@ -434,7 +443,7 @@ function Fv() {
                   />
                 </>
               )}
-
+<figure className={styles.fv_mainImage}>
               {console.log(
                 "LOG: Rendering Image/Text group. bElementsComplete:",
                 bElementsComplete
@@ -535,6 +544,7 @@ function Fv() {
                   </motion.div>
                 )}
               </div>
+              </figure>
             </div>
           </motion.div>
         )}

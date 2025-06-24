@@ -3,12 +3,10 @@
 .fv {
   position: relative;
   height: auto;
-  min-height: 100vh; 
-    @media (max-width: 1024px) {
-       background: $base-color-off_white;
-
+  min-height: 100vh;
+  @media (max-width: 1024px) {
+    background: $base-color-off_white;
   }
-
 }
 
 .fv_animation_container {
@@ -18,13 +16,25 @@
 }
 
 .fv_other_elements_wrapper {
-  position: relative;
   width: 100%;
   height: 100%;
+  figure {
+    position: relative;
+    top: 34%;
+    left: 11.3%;
+    @media (max-width: 1279px) {
+      width: 110%;
+      left: 7%;
+    }
+    @media (max-width: 1023px) {
+      width: 100%;
+      left: clamp(-1.156rem, -7.757rem + 28.16vw, 10.25rem);
+      top: 22%;
+    }
+  }
 }
 
 .fv_svg_wrapper {
-  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -32,25 +42,40 @@
 // ヘッダーボール
 .fv_header_ball {
   position: absolute;
-  top: clamp(68.77px, calc(4.7vw + 46.13px), 114px); // Y軸調整: 480px→68.77px, 1440px→114px
-  left: clamp(46px, calc(25.625vw - 77px), 292px); // X軸調整: 左へ3px移動 (49px→46px, 295px→292px)
+  top: clamp(
+    68.77px,
+    calc(4.7vw + 46.13px),
+    114px
+  ); // Y軸調整: 480px→68.77px, 1440px→114px
+  left: clamp(
+    46px,
+    calc(25.625vw - 77px),
+    292px
+  ); // X軸調整: 左へ3px移動 (49px→46px, 295px→292px)
   // アスペクト比1:1を保持してレスポンシブ
   width: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
   height: clamp(23.178px, calc(2.167vw + 12.78px), 44px);
-    @media (max-width: 1023px) {
+  @media (max-width: 1023px) {
     display: none !important;
-  
-}
+  }
 }
 
 .fv_header_ballSp {
   position: absolute;
-  top: clamp(107.77px, calc(-5.78vw + 129.45px), 110.95px);
-  // [修正] 左に5px移動
-  left: clamp(28.42px, calc(26.058vw - 54.97px), 211.6px);
+  top: clamp(83.1px, calc(12.5vw + 43.125px), 171px);
+  left: clamp(22px, calc(25.31vw - 59px), 200px);
+  width: clamp(21.2px, calc(2.25vw + 14px), 44px);
+  height: clamp(21.2px, calc(2.25vw + 14px), 44px);
 
-  width: clamp(20px, calc(5.778vw + 1.51px), 35px);
-  height: clamp(20px, calc(5.778vw + 1.51px), 35px);
+@media screen and (min-width: 410px) and (max-width: 720px){
+  transform: translateY(-20%) !important;
+}
+
+@media screen and (min-width: 300px) and (max-width: 370px){
+  transform: translate(48%, 10%) !important;
+   left: clamp(22px, calc(22px + 0.25294 * (100vw - 320px)), 34.647px);
+    top: clamp(83.125px, calc(83.125px + 0.125 * (100vw - 320px)), 89.375px);
+}
 
   @media (min-width: 1024px) {
     display: none !important;
@@ -77,8 +102,8 @@
   /* [修正] translateX(15px)の効果を反映するため、各値に15pxを加算 */
   left: clamp(83px, calc(31.84vw - 36.4px), 393px);
 
-  width: clamp(90px, calc(22.16vw + 19.09px), 246px);
-  height: auto !important;
+width: clamp(87.22px, 16.66vw, 204.38px);
+height: clamp(125.07px, 23.90vw, 293.12px);
   aspect-ratio: 205 / 294;
 
   @media (min-width: 1024px) {
@@ -94,25 +119,37 @@
   // アスペクト比390:197≈1.98を保持してレスポンシブ
   width: clamp(200px, calc(19.792vw + 105px), 390px);
   height: clamp(101px, calc(10vw + 53px), 197px);
-  
+
   @media (max-width: 1023px) {
     display: none !important;
   }
 }
-
 
 // 左ライン（SP用）
 .fv_left_lineSp {
   position: absolute;
   bottom: 0; // 1023px時点で0に
   left: 0;
-  // width: 1023px→218px, アスペクト比156:602≈0.259から高さを計算  
-  width: clamp(134px, calc(8.453vw + 99.294px), 218px); // 320px→134px, 375px→156px, 1023px→218px
-  height: clamp(517px, calc(32.627vw + 383.345px), 841.7px); // 320px→517px, 375px→602px, 1023px→841.7px
-  
+  // width: 1023px→218px, アスペクト比156:602≈0.259から高さを計算
+  width: clamp(
+    134px,
+    calc(8.453vw + 99.294px),
+    218px
+  ); // 320px→134px, 375px→156px, 1023px→218px
+  height: clamp(
+    517px,
+    calc(32.627vw + 383.345px),
+    841.7px
+  ); // 320px→517px, 375px→602px, 1023px→841.7px
+
   @media (min-width: 1024px) {
     display: none !important;
   }
+}
+
+.fv_header_lineBallSp{
+  position: relative;
+  top:-2%
 }
 
 // 右ライン
@@ -123,23 +160,23 @@
   // アスペクト比426:215≈1.98を保持してレスポンシブ
   width: clamp(180px, calc(25.625vw + 57px), 426px);
   height: clamp(91px, calc(12.917vw + 29px), 215px);
-    @media (max-width: 1023px) {
+  @media (max-width: 1023px) {
     display: none !important;
   }
 }
 
-.fv_right_lineSp{
+.fv_right_lineSp {
   position: absolute;
   bottom: 0;
   right: 0;
-  
+
   width: clamp(157.5px, calc(24.812vw + 78.088px), 384px);
   height: auto;
-  
+
   /* [修正] 要素全体を1.5倍に拡大 */
   transform: scale(1.5);
   transform-origin: bottom right; /* 拡大の基点を右下に設定 */
-  
+
   @media (min-width: 1024px) {
     display: none !important;
   }
@@ -148,13 +185,13 @@
 // 左ライン（SP用）
 .fv_left_lineSp {
   position: absolute;
-  bottom: calc((98 /772)*100%);
+  bottom: calc((98 / 772) * 100%);
   left: 0;
 
   // [修正] 元のサイズから30%縮小
   width: clamp(93.8px, calc(5.917vw + 69.506px), 152.6px);
   height: clamp(361.9px, calc(22.839vw + 268.342px), 589.19px);
-  
+
   @media (min-width: 1024px) {
     display: none !important;
   }
@@ -168,23 +205,23 @@
   // アスペクト比46:79≈0.58を保持
   width: clamp(26.5px, calc(2.042vw + 16.7px), 46px);
   height: clamp(46px, calc(3.417vw + 29.8px), 79px);
-    @media (max-width: 1023px) {
+  @media (max-width: 1023px) {
     display: none !important;
   }
 }
 
-.fv_right_polygon_leftSp{
+.fv_right_polygon_leftSp {
   position: absolute;
 
   /* [修正] translateY(10px)の効果を反映 → 10px引く */
   bottom: clamp(62.45px, calc(11.42475vw + 25.94075px), 135.8px);
   /* [修正] translateX(-5px)の効果を反映 → 5px足す */
   right: clamp(40.1px, calc(0.9705vw + 36.995px), 48.5px);
-  
+
   /* [維持] 1.5倍のサイズ */
   width: clamp(34.05px, calc(2.598vw + 25.743px), 57px);
   height: clamp(59.4px, calc(4.5315vw + 44.9025px), 97.5px);
-  
+
   @media (min-width: 1024px) {
     display: none !important;
   }
@@ -198,44 +235,45 @@
   // アスペクト比36:72≈0.5を保持
   width: clamp(20px, calc(1.625vw + 12.2px), 36px);
   height: clamp(37px, calc(3.563vw + 20px), 72px);
-      @media (max-width: 1023px) {
+  @media (max-width: 1023px) {
     display: none !important;
   }
 }
 
-.fv_right_polygon_rightSp{
+.fv_right_polygon_rightSp {
   position: absolute;
-  
+
   /* [修正] translateY(10px)の効果を反映 → 10px引く */
   bottom: clamp(62.45px, calc(11.42475vw + 25.94075px), 135.8px);
   /* [修正] translateX(-5px)の効果を反映 → 5px足す */
   right: 5px;
-  
+
   /* [維持] 1.5倍のサイズ */
   width: clamp(35.1px, calc(0.9705vw + 31.995px), 43.5px);
   height: clamp(61.2px, calc(2.9145vw + 50.2695px), 85.5px);
-  
+
   @media (min-width: 1024px) {
     display: none !important;
   }
 }
 
 // メイン画像
-// メイン画像
 .fv_image {
   position: absolute;
-width: 440px;
-    height: 480px;
-    top: 167px;
-    left: 822px;
+  //1024px幅: width: 313px, 1440px幅:440px, 1920px幅: 587px;
+  width: clamp(19.563rem, -0.009rem + 30.58vw, 36.688rem);
+  //1024px幅: height: 341px, 1440px幅:480px, 1920px幅: 640px;
+  height: clamp(21.313rem, -0.045rem + 33.37vw, 40rem);
+  top: -54%;
+  left: 45.5%;
   border-radius: 9.74px;
-  
+
   img {
     width: 100%;
     height: auto;
     display: block;
   }
-  
+
   // PC用画像
   .fv_image_pc {
     display: block;
@@ -243,7 +281,7 @@ width: 440px;
       display: none;
     }
   }
-  
+
   // SP用画像
   .fv_image_sp {
     display: none;
@@ -251,11 +289,15 @@ width: 440px;
       display: block;
     }
   }
-  
-  @media (max-width: 480px) {
-    top: 390px;
-    left: auto;
-    right: clamp(17.3px, calc(0.929vw + 13.81px), 20.19px); // 320px→17.3px, 375px→20.19px, 480px→20.19px
+
+  @media (max-width: 1023px) {
+    top: 117%;
+    left: 32%;
+    right: clamp(
+      17.3px,
+      calc(0.929vw + 13.81px),
+      20.19px
+    ); // 320px→17.3px, 375px→20.19px, 480px→20.19px
     transform: none;
 
     // 320px→191px, 375px→222.813px, 480px→250px になるよう調整
@@ -267,7 +309,7 @@ width: 440px;
     // max-height: 250px * (248 / 222.813) ≈ 278.275px
     height: clamp(212.594px, calc(64.374vw + 6.598px), 278.275px);
     max-height: none; // clampで最大値を指定しているため不要
-    
+
     img {
       width: 100%;
       // 親要素のclampされた高さに追従させる
@@ -279,14 +321,12 @@ width: 440px;
 
 // メインテキスト
 .fv__text {
-  position: absolute;
+  // position: absolute;
   max-width: clamp(324px, calc(42.708333vw + 119px), 731px);
   min-width: 324px;
   max-height: clamp(155px, calc(25.208333vw + 34px), 397px);
   width: 100%;
- top: 296px;
-    left: 203px;
-  
+
   @media (max-width: 480px) {
     top: 203px;
     left: 19px;
@@ -307,13 +347,14 @@ width: 440px;
 // PC用サブテキスト
 .fv__text_divPC {
   margin-top: 10px;
+  min-height: 60px;
   font-weight: 500;
   font-size: clamp(16px, calc(0.416667vw + 14px), 20px);
   line-height: 170%;
   letter-spacing: -10%;
   color: $text-accent-blue;
-  
-  @media (max-width: 480px) {
+
+  @media (max-width: 1023px) {
     display: none;
   }
 }
@@ -326,8 +367,12 @@ width: 440px;
   line-height: 170%;
   letter-spacing: -10%;
   color: $text-accent-blue;
-  
-  @media (min-width: 481px) {
+  @media (max-width: 1023px) {
+    margin-top: 1.5%;
+    font-size: clamp(16px, calc(0.62vw + 13.7px), 20px);
+    letter-spacing: 0.6px;
+  }
+  @media (min-width: 1024px) {
     display: none;
   }
 }
@@ -335,16 +380,63 @@ width: 440px;
 // SVG鉛筆ライン
 .fv__pencil {
   position: absolute;
-    top: 375px;
-    left: 491px;
-    width: 271px;
-    height: 22px;
-  
+  top: 30%;
+  left: 21%;
+  width: 271px;
+  height: 22px;
+
+  @media (max-width: 1279px) {
+     top: 29%;
+  left: 21%;
+    width: 250px;
+  height: 20px;
+   }
+
+  @media (max-width: 1023px) {
+     top: 29%;
+  left: 25%;
+    width: 204px;
+    height: 17px;
+   }
+
+  @media (max-width: 848px) {
+     top: 28%;
+  left: 27%;
+    // width: 204px;
+    // height: 17px;
+   }
+
+  @media (max-width: 599px) {
+     top: 30%;
+  left: 31%;
+    // width: 204px;
+    // height: 17px;
+   }
+
   @media (max-width: 480px) {
-    top: calc(203px + 190px);
-    left: calc(19px + 62px);
-    width: 123px;
+    top: 28%;
+    left: 40%;
+    width: 131px;
     height: 11px;
-    transform: translateY(0px) translateX(0px);
-  }
+    }
+
+  @media (max-width: 429px) {
+    top: 27%;
+    left: 43%;
+      }
+
+  @media (max-width: 399px) {
+    top: 27%;
+    left: 45%;
+      }
+
+  @media (max-width: 360px) {
+    top: 27%;
+    left: 48%;
+      }
+
+  @media (max-width: 360px) {
+    top: 25%;
+    left: 50%;
+      }
 }
