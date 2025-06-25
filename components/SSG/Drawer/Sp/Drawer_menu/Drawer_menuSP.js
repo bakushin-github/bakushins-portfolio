@@ -171,7 +171,8 @@ function Header_Sp({ toggleMenu, isMenuOpen }) {
               </Link>
             </li>
             <div className={styles.Drawer_menu__buttons}>
-              <Faq className={styles.Drawer_menu__faq} />
+              <Faq className={styles.Drawer_menu__faq}borderColor="#2F4AB2"
+  textColor="#2F4AB2" />
               <Contact_button className={styles.Drawer_menu__contact} />
             </div>
           </ul>
