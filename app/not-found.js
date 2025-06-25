@@ -1,9 +1,35 @@
-import React from "react";
+'use client'
+import React, { useState, useEffect } from "react";
 import styles from "../components/SSG/not-found.module.scss";
-import Header_otherPage from "@/components/SSG/Header/Header_otherPage/Header_otherPage";
 import Image from "next/image";
+import Header_Sp from "@/components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
+import Header from "@/components/SSG/Header/Header/Header";
 
 function not_found() {
+  // ========== レスポンシブヘッダー切り替えロジック ==========
+    const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
+    const BREAKPOINT_SP = 768; // PC/SP切り替え境界値
+  
+    // SPメニュー開閉切り替え関数
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  
+    // 画面幅監視とリサイズイベント処理
+    useEffect(() => {
+      const handleResize = () => setWindowWidth(window.innerWidth);
+  
+      if (typeof window !== "undefined") {
+        setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+      }
+  
+      return () => {
+        if (typeof window !== "undefined") {
+          window.removeEventListener("resize", handleResize);
+        }
+      };
+    }, []);
+    // ========================================================
   return (
     <div className={styles.not_found}>
       <Image
@@ -41,7 +67,11 @@ function not_found() {
         width={239}
         height={120}
       />
-      <Header_otherPage className={styles.not_foundHeader} />
+           {windowWidth > BREAKPOINT_SP ? (
+          <Header className={styles.thanksHeader} />
+        ) : (
+          <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+        )}
       <h1 className={styles.not_found404}>404</h1>
       <p className={styles.not_foundP}>
         お探しのページが見つかりません。

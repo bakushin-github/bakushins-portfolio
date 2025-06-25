@@ -47,13 +47,12 @@ z-index: -1;
 .not_found404{
   font-family: "DM Sans";
   font-weight: 600;
-  font-size: 64px;
+ font-size: clamp(34.55px, 26.14px + 2.63vw, 76.62px);
   line-height: 150%;
   letter-spacing: 0%;
   vertical-align: bottom;
   margin-block: 0;
-  padding-top: 350px;
-  height: 96px;
+  padding-top: 42.631vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,10 +62,14 @@ z-index: -1;
 .not_foundP{
   font-family: "Noto Sans JP";
 font-weight: 400;
-font-size: 16px;
+font-size: clamp(13.90px, 13.30px + 0.19vw, 16.90px);
 line-height: 180%;
 letter-spacing: 0%;
 text-align: center;
-margin-top: 56px;
+margin-top: clamp(47.59px, 45.18px + 0.75vw, 59.61px);
 margin-bottom: 0;
+padding-inline: 20px;
+@media (max-width:370px) {
+  font-size: 12px;
+}
 }
