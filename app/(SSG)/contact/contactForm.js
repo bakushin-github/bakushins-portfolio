@@ -285,26 +285,15 @@ export default function ContactForm() {
           </button>
         </div>
 
-        <div
+        <div className={styles.recaptchaHead}
           style={{
-            margin: "10px 0",
-            padding: "8px",
             backgroundColor: recaptchaLoaded ? "#e8f5e9" : "#fff3e0",
-            borderRadius: "4px",
-            fontSize: "14px",
             border: `1px solid ${recaptchaLoaded ? "#4caf50" : "#ff9800"}`
           }}
         >
           <p style={{ margin: "0 0 5px 0", fontWeight: "500" }}>{recaptchaStatus}</p>
-          <p
-            style={{
-              fontSize: "12px",
-              color: "#666",
-              whiteSpace: "normal",
-              lineHeight: "1.5",
-              margin: 0
-            }}
-          >
+          <p className={styles.recaptchaText}
+                 >
             このフォームは、Googleの安全確認システムを使っています。
             <br />
             より快適に安心してご利用いただくため、Googleの

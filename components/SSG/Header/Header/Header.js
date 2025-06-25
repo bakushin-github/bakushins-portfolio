@@ -11,7 +11,7 @@ function Header({ toggleMenu }) {
   return (
     <div className={styles.header}>
       <div className={styles.header__inner}>
-        <Link href="#Fv">
+        <Link href="/#Fv">
           <img
             className={styles.header__logo}
             src="/Header/PC/Logo.webp"

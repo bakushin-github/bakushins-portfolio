@@ -45,11 +45,14 @@
 .contact__inner {
   padding-top: 110px;
   padding-bottom: 96px;
+  @media (max-width: 767px) {
+    padding-bottom: 60px;
+  }
 }
 
 .Bread {
   position: absolute;
-top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
+  top: clamp(97.9px, calc(3.7568vw + 85.912px), 158px);
   left: clamp(20px, 5vw + 10px, 170px);
 }
 
@@ -58,7 +61,10 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 66px;
+  margin-top: 96px;
+  @media (max-width: 767px) {
+    margin-top: 60px;
+  }
 }
 
 .contact__h1 {
@@ -71,17 +77,26 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   letter-spacing: 4%;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 26px;
+  padding-left: 24px;
+  @media (max-width: 767px) {
+    font-size: clamp(11.72px, 10.09px + 0.51vw, 14px);
+    padding-left: clamp(17.16px, 12.26px + 1.53vw, 24px);
+  }
   &::before {
     content: "";
     position: absolute;
-    top: 2px;
+    top: 50%;
+    transform: translateY(-50%);
     left: 0;
     border: solid 2px $accent-color-red;
     width: 12px;
     height: 12px;
     border-radius: 50px;
     color: $accent-color-red;
+    @media (max-width: 767px) {
+      width: clamp(7.44px, 4.17px + 1.02vw, 12px);
+      height: clamp(7.44px, 4.17px + 1.02vw, 12px);
+    }
   }
 }
 
@@ -89,7 +104,7 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   padding-left: 26px;
   margin-top: 4px;
   margin-bottom: 0;
-  height: 96px;
+  // height: 96px;
   color: $main-color-dark_blue;
   font-family: "DM Sans";
   font-weight: 600;
@@ -97,12 +112,19 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   line-height: 150%;
   letter-spacing: 0%;
   vertical-align: bottom;
+  @media (max-width: 767px) {
+    font-size: clamp(32.07px, 9.21px + 7.14vw, 64px);
+  }
 }
 
 .contact____explanation {
   text-align: center;
   margin-top: 72px;
   margin-bottom: 59px;
+  @media (max-width: 767px) {
+    font-size: clamp(13.72px, 12.09px + 0.51vw, 16px);
+    margin-block: 48px;
+  }
 }
 
 .contact__form {
@@ -120,11 +142,18 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   width: 720px;
   box-sizing: border-box;
   background: $base-color-white;
+  @media (max-width: 767px) {
+    width: clamp(283.3px, calc(97.7vw + -29.94px), 720px);
+    padding-inline: clamp(25.19px, 8.87px + 5.1vw, 48px);
+  }
 }
 
 .form__content {
-  &:not(:first-child){
+  &:not(:first-child) {
     margin-top: 24px;
+    @media (max-width: 767px) {
+      margin-top: clamp(19.44px, 16.17px + 1.02vw, 24px);
+    }
   }
 }
 
@@ -137,6 +166,9 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   &::placeholder {
     font-weight: 400;
     font-size: 15px;
+  }
+  @media (max-width: 767px) {
+    font-size: clamp(13.72px, 12.09px + 0.51vw, 16px);
   }
 }
 
@@ -158,29 +190,60 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   color: $accent-color-red;
   box-sizing: border-box;
   margin-left: 5px;
+  @media (max-width: 767px) {
+    font-size: clamp(10.86px, 10.04px + 0.26vw, 12px);
+    width: clamp(37.72px, 36.09px + 0.51vw, 40px);
+    height: clamp(19.86px, 19.04px + 0.26vw, 21px);
+  }
 }
 
-.checkboxWrap{
+.checkboxWrap {
   display: inline-block;
+  margin-top: 12px;
   width: 536px;
   box-sizing: border-box;
+  @media (max-width: 767px) {
+    margin-top: 13.5px;
+    display: grid;
+    grid-template-columns: clamp(134.85px, 46.68px + 27.55vw, 258px) 1fr;
+    grid-column-gap: 20px;
+    grid-template-areas:
+      "a a"
+      "b b"
+      "c d";
+    .checkbox:nth-child(1) {
+      grid-area: a;
+    }
+    .checkbox:nth-child(2) {
+      grid-area: b;
+    }
+    .checkbox:nth-child(3) {
+      grid-area: c;
+    }
+    .checkbox:nth-child(4) {
+      grid-area: d;
+    }
+  }
 }
 
 .checkbox {
   position: relative;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 40px;
   letter-spacing: 0px;
   vertical-align: middle;
   padding-left: 28px;
   cursor: pointer;
-  &:not(:nth-child(3)){
+  &:not(:nth-child(3)) {
     padding-right: 24px;
+  }
+  @media (max-width: 767px) {
+    font-size: clamp(12.6px, calc(0.77vw + 10.13px), 16px);
   }
 }
 
-.contact__checkbox{
+.contact__checkbox {
   width: 1px;
   height: 1px;
   position: absolute;
@@ -188,8 +251,9 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   overflow: hidden;
 }
 
-.custom__checkbox{
-  &::before,&::after{
+.custom__checkbox {
+  &::before,
+  &::after {
     content: "";
     position: absolute;
     box-sizing: border-box;
@@ -200,31 +264,28 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
     width: 20px;
     height: 20px;
     left: 0;
-    border:2px solid #CACCD3 ;
+    border: 2px solid #caccd3;
     border-radius: 50%;
-    }
+  }
 
-  &::after{
-    border:2px solid $main-color-blue ;
+  &::after {
+    border: 2px solid $main-color-blue;
     border-radius: 50%;
     left: 4px;
     width: 12px;
     height: 12px;
-    background: $main-color-blue ;
+    background: $main-color-blue;
     opacity: 0;
   }
-
 }
 
 .contact__checkbox:checked + .custom__checkbox::before {
   border-color: $main-color-blue;
 }
 
-.contact__checkbox:checked + .custom__checkbox::after{
+.contact__checkbox:checked + .custom__checkbox::after {
   opacity: 1;
 }
-
-
 
 .contact__textarea {
   width: 624px;
@@ -234,6 +295,9 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   padding: 16px;
   box-sizing: border-box;
   margin-top: 22px;
+  @media (max-width: 767px) {
+    width: clamp(232.88px, -47.13px + 87.5vw, 624px);
+  }
 }
 
 .contact__personalInformation::placeholder,
@@ -244,6 +308,9 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   font-size: 15px;
   line-height: 170%;
   letter-spacing: 0%;
+  @media (max-width: 767px) {
+    font-size: clamp(12.6px, calc(0.77vw + 10.13px), 16px);
+  }
 }
 
 .contact__personalInformation {
@@ -253,17 +320,23 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   height: 51px;
   box-sizing: border-box;
   margin-top: 12px;
+  @media (max-width: 767px) {
+    width: clamp(232.88px, -47.13px + 87.5vw, 624px);
+  }
 }
 
-.form__pp{
+.form__pp {
   margin-block: 24px;
+  @media (max-width: 767px) {
+    margin-block: clamp(19.44px, 16.17px + 1.02vw, 24px);
+  }
 }
 
-.form__ppLabel{
+.form__ppLabel {
   position: relative;
 }
 
-.contact__checkbox{
+.contact__checkbox {
   width: 1px;
   height: 1px;
   position: absolute;
@@ -271,36 +344,36 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   overflow: hidden;
 }
 
-.custom__pp{
-  &::before,&::after{
+.custom__pp {
+  &::before,
+  &::after {
     content: "";
     position: absolute;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    border: 1px solid #CACCD3 ;
+    border: 1px solid #caccd3;
     box-sizing: border-box;
   }
   &::before {
     width: 20px;
     height: 20px;
-    }
+  }
 
-  &::after{
+  &::after {
     opacity: 0;
   }
 }
 
-
 .contact__checkbox:checked + .custom__pp:before {
-  border:2px solid $main-color-blue;
+  border: 2px solid $main-color-blue;
 }
 
-.contact__checkbox:checked + .custom__pp:after{
+.contact__checkbox:checked + .custom__pp:after {
   width: 12px;
   height: 12px;
-  background: $main-color-blue ;
-  border:2px solid $main-color-blue;
+  background: $main-color-blue;
+  border: 2px solid $main-color-blue;
 
   left: 4px;
   opacity: 1;
@@ -326,6 +399,10 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
     letter-spacing: 4%;
     text-align: center;
     cursor: pointer;
+    @media (max-width: 767px) {
+      width: clamp(232.88px, -47.13px + 87.5vw, 624px);
+      font-size: 13px;
+    }
   }
 }
 
@@ -336,4 +413,22 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   padding-left: 28px;
   text-decoration: underline;
   color: $main-color-dark_blue;
+  @media (max-width: 767px) {
+    font-size: clamp(12.6px, calc(0.77vw + 10.13px), 16px);
+  }
+}
+
+.recaptchaHead {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.recaptchaText {
+  font-size: 12px;
+  color: #666;
+  white-space: normal;
+  line-height: 150%;
+  margin: 0;
 }
