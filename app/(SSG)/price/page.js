@@ -13,66 +13,66 @@ import Cta from "@/components/SSG/Cta/Cta";
 const breadcrumbItems = generateBreadcrumb("/price");
 
 export default function Price() {
-   // ========== レスポンシブヘッダー切り替えロジック ==========
-    const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
-    const BREAKPOINT_SP = 768; // PC/SP切り替え境界値
-  
-    // SPメニュー開閉切り替え関数
-    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-  
-    // 画面幅監視とリサイズイベント処理
-    useEffect(() => {
-      const handleResize = () => setWindowWidth(window.innerWidth);
-  
+  // ========== レスポンシブヘッダー切り替えロジック ==========
+  const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
+  const BREAKPOINT_SP = 768; // PC/SP切り替え境界値
+
+  // SPメニュー開閉切り替え関数
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  // 画面幅監視とリサイズイベント処理
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
       if (typeof window !== "undefined") {
-        setWindowWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
+        window.removeEventListener("resize", handleResize);
       }
-  
-      return () => {
-        if (typeof window !== "undefined") {
-          window.removeEventListener("resize", handleResize);
-        }
-      };
-    }, []);
-    // ========================================================
+    };
+  }, []);
+  // ========================================================
   return (
     <div className={styles.price}>
-      <Image
-        className={styles.left_1stLine}
-        src="/LowerLayer/PC/left_1stLine.webp"
-        alt="left_1stLine"
-        width={439}
-        height={565}
-        priority
-      />
+      <div className={styles.left_1stLineParent}>
+        <Image
+          className={styles.left_1stLine}
+          src="/LowerLayer/PC/left_1stLine.webp"
+          alt="left_1stLine"
+          fill
+        />
+      </div>
+      <div className={styles.right_1stLineParent}>
       <Image
         className={styles.right_1stLine}
         src="/LowerLayer/PC/right_1stLine.webp"
         alt="right_1stLine"
-        width={342}
-        height={429}
-      />
+        fill
+      /></div>
+      <div className={styles.ballParent}>
       <Image
         className={styles.ball}
         src="/LowerLayer/PC/ball.webp"
         alt="ball"
-        width={169}
-        height={169}
-      />
+        fill
+      /></div>
+      <div className={styles.right_polygonParent}>
       <Image
         className={styles.right_polygon1}
         src="/LowerLayer/PC/Polygon1.webp"
         alt="right_polygon1"
-        width={232}
-        height={117}
-      />
-             {windowWidth > BREAKPOINT_SP ? (
-          <Header className={styles.thanksHeader} />
-        ) : (
-          <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-        )}
+        fill
+      /></div>
+      {windowWidth > BREAKPOINT_SP ? (
+        <Header className={styles.thanksHeader} />
+      ) : (
+        <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+      )}
       <div className={styles.price__inner}>
         <div className={styles.Bread}>
           <Breadcrumb items={breadcrumbItems} />

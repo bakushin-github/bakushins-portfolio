@@ -27,9 +27,9 @@ async function getData() {
         "無料で承っておりますので、ご安心ください。「ちょっと相談したいことがある」などお気軽にご連絡ください。",
     },
     {
-      title: "料金はどのくらいですか？",
+      title: "制作期間はどのくらいかかりますか？",
       content:
-        "サイトの規模や機能によって異なります。シンプルなランディングページであれば30万円〜、企業サイトであれば50万円〜が目安です。まずはご要望をお聞かせください。",
+        "シンプルな1ページのサイトであれば1ヶ月ほどです。複数のページにわたる本格的な企業サイトの場合は2−3ヶ月ほどです。詳細はお打ち合わせの際にお見積もりと合わせてご提示いたします。。",
     },
     {
       title: "ホームページの保守や運用はどんなサービスですか？",
@@ -93,62 +93,42 @@ export default function FaqPage() {
 
   return (
     <div className={styles.faq}>
+      <div className={styles.left_1stLineParent}>
       <Image
         className={styles.left_1stLine}
         src="/LowerLayer/PC/left_1stLine.webp"
         alt="left_1stLine"
-        width={439}
-        height={565}
-        priority={true}
-      />
+        fill
+      /></div>
+      <div className={styles.left_2ndLineParent}>
       <Image
         className={styles.left_2ndLine}
         src="/LowerLayer/PC/left_2ndLine.webp"
         alt="left_2ndLine"
-        width={547}
-        height={350}
-        priority={true}
-      />
+        fill
+      /></div>
+      <div className={styles.right_1stLineParent}>
       <Image
         className={styles.right_1stLine}
         src="/LowerLayer/PC/right_1stLine.webp"
         alt="right_1stLine"
-        width={342}
-        height={429}
-        priority={true}
-      />
+        fill
+      /></div>
+      <div className={styles.ballParent}>
       <Image
         className={styles.ball}
         src="/LowerLayer/PC/ball.webp"
         alt="ball"
-        width={169}
-        height={169}
-        priority={true}
-      />
+        fill
+      /></div>
+      <div className={styles.right_2ndParent}>
       <Image
-        className={styles.right_2ndLine}
-        src="/LowerLayer/PC/right_2ndLine.webp"
-        alt="right_2ndLine"
-        width={644}
-        height={1009}
-        priority={true}
-      />
-      <Image
-        className={styles.right_polygon1}
-        src="/LowerLayer/PC/Polygon1.webp"
-        alt="right_polygon1"
-        width={232}
-        height={117}
-        priority={true}
-      />
-      <Image
-        className={styles.right_polygon2}
-        src="/LowerLayer/PC/polygon2.webp"
-        alt="right_polygon2"
-        width={239}
-        height={120}
-        priority={true}
-      />
+        className={styles.right_2nd}
+        src="/LowerLayer/PC/right_2nd.webp"
+        alt="right_2nd"
+        fill
+      /></div>
+      
 
       {/* 画面幅に基づいてヘッダーを出し分ける */}
       {windowWidth > BREAKPOINT_SP ? (
