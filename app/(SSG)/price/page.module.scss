@@ -58,8 +58,9 @@
 }
 
 @media (max-width: 767px) {
-  .left_1stLine {
+  .left_1stLineParent {
     top: 0px;
+    left: clamp(-56.42px, 58.93vw - 245px, 207px);
     z-index: -1;
   }
 

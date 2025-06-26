@@ -41,7 +41,8 @@
   }
 
   .left_1stLine {
-    left: -13%;
+    right: clamp(-35.05px, 34.69vw - 145.1px, 121px);
+    left: unset;
     top: -90px;
     transform: scale(0.7);
   }
