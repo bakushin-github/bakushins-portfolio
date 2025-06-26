@@ -21,7 +21,7 @@ function Header_Sp({ toggleMenu, isMenuOpen }) {
       {/* ヘッダー部分 */}
       <div className={styles.headerSp}>
         <div className={styles.headerSp__inner}>
-          <Link href="#Fv">
+          <Link href="/#Fv">
             <Image
               className={styles.headerSp__logo}
               src="/Header/Sp/Logo.webp"
