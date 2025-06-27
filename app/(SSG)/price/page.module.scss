@@ -22,12 +22,12 @@
     351px,
     calc(351px + 88 * (100vw - 768px) / 672),
     439px
-  ) !important;
+  ) ;
   height: clamp(
     452px,
     calc(452px + 113 * (100vw - 768px) / 672),
     565px
-  ) !important;
+  ) ;
 }
 
 .right_1stLineParent {
@@ -59,9 +59,14 @@
 
 @media (max-width: 767px) {
   .left_1stLineParent {
-    top: 0px;
-    left: clamp(-56.42px, 58.93vw - 245px, 207px);
-    z-index: -1;
+    width: clamp(301.92px, 15.29px + 89.57vw, 702.31px);
+    height: clamp(388.59px, 19.63px + 115.3vw, 903.97px);
+    right: clamp(37.13px, 8.82px + 8.85vw, 76.69px);
+    top: clamp(-350.52px, 335.32px - 89.42vw, 49.18px);
+    left: unset;
+        @media (max-width: 374px) {
+      transform: translateY(-15%);
+    }
   }
 
   .right_1stLine {

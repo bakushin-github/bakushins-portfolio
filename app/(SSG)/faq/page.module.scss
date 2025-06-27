@@ -17,8 +17,13 @@
   width: clamp(351.2px, 13.06vw + 250.9px, 439px);
   height: clamp(452px, 16.82vw + 322.78px, 565px);
   @media (max-width:767px) {
-          right:15%;
-        top: 0%;
+width: clamp(301.92px, 15.29px + 89.57vw, 702.31px);
+height: clamp(388.59px, 19.63px + 115.30vw, 903.97px);
+right: clamp(53.38px, 36.70px + 5.21vw, 76.69px);
+top: clamp(-350.52px, 335.32px - 89.42vw, 49.18px);
+@media (max-width:374px) {
+  transform:translateY(-15%) ;
+}
   }
 }
 
