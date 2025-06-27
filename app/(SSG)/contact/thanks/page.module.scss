@@ -18,33 +18,39 @@ top: clamp(97.9px, calc(3.7568vw + 85.912px), 158.0px);
   position: absolute;
 }
 
-.left_1stLine{
-top: -437px;
+.left_1stLineParent{
+  position: absolute;
+top:clamp(-437px, 94.43px - 36.90vw, -189px);
 z-index: -1;
+width: clamp(234.13px, -0.01px + 30.49vw, 439px);
+height: clamp(301.33px, -0.01px + 39.24vw, 565px);
 }
 
-.left_2ndLine{
-  bottom: -125px;
+.left_2ndLineParent{
+  position: absolute;
+bottom: clamp(-125px, 35.71px - 11.16vw, -50px);
+left: clamp(-77px, -149.00px + 9.38vw, -14px);
   z-index: -1;
+width: clamp(291.73px, -155.47px + 60.62vw, 547px);
+height: clamp(186.67px, -99.58px + 38.84vw, 350px);
 }
 
-.right_2ndLine{
-  top: 283.07px;
-right: -10px;
+.right_2ndParent{
+  position: absolute;
+  top: 29%;
+right: clamp(-138.5px, -395.53px + 33.47vw, 86.4px);
+ width: clamp(486.4px, 18.1vw + 347.39px, 608px);
+  height: clamp(690.82px, 25.7vw + 493.44px, 863.525px);
 z-index: -1;
+@media (max-width:767px) {
+  top: 58%;
+  left: 60%;
+  right: unset;
+  // right: -85%;
+}
 }
 
 
-.right_polygon1{
-  top: 438px;
-  right: 467px;
-  z-index: -1;
-}
-.right_polygon2{
-  top: 265px;
-  right: 467px;
-  z-index: -1;
-}
 
 .thanksHeader{
 

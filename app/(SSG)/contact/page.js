@@ -41,41 +41,41 @@ function Page() {
   return (
     <>
       <div className={styles.contact}>
+        <div className={styles.left_1stLineParent}>
         <Image
           className={styles.left_1stLine}
           src="/LowerLayer/PC/left_1stLine.webp"
           alt="left_1stLine"
-          width={439}
-          height={565}
-        />
+          fill
+        /></div>
+        <div className={styles.left_2ndLineParent}>
         <Image
           className={styles.left_2ndLine}
           src="/LowerLayer/PC/left_2ndLine.webp"
           alt="left_2ndLine"
-          width={547}
-          height={350}
-        />
+          fill
+        /></div>
+        <div className={styles.right_1stLineParent}>
         <Image
           className={styles.right_1stLine}
           src="/LowerLayer/PC/right_1stLine.webp"
           alt="right_1stLine"
-          width={342}
-          height={429}
-        />
+          fill
+        /></div>
+        <div className={styles.ballParent}>
         <Image
           className={styles.ball}
           src="/LowerLayer/PC/ball.webp"
           alt="ball"
-          width={169}
-          height={169}
-        />
-        <Image
-          className={styles.right_2ndLine}
-          src="/LowerLayer/PC/right_2ndLine.webp"
-          alt="right_2ndLine"
-          width={644}
-          height={1009}
-        />
+          fill
+        /></div>
+          <div className={styles.right_2ndParent}>
+      <Image
+        className={styles.right_2nd}
+        src="/LowerLayer/PC/right_2nd.webp"
+        alt="right_2nd"
+        fill
+      /></div>
 
         {windowWidth > BREAKPOINT_SP ? (
           <Header className={styles.thanksHeader} />
