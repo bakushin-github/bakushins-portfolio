@@ -1,9 +1,10 @@
-"use client";
-
-import React, { useRef } from "react";
+'use client'
+// components/animation/Stagger/ScrollMotion.jsx
+import React, { useRef, forwardRef } from "react"; // forwardRefをインポート
 import { motion, useInView } from "framer-motion";
 
-export const ScrollMotion = ({
+// forwardRefでコンポーネントをラップ
+export const ScrollMotion = forwardRef(({
   children,
   duration = 0.6,
   delay = 0,
@@ -13,9 +14,13 @@ export const ScrollMotion = ({
   once = true,
   className = "",
   ...props
-}) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount: threshold });
+}, ref) => { // refを第2引数で受け取る
+  // useInViewは内部のrefを使うため、ここでは新しくrefを定義
+  const internalRef = useRef(null);
+  // refが渡された場合はそちらを優先、なければinternalRefを使う
+  const elementRef = ref || internalRef; 
+
+  const isInView = useInView(elementRef, { once, amount: threshold }); // elementRefを監視
 
   const variants = {
     hidden: { 
@@ -37,7 +42,7 @@ export const ScrollMotion = ({
 
   return (
     <motion.div
-      ref={ref}
+      ref={elementRef} // ここでrefをmotion.divにアタッチ
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={variants}
@@ -47,4 +52,7 @@ export const ScrollMotion = ({
       {children}
     </motion.div>
   );
-};
+});
+
+// コンポーネントの表示名をデバッグ時にわかりやすくするため
+ScrollMotion.displayName = 'ScrollMotion';

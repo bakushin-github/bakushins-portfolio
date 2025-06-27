@@ -1,16 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import Script from "next/script";
+// app/all-works/[slug]/page.jsx
+// このファイルはサーバーコンポーネントなので、"use client" ディレクティブは不要です。
+
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import styles from "./page.module.scss";
 import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
-import H2 from "@/components/SSG/H2/H2";
-import WorkOthers from "@/components/FetchLowerLayer/WorkOther";
-import ListViewButton from "@/components/SSG/ListViewButton/ListViewButton";
-import Cta from "@/components/SSG/Cta/Cta";
-import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
+// 同じフォルダに移動したWorkDetailClientをインポートします
+import WorkDetailClient from "./WorkDetailClient"; 
+import styles from "./page.module.scss";
 
+// ApolloClientのインスタンスを生成
 const client = new ApolloClient({
   uri:
     process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
@@ -18,6 +16,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// 全ての作品データを取得するGraphQLクエリ
 const GET_ALL_WORKS = gql`
   query GetAllWorks {
     works {
@@ -44,6 +43,7 @@ const GET_ALL_WORKS = gql`
   }
 `;
 
+// パンくずリストのアイテムを生成するヘルパー関数
 function createBreadcrumbs(slug, title) {
   return [
     { name: "ホーム", path: "/" },
@@ -52,18 +52,23 @@ function createBreadcrumbs(slug, title) {
   ];
 }
 
+// Next.jsのSSG (Static Site Generation) 設定
+// force-static: ビルド時に静的なページを生成
+// revalidate: ページの再生成間隔 (3600秒 = 1時間)
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
+// generateStaticParams: 動的ルーティングの静的パスをビルド時に生成
 export async function generateStaticParams() {
   try {
     const { data } = await client.query({
       query: GET_ALL_WORKS,
-      fetchPolicy: "network-only",
+      fetchPolicy: "network-only", // キャッシュではなく常にネットワークからフェッチ
     });
 
     const works = data?.works?.nodes || [];
 
+    // slugを持つ作品のみを抽出し、{ slug: work.slug } の形式で返す
     return works
       .filter((work) => !!work.slug)
       .map((work) => ({
@@ -71,12 +76,14 @@ export async function generateStaticParams() {
       }));
   } catch (error) {
     console.error("Error generating static params:", error);
-    return [];
+    return []; // エラー時は空の配列を返す
   }
 }
 
+// generateMetadata: ページのメタデータを生成
 export async function generateMetadata({ params }) {
   try {
+    // paramsオブジェクトをawaitして、プロパティにアクセスする
     const resolvedParams = await params;
     const slug = resolvedParams?.slug || "";
 
@@ -86,18 +93,21 @@ export async function generateMetadata({ params }) {
     const work = works.find((work) => work.slug === slug);
 
     if (!work) {
+      // 作品が見つからない場合のメタデータ
       return {
         title: "作品が見つかりません",
         description: "指定された作品は存在しません。",
       };
     }
 
+    // 作品が見つかった場合のメタデータ
     return {
       title: `${work.title} | 作品詳細`,
       description: work.excerpt || `${work.title}の詳細ページです。`,
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
+    // エラー発生時のデフォルトメタデータ
     return {
       title: "作品詳細",
       description: "作品の詳細ページです。",
@@ -105,171 +115,44 @@ export async function generateMetadata({ params }) {
   }
 }
 
+// WorkDetailPage: 作品詳細ページのメインコンポーネント (サーバーコンポーネント)
 export default async function WorkDetailPage({ params }) {
-  // slug をここで定義して、try/catch の両方のブロックでアクセスできるようにします
+  // paramsオブジェクトをawaitして、プロパティにアクセスする
   const resolvedParams = await params;
   const slug = resolvedParams?.slug || "";
+
+  let work = null;
+  let error = null;
+
   try {
-    const resolvedParams = await params;
-    const slug = resolvedParams?.slug || "";
-
     const { data } = await client.query({ query: GET_ALL_WORKS });
-
     const works = data?.works?.nodes || [];
-    const work = works.find((work) => work.slug === slug);
-
+    work = works.find((item) => item.slug === slug); // slugに一致する作品を検索
     if (!work) {
-      console.log("Work not found for slug:", slug); // ここで内容を確認
-      return (
-        <>
-          <ResponsiveHeaderWrapper className={styles.worksHeader} />
-          <div className={styles.breadcrumbWrapper}>
-            <Breadcrumb
-              items={createBreadcrumbs(slug, "作品が見つかりません")}
-            />
-          </div>
-          <main className={styles.container}>
-            <div className={styles.notFound}>
-              <h1>作品が見つかりませんでした</h1>
-              <p>スラッグ: {slug}</p>
-              <Link href="/all-works" className={styles.backButton}>
-                全作品一覧に戻る
-              </Link>
-            </div>
-          </main>
-        </>
-      );
+      error = new Error("作品が見つかりませんでした。");
+      console.log("Work not found for slug in server component:", slug);
     }
+  } catch (err) {
+    console.error("Error fetching work data in server component:", err);
+    error = err;
+  }
 
-    const breadcrumbItems = createBreadcrumbs(slug, work.title);
+  // パンくずリストアイテムを生成 (workが存在しない場合もslugは渡す)
+  const breadcrumbItems = createBreadcrumbs(slug, work?.title);
 
+  // エラーまたは作品が見つからない場合のフォールバックUI
+  if (error || !work) {
     return (
       <>
         <ResponsiveHeaderWrapper className={styles.worksHeader} />
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={breadcrumbItems} />
+          <Breadcrumb items={createBreadcrumbs(slug, "作品が見つかりません")} />
         </div>
         <main className={styles.container}>
-          <H2 subText="制作実績" mainText="Work" className={styles.work__h2} />
-          <article className={styles.workDetail}>
-            <div className={styles.imagePosition}>
-              {work.featuredImage?.node && (
-                  <ScrollMotion 
-      delay={0.2}
-      duration={0.6}
-      yOffset={30}
-      threshold={0.3}
-      once={true}
-    >
-                <div className={styles.featuredImage}>
-                  <img
-                    src={work.featuredImage.node.sourceUrl}
-                    alt={
-                      work.featuredImage.node.altText ||
-                      `${work.title}のメイン画像`
-                    }
-                    width={917}
-                    height={450}
-                    className={styles.mainImage}
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      objectFit: "cover",
-                      display: "block",
-                      margin: "0 auto",
-                    }}
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div></ScrollMotion>
-              )}
-            </div>
-            <header className={styles.workCategoryH1}>
-              <span className={styles.worksCategory}>
-                {work.categories?.nodes?.map((category, index) => (
-                  <span key={category.id}>
-                    {index > 0 ? ", " : ""}
-                    {category.name}
-                  </span>
-                ))}
-              </span>
-              <h1 className={styles.worksTitle}>{work.title}</h1>
-            </header>
-
-            {/* WordPress の WebM / YouTube を含む本文 */}
-            <ScrollMotion 
-      delay={0.2}
-      duration={0.6}
-      yOffset={30}
-      threshold={0.3}
-      once={true}
-    >
-            <div
-              className={styles.content}
-              dangerouslySetInnerHTML={{ __html: work.content }}
-            /></ScrollMotion>
-            <figure className={styles.thumbnailMove}></figure>
-            <div className={styles.videoBox}>
-              {/* 動画自動再生スクリプト（use client 不使用） */}
-              <Script id="lazy-video-autoplay" strategy="lazyOnload">{`
-              (function() {
-                function load(el) {
-                  const src = el.dataset.src;
-                  if (src) {
-                    el.setAttribute('src', src);
-                    el.removeAttribute('data-src');
-                  }
-                  if (el.tagName === 'VIDEO') {
-                    el.play && el.play().catch(() => {});
-                  }
-                }
-
-                const lazyVideos = document.querySelectorAll('.lazy-video');
-
-                if (!('IntersectionObserver' in window)) {
-                  lazyVideos.forEach(load);
-                  return;
-                }
-
-                const observer = new IntersectionObserver(
-                  (entries, obs) => {
-                    entries.forEach(entry => {
-                      if (entry.isIntersecting) {
-                        load(entry.target);
-                        obs.unobserve(entry.target);
-                      }
-                    });
-                  },
-                  { rootMargin: '100px', threshold: 0.25 }
-                );
-
-                lazyVideos.forEach(el => observer.observe(el));
-              })();
-            `}</Script>
-            </div>
-            <section className={styles.relationWorks}>
-              <H2 subText="制作実績" mainText="Others" className={styles.work__h2Others}/>
-              <WorkOthers />
-              <div className={styles.workOthersListButton}>
-              <ListViewButton href="/all-works" /></div>
-            </section>
-          </article>
-        </main>
-        <Cta />
-      </>
-    );
-  } catch (error) {
-    return (
-      <>
-        <ResponsiveHeaderWrapper className={styles.worksHeader} />
-        <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={createBreadcrumbs(slug, "エラーが発生しました")} />
-        </div>
-        <main className={styles.container}>
-          <div className={styles.error}>
-            <h1>エラーが発生しました</h1>
+          <div className={styles.notFound}>
+            <h1>作品が見つかりませんでした</h1>
             <p>スラッグ: {slug}</p>
-            <p>エラー: {error.message}</p>
+            {error && <p>エラー: {error.message}</p>}
             <Link href="/all-works" className={styles.backButton}>
               全作品一覧に戻る
             </Link>
@@ -278,4 +161,17 @@ export default async function WorkDetailPage({ params }) {
       </>
     );
   }
+
+  // 作品データが取得できた場合、クライアントコンポーネントをレンダリング
+  // 必要なデータをpropsとして渡します
+  return (
+    <>
+      <ResponsiveHeaderWrapper className={styles.worksHeader} />
+      <div className={styles.breadcrumbWrapper}>
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
+      {/* データをWorkDetailClientに渡してレンダリング */}
+      <WorkDetailClient work={work} slug={slug} breadcrumbItems={breadcrumbItems} />
+    </>
+  );
 }
