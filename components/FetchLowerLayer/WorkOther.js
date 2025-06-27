@@ -1,10 +1,12 @@
+// components/FetchLowerLayer/WorkOther.jsx
 'use client'; // Next.js のクライアントコンポーネント宣言
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client"; // useQuery と gql をインポート
 import styles from "./workOther.module.scss"; // CSSモジュールをインポート
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion"; // ScrollMotionをインポート
 
 console.log("WorkOther.js module loaded");
 
@@ -76,11 +78,6 @@ const TEST_META_DATA = gql`
 `;
 
 // --- 最終的に使用する作品データ取得クエリ ---
-// **変更点:**
-// - クエリ変数に `$currentWorkId: [ID]` を追加。
-// - `where: { notIn: $currentWorkId }` を追加し、指定されたIDの作品を除外します。
-// ID は常に利用できるため、これが最も堅牢な除外方法です。
-
 const GET_WORKS_WITH_NESTED_SKILL = gql`
   query GetWorksWithNestedSkill($currentWorkId: [ID]) {
     works(first: 6, where: { notIn: $currentWorkId }) {
@@ -198,16 +195,33 @@ const getCategoryName = (work) => {
 };
 
 // --- WorkOthers コンポーネント ---
-// **変更点:** `currentWorkSlug` から `currentWorkId` にプロップス名を変更しました。
 function WorkOthers({ currentWorkId }) {
   console.log("WorkOthers component rendering with currentWorkId:", currentWorkId);
 
   const [isClient, setIsClient] = useState(false);
   const [accessMethod, setAccessMethod] = useState(null);
   const [finalQuery, setFinalQuery] = useState(null);
-  // const [renderCounter, setRenderCounter] = useState(0);
+  const [columns, setColumns] = useState(3); // ★★★ columns はここで定義済み ★★★
 
-  // テストクエリの実行 (変更なし)
+  // 列数を検出するためのeffect
+  useEffect(() => {
+    const calculateColumns = () => {
+      // styles.worksContentsのメディアクエリに合わせる
+      if (window.innerWidth <= 767) {
+        setColumns(1); // @media (max-width: 767px) { display: block; }
+      } else if (window.innerWidth <= 1023) {
+        setColumns(2); // @media (max-width: 1023px) { grid-template-columns: repeat(2, 1fr); }
+      } else {
+        setColumns(3); // デフォルト (grid-template-columns: repeat(3, 1fr); )
+      }
+    };
+
+    calculateColumns(); // 初回計算
+    window.addEventListener('resize', calculateColumns);
+    return () => window.removeEventListener('resize', calculateColumns);
+  }, []); // 空の依存配列でマウント時のみ実行
+
+  // --- テストクエリの実行 ---
   const {
     data: nestedTestData,
     error: nestedTestError,
@@ -256,7 +270,6 @@ function WorkOthers({ currentWorkId }) {
   });
 
   // クライアント側でのマウントをマーク
- // 🔥 修正: setIntervalを削除してクライアント側マウントのみマーク
   useEffect(() => {
     console.log("Initial useEffect running - setting isClient to true");
     setIsClient(true);
@@ -280,7 +293,7 @@ function WorkOthers({ currentWorkId }) {
     }
   }, [isClient, nestedTestLoading, directTestLoading, metaTestLoading]);
 
-  // テストクエリの結果に基づいて最終クエリを決定 (変更なし)
+  // テストクエリの結果に基づいて最終クエリを決定
   useEffect(() => {
     console.log("Query decision useEffect running with:", {
       isClient,
@@ -353,7 +366,6 @@ function WorkOthers({ currentWorkId }) {
   ]);
 
   // 最終的に決定されたクエリで作品データを取得
-  // **変更点:** `variables` に `currentWorkId` を渡すようにしました。
   const { loading, error, data } = useQuery(
     finalQuery || DEFAULT_FALLBACK_QUERY,
     {
@@ -368,7 +380,7 @@ function WorkOthers({ currentWorkId }) {
     }
   );
 
-  // 決定されたアクセス方法に基づいてスキル値を取得するヘルパー関数 (変更なし)
+  // 決定されたアクセス方法に基づいてスキル値を取得するヘルパー関数
   const getSkill = (work) => {
     if (!work) return "";
     if (accessMethod === "nested") {
@@ -496,34 +508,58 @@ function WorkOthers({ currentWorkId }) {
     <div className={styles.worksContents}>
       {worksToDisplay.map((work, index) => {
         console.log(`Rendering work item ${index}:`, work.title);
+
+        // 各作品カードのアニメーション遅延を計算
+        const row = Math.floor(index / columns);
+        const col = index % columns;
+        const initialDelay = 0.05; // 最初のカードの開始遅延（WorkOthersは画面下部に表示されるため、少し早めに）
+        const rowDelay = 0.1; // 行ごとの追加遅延
+        const columnDelay = 0.03; // 列ごとの追加遅延
+
+        // モバイル（1列）の場合は列の遅延を無効にするか、rowDelayに含める
+        const currentColumnDelay = columns === 1 ? 0 : columnDelay;
+        const currentRowDelay = columns === 1 ? 0.07 : rowDelay; // モバイルでは行ごとにシンプルに遅延を調整
+
+        const calculatedDelay = initialDelay + (row * currentRowDelay) + (col * currentColumnDelay);
+
         return (
-          <article key={work.id || index} className={styles.workCard}>
-            <header className={styles.workHeader}>
-              <span className={styles.workCategory}>{getCategoryName(work)}</span>
-              <Image
-                src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
-                width={300}
-                height={200}
-                alt={
-                  work.featuredImage?.node?.altText ||
-                  truncateTitle(work.title) ||
-                  "作品画像"
-                }
-                className={styles.thumbnailImage}
-              />
-            </header>
-            <footer className={styles.workFooter}>
-              <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
-              <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
-              <Link
-                href={`/all-works/${work.slug}`}
-                className={styles.worksLink}
-                aria-label={`${truncateTitle(work.title)}の詳細へ`}
-              >
-                {/* リンク全体をカードに重ねる */}
-              </Link>
-            </footer>
-          </article>
+          <ScrollMotion
+            key={work.id || index} // keyはScrollMotionに付与
+            threshold={0.1} // スクロールで早く発動
+            once={true} // 一度表示されたら再アニメーションしない
+            delay={calculatedDelay} // 計算した遅延を渡す
+            duration={0.6}
+            yOffset={50} // 下から上へのアニメーション
+            xOffset={0}
+          >
+            <article className={styles.workCard}>
+              <header className={styles.workHeader}>
+                <span className={styles.workCategory}>{getCategoryName(work)}</span>
+                <Image
+                  src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
+                  width={300}
+                  height={200}
+                  alt={
+                    work.featuredImage?.node?.altText ||
+                    truncateTitle(work.title) ||
+                    "作品画像"
+                  }
+                  className={styles.thumbnailImage}
+                />
+              </header>
+              <footer className={styles.workFooter}>
+                <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
+                <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
+                <Link
+                  href={`/all-works/${work.slug}`}
+                  className={styles.worksLink}
+                  aria-label={`${truncateTitle(work.title)}の詳細へ`}
+                >
+                  {/* リンク全体をカードに重ねる */}
+                </Link>
+              </footer>
+            </article>
+          </ScrollMotion>
         );
       })}
     </div>
