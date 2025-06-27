@@ -8,6 +8,7 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import Cta from "@/components/SSG/Cta/Cta";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/price");
@@ -86,7 +87,13 @@ export default function Price() {
             ご依頼内容に応じた料金の目安を掲載しています。デザイン・原稿・アニメーションをご希望の場合、別途料金を承ります。詳細なお見積もりは、ヒアリング後にご案内いたします。
           </p>
         </div>
-        <div className={styles.price__tableContent}>
+        <ScrollMotion 
+    delay={0.3}
+    duration={0.6}
+    yOffset={50}
+    threshold={0.3}
+    once={true}
+  >        <div className={styles.price__tableContent}>
           {" "}
           <table className={styles.price_table} role="table">
             <thead className={styles.visually_hidden}>
@@ -114,7 +121,7 @@ export default function Price() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div></ScrollMotion>
       </div>
       <Cta />
     </div>

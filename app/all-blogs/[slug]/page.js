@@ -5,6 +5,7 @@ import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import BlogOthers from "@/components/FetchLowerLayer/BlogOhters";
 import styles from "../../styles/_variables.module.scss";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 // WordPress コンテンツ用のグローバルスタイルは globals.scss で読み込む
 import { processWordPressContent } from "../../../lib/utils/content-processor";
 import {
@@ -203,7 +204,14 @@ export default async function BlogDetailPage({ params }) {
           />
 
           <main className="blog-main">
-            <h1 className={styles.singleBlogH1}>{blog.title}</h1>
+                 <ScrollMotion 
+                delay={0.3}
+                duration={0.6}
+                yOffset={50}
+                threshold={0.3}
+                once={true}
+              >
+            <h1 className={styles.singleBlogH1}>{blog.title}</h1></ScrollMotion>
             <span className={styles["singleBlog_separatorLine"]}></span>
             <BlogLayoutWithSidebar
               articleTitle={blog.title}

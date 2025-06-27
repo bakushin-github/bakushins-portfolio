@@ -1,10 +1,11 @@
 'use client'
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import styles from "./article.module.scss";
 import Link from "next/link";
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
+import { ScrollMotion } from '@/components/animation/Stagger/ScrollMotion';
 
 // GraphQLクエリ - 最新の3記事を取得（日付順）
 const GET_LATEST_POSTS = gql`
@@ -59,6 +60,24 @@ const getCategoryName = (post) => {
 
 function LatestPosts() {
   const { loading, error, data } = useQuery(GET_LATEST_POSTS);
+  
+  // 画面幅を監視
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    // 初期チェック
+    checkScreenSize();
+
+    // リサイズイベントをリッスン
+    window.addEventListener('resize', checkScreenSize);
+
+    // クリーンアップ
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   if (loading) return <p>読み込み中...</p>;
   if (error) return <p>エラー: {error.message}</p>;
@@ -80,13 +99,44 @@ function LatestPosts() {
             }
           }
           
+          // モバイル時のみScrollMotionを適用
+          if (isMobile) {
+            return (
+              <ScrollMotion 
+                key={post.id}
+                delay={0.3}
+                duration={0.6}
+                yOffset={50}
+                threshold={0.3}
+                once={true}
+              >
+                <article className={styles.postCard}>
+                  <header className={styles.postHeader}>
+                    <span className={styles.Category}>{getCategoryName(post)}</span>
+                    <Image
+                      src={imageUrl}
+                      width={150}
+                      height={150}
+                      alt={post.featuredImage?.node?.altText || post.title || "ブログ画像"}
+                      unoptimized={imageUrl !== "/About/PC/Icon.webp"}
+                    />
+                  </header>
+                  <footer className={styles.postFooter}>
+                    <h3 className={styles.title}>{truncateTitle(post.title)}</h3>
+                    <p className={styles.caption}>{formatDate(post.date)}</p>
+                    <Link
+                      href={`/all-blogs/${post.slug}`}
+                      className={styles.worksLink}
+                    ></Link>
+                  </footer>
+                </article>
+              </ScrollMotion>
+            );
+          }
+
+          // デスクトップ時はアニメーションなし
           return (
-                 
             <article key={post.id} className={styles.postCard}>
-              {/* 
-                外部画像の場合は width, height, unoptimized を指定して
-                next.config.jsでの設定が必要になることを回避
-              */}
               <header className={styles.postHeader}>
                 <span className={styles.Category}>{getCategoryName(post)}</span>
                 <Image
@@ -94,7 +144,7 @@ function LatestPosts() {
                   width={150}
                   height={150}
                   alt={post.featuredImage?.node?.altText || post.title || "ブログ画像"}
-                  unoptimized={imageUrl !== "/About/PC/Icon.webp"} // 外部画像は最適化をスキップ
+                  unoptimized={imageUrl !== "/About/PC/Icon.webp"}
                 />
               </header>
               <footer className={styles.postFooter}>

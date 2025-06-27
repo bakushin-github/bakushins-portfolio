@@ -9,6 +9,7 @@ import H2 from "@/components/SSG/H2/H2";
 import WorkOthers from "@/components/FetchLowerLayer/WorkOther";
 import ListViewButton from "@/components/SSG/ListViewButton/ListViewButton";
 import Cta from "@/components/SSG/Cta/Cta";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 
 const client = new ApolloClient({
   uri:
@@ -153,6 +154,13 @@ export default async function WorkDetailPage({ params }) {
           <article className={styles.workDetail}>
             <div className={styles.imagePosition}>
               {work.featuredImage?.node && (
+                  <ScrollMotion 
+      delay={0.2}
+      duration={0.6}
+      yOffset={30}
+      threshold={0.3}
+      once={true}
+    >
                 <div className={styles.featuredImage}>
                   <img
                     src={work.featuredImage.node.sourceUrl}
@@ -173,7 +181,7 @@ export default async function WorkDetailPage({ params }) {
                     loading="eager"
                     decoding="async"
                   />
-                </div>
+                </div></ScrollMotion>
               )}
             </div>
             <header className={styles.workCategoryH1}>
@@ -189,10 +197,17 @@ export default async function WorkDetailPage({ params }) {
             </header>
 
             {/* WordPress の WebM / YouTube を含む本文 */}
+            <ScrollMotion 
+      delay={0.2}
+      duration={0.6}
+      yOffset={30}
+      threshold={0.3}
+      once={true}
+    >
             <div
               className={styles.content}
               dangerouslySetInnerHTML={{ __html: work.content }}
-            />
+            /></ScrollMotion>
             <figure className={styles.thumbnailMove}></figure>
             <div className={styles.videoBox}>
               {/* 動画自動再生スクリプト（use client 不使用） */}

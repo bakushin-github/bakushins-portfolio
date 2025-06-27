@@ -10,6 +10,7 @@ import Header_Sp from "../../../components/SSG/Drawer/Sp/Drawer_menu/Drawer_menu
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb('/faq');
@@ -149,12 +150,21 @@ export default function FaqPage() {
         </div>
         <div className={styles.faq__items}>
           {faqItems.map((item, index) => (
+                <ScrollMotion 
+      key={index}
+      delay={0.2}
+      duration={0.6}
+      yOffset={30}
+      threshold={0.3}
+      once={true}
+    >
             <Toggle
               className={styles.faq__itemsToggle}
               key={index}
               content={item}
               isFirst={index === 0}
             />
+            </ScrollMotion>
           ))}
         </div>
       </div>

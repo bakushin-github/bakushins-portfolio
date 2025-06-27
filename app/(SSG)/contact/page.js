@@ -9,6 +9,7 @@ import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import Image from "next/image";
 import ContactForm from "./contactForm";
 import useRecaptcha from "@/hooks/useRecaptcha";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
@@ -92,12 +93,19 @@ function Page() {
             <h1 className={styles.contact__h1}>お問い合わせ</h1>
             <h2 className={styles.contact__h2}>Contact</h2>
           </div>
-
+    <ScrollMotion
+      delay={0.2}
+      duration={0.6}
+      yOffset={30}
+      threshold={0.3}
+      once={true}
+    >
           <p className={styles.contact____explanation}>
             無料でご相談、お見積もりを承っております。
             <br />
             お気軽にご相談ください。
           </p>
+          </ScrollMotion>
 <ContactForm />
          
         </div>
