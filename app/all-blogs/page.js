@@ -1,3 +1,5 @@
+// app/all-blogs/page.jsx
+
 import Image from "next/image";
 import Link from "next/link";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
@@ -5,6 +7,8 @@ import styles from "./page.module.scss";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
 import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion"; // ScrollMotionをインポート
+import BlogPostsClient from "./BlogPostsClient";
 
 // ページネーションの設定
 const POSTS_PER_PAGE = 12;
@@ -172,7 +176,7 @@ export const metadata = {
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
-// ページネーションコンポーネント
+// ページネーションコンポーネント（変更なし）
 function Pagination({ pagination, basePath = "/all-blogs" }) {
   const { currentPage, totalPages, hasNextPage, hasPreviousPage } = pagination;
 
@@ -270,6 +274,7 @@ function Pagination({ pagination, basePath = "/all-blogs" }) {
 }
 
 // メインコンポーネント（1ページ目用）
+// このページはサーバーコンポーネントなので、"use client"は不要
 export default async function BlogPostsPage() {
   const page = 1; // 1ページ目固定
 
@@ -321,86 +326,15 @@ export default async function BlogPostsPage() {
   }
 
   return (
-    <div className={styles.allBlogs}>
-      <ResponsiveHeaderWrapper className={styles.blogsHeader} />
-      <div className={styles.breadcrumbWrapper}>
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
-      <main className={styles["blogs-container"]}>
-        <div className={styles.blogs_headTitle}>
-          <span className={styles.blogs_subText}>ブログ</span>
-          <h1 className={styles.blogs_h1Title}>ALL Blogs</h1>
-        </div>
-
-        {pagination.totalPosts > 0 && (
-          <div className={styles.blogs_postInfo}>
-            <span className={styles.blogs_postCount}>
-              {pagination.totalPosts}件中 {pagination.startIndex}-
-              {pagination.endIndex}件を表示
-            </span>
-          </div>
-        )}
-
-        <Link
-          href="https://bakushin.blog/"
-          className={styles.info_blogsSearch}
-          aria-label="記事を検索"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          気になる記事を探す
-        </Link>
-
-        <span className={styles["blogs_separatorLine"]}></span>
-
-        <div className={styles["blogCard-grid"]}>
-          {posts.map((post, index) => (
-            <Link
-              key={post.id}
-              href={`/all-blogs/${post.slug}`}
-              className={styles["blog-imageLink"]}
-            >
-              <article className={styles["blog-card"]}>
-                <header className={styles["blog-header"]}>
-                  {getCategoryName(post) && (
-                    <span className={styles["blog-category"]}>
-                      {getCategoryName(post)}
-                    </span>
-                  )}
-
-                  <Image
-                    src={
-                      post.featuredImage?.node?.sourceUrl ||
-                      "/About/PC/Icon.webp"
-                    }
-                    width={353}
-                    height={200}
-                    alt={
-                      post.featuredImage?.node?.altText ||
-                      truncateTitle(post.title) ||
-                      "記事画像"
-                    }
-                    className={styles["blog-image"]}
-                    priority={index < 4}
-                  />
-                </header>
-                <footer className={styles["blog-footer"]}>
-                  <h2 className={styles["blog-title"]}>
-                    {truncateTitle(post.title)}
-                  </h2>
-                  <time className={styles["blog-date"]} dateTime={post.date}>
-                    {formatDate(post.date)}
-                  </time>
-                  <div className={styles["blog-link"]}></div>
-                </footer>
-              </article>{" "}
-            </Link>
-          ))}
-        </div>
-
-        <Pagination pagination={pagination} />
-      </main>
-      <Cta />
-    </div>
+    // ★★★ このページのメインコンポーネント全体をクライアントコンポーネントでラップします ★★★
+    // なぜなら、ScrollMotionはクライアントサイドでのみ動作するからです。
+    // しかし、page.jsx自体はサーバーコンポーネントであり、
+    // ここで直接use clientを使うとgenerateStaticParamsなどと衝突するため、
+    // 別のクライアントコンポーネントを用意してラップします。
+    <BlogPostsClient posts={posts} pagination={pagination} />
   );
 }
+
+// ★★★ 新しいクライアントコンポーネントファイルとして作成します ★★★
+// app/all-blogs/BlogPostsClient.jsx
+// （このファイルは app/all-blogs/page.jsx と同じディレクトリに配置することを想定しています）

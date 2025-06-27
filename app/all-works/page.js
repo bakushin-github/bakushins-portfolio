@@ -1,10 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
+// app/all-works/page.jsx
+
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import styles from "./page.module.scss";
 import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
+import styles from "./page.module.scss"; // スタイルは引き続き参照
+
+// 新しく作成するクライアントコンポーネントをインポート
+import WorksClient from "./WorksClient";
 
 // ページネーションの設定
 const WORKS_PER_PAGE = 9;
@@ -23,7 +26,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// 作品を取得するクエリ - 動的にスキル構造を判断
+// 作品を取得するクエリ群 (変更なし)
 const GET_WORKS_TEST_NESTED = gql`
   query GetWorksTestNested($first: Int!, $after: String) {
     works(
@@ -134,7 +137,7 @@ const GET_WORKS_TEST_META = gql`
   }
 `;
 
-// スキル構造を判断する関数
+// スキル構造を判断する関数 (変更なし)
 async function determineSkillStructure() {
   try {
     // まずnested構造をテスト
@@ -202,51 +205,13 @@ async function determineSkillStructure() {
   }
 }
 
-// ヘルパー関数
-const truncateTitle = (title, maxLength = 25) => {
-  if (!title) return "";
-  const plainText = String(title).replace(/<[^>]*>?/gm, "");
-  if (plainText.length <= maxLength) return plainText;
-  return plainText.substring(0, maxLength) + "...";
-};
+// ヘルパー関数 (WorksClient.jsx に移動するため、ここでは削除)
+// const truncateTitle = (title, maxLength = 25) => { /* ... */ };
+// const formatSkill = (skillValue) => { /* ... */ };
+// const getCategoryName = (work) => { /* ... */ };
+// const getSkill = (work, structure) => { /* ... */ };
 
-const formatSkill = (skillValue) => {
-  if (!skillValue) return "";
-  if (Array.isArray(skillValue)) {
-    return skillValue.filter((s) => s).join(", ");
-  }
-  return String(skillValue);
-};
-
-const getCategoryName = (work) => {
-  if (!work || !work.categories || !work.categories.nodes) return "";
-  return work.categories.nodes.length > 0 ? work.categories.nodes[0].name : "";
-};
-
-const getSkill = (work, structure) => {
-  if (!work) return "";
-
-  if (structure === "nested") {
-    return work.works?.skill;
-  } else if (structure === "direct") {
-    return work.skill;
-  } else if (structure === "meta") {
-    if (work.metaData) {
-      const skillMeta = work.metaData.find(
-        (meta) => meta.key === "skill" || meta.key === "_skill"
-      );
-      return skillMeta?.value;
-    }
-  }
-
-  // フォールバック
-  if (work.works && typeof work.works.skill !== "undefined")
-    return work.works.skill;
-  if (typeof work.skill !== "undefined") return work.skill;
-  return "";
-};
-
-// 全作品を再帰的に取得する関数
+// 全作品を再帰的に取得する関数 (変更なし)
 async function fetchAllWorks(skillStructure, after = null, allWorks = []) {
   try {
     const { data } = await client.query({
@@ -282,7 +247,7 @@ async function fetchAllWorks(skillStructure, after = null, allWorks = []) {
   }
 }
 
-// ページネーション情報と共に作品を返す
+// ページネーション情報と共に作品を返す (変更なし)
 async function getAllWorksWithPagination(requestedPage = 1) {
   try {
     const skillStructure = await determineSkillStructure();
@@ -329,7 +294,7 @@ async function getAllWorksWithPagination(requestedPage = 1) {
   }
 }
 
-// メタデータを設定（1ページ目用）
+// メタデータを設定 (変更なし)
 export const metadata = {
   title: "作品一覧",
   description: "作品の一覧ページです",
@@ -339,108 +304,14 @@ export const metadata = {
   },
 };
 
-// SSGでビルド時に静的に生成
+// SSGでビルド時に静的に生成 (変更なし)
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
-// ページネーションコンポーネント
-function Pagination({ pagination, basePath = "/all-works" }) {
-  const { currentPage, totalPages, hasNextPage, hasPreviousPage } = pagination;
+// ページネーションコンポーネント (WorksClient.jsx に移動するため、ここでは削除)
+// function Pagination({ pagination, basePath = "/all-works" }) { /* ... */ }
 
-  if (totalPages <= 1) return null;
-
-  const getPageUrl = (pageNum) => {
-    if (pageNum === 1) return basePath;
-    return `${basePath}/page/${pageNum}`;
-  };
-
-  const renderPageNumbers = () => {
-    const pages = [];
-    const showPages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(showPages / 2));
-    let endPage = Math.min(totalPages, startPage + showPages - 1);
-
-    if (endPage - startPage + 1 < showPages) {
-      startPage = Math.max(1, endPage - showPages + 1);
-    }
-
-    if (startPage > 1) {
-      pages.push(
-        <Link key={1} href={getPageUrl(1)} className={styles.pageLink}>
-          1
-        </Link>
-      );
-      if (startPage > 2) {
-        pages.push(
-          <span key="dots1" className={styles.pageDots}>
-            ...
-          </span>
-        );
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <Link
-          key={i}
-          href={getPageUrl(i)}
-          className={`${styles.pageLink} ${
-            i === currentPage ? styles.currentPage : ""
-          }`}
-        >
-          {i}
-        </Link>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push(
-          <span key="dots2" className={styles.pageDots}>
-            ...
-          </span>
-        );
-      }
-      pages.push(
-        <Link
-          key={totalPages}
-          href={getPageUrl(totalPages)}
-          className={styles.pageLink}
-        >
-          {totalPages}
-        </Link>
-      );
-    }
-
-    return pages;
-  };
-
-  return (
-    <nav className={styles.pagination}>
-      {hasPreviousPage && (
-        <Link
-          href={getPageUrl(currentPage - 1)}
-          className={`${styles.pageLink} ${styles.prevNext}`}
-        >
-          <button className={styles.PreviousPageButton}>前のページへ</button>
-        </Link>
-      )}
-
-      <div className={styles.pageNumbers}>{renderPageNumbers()}</div>
-
-      {hasNextPage && (
-        <Link
-          href={getPageUrl(currentPage + 1)}
-          className={`${styles.pageLink} ${styles.prevNext}`}
-        >
-          <button className={styles.NextPageButton}>次のページへ</button>
-        </Link>
-      )}
-    </nav>
-  );
-}
-
-// メインコンポーネント（1ページ目用）
+// メインコンポーネント（WorksPage - サーバーコンポーネント）
 export default async function WorksPage() {
   const page = 1; // 1ページ目固定
 
@@ -449,6 +320,7 @@ export default async function WorksPage() {
   const { works, skillStructure, pagination, error } =
     await getAllWorksWithPagination(page);
 
+  // エラーハンドリング (WorksClient.jsx にも同様のロジックが必要になる場合がある)
   if (error) {
     return (
       <div className={styles.allWorks}>
@@ -471,6 +343,7 @@ export default async function WorksPage() {
     );
   }
 
+  // 作品が見つからない場合もサーバーでハンドリング
   if (works.length === 0) {
     return (
       <div className={styles.allWorks}>
@@ -492,77 +365,19 @@ export default async function WorksPage() {
     );
   }
 
+  // データが正常に取得できたら、WorksClientにpropsとして渡す
   return (
-    <div className={styles.allWorks}>
+    <>
       <ResponsiveHeaderWrapper className={styles.worksHeader} />
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <main className={styles["works-container"]}>
-        <div className={styles.works_headTitle}>
-          <span className={styles.works_subText}>作品</span>
-          <h1 className={styles.works_h1Title}>ALL Works</h1>
-        </div>
-
-        {pagination.totalWorks > 0 && (
-          <div className={styles.works_postInfo}>
-            <span className={styles.works_postCount}>
-              {pagination.totalWorks}件中 {pagination.startIndex}-
-              {pagination.endIndex}件を表示
-            </span>
-          </div>
-        )}
-
-        <span className={styles["works_separatorLine"]}></span>
-
-        <div className={styles["workCard-grid"]}>
-          {works.map((work, index) => (
-            <Link
-              key={work.id}
-              href={`/all-works/${work.slug}`}
-              className={styles["work-imageLink"]}
-            >
-              <article className={styles["work-card"]}>
-                <header className={styles["work-header"]}>
-                  {getCategoryName(work) && (
-                    <span className={styles["work-category"]}>
-                      {getCategoryName(work)}
-                    </span>
-                  )}
-
-                  <Image
-                    src={
-                      work.featuredImage?.node?.sourceUrl ||
-                      "/About/PC/Icon.webp"
-                    }
-                    width={353}
-                    height={200}
-                    alt={
-                      work.featuredImage?.node?.altText ||
-                      truncateTitle(work.title) ||
-                      "作品画像"
-                    }
-                    className={styles["work-image"]}
-                    priority={index < 4}
-                  />
-                </header>
-                <footer className={styles["work-footer"]}>
-                  <h2 className={styles["work-title"]}>
-                    {truncateTitle(work.title)}
-                  </h2>
-                  <p className={styles["work-skill"]}>
-                    {formatSkill(getSkill(work, skillStructure))}
-                  </p>
-                  <div className={styles["work-link"]}></div>
-                </footer>
-              </article>
-            </Link>
-          ))}
-        </div>
-
-        <Pagination pagination={pagination} />
-      </main>
-      <Cta />
-    </div>
+      {/* 作品データとページネーション情報をクライアントコンポーネントに渡す */}
+      <WorksClient
+        works={works}
+        skillStructure={skillStructure}
+        pagination={pagination}
+      />
+    </>
   );
 }
