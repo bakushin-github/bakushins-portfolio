@@ -371,6 +371,7 @@ export default async function WorksPage() {
   // データが正常に取得できたら、WorksClientにpropsとして渡す
   return (
     <>
+     <div className={styles.allWorks}>
       <ResponsiveHeaderWrapper className={styles.worksHeader} />
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
@@ -381,6 +382,8 @@ export default async function WorksPage() {
         skillStructure={skillStructure}
         pagination={pagination}
       />
+      <Cta/>
+      </div>
     </>
   );
 }

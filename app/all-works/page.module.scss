@@ -418,25 +418,18 @@ width: (1106px/1400px*100%);
 
 .NextPageButton,
 .PreviousPageButton {
-  /* 1024px: 146px | 1920px: 146px */
-  width: clamp(120px, 9.51vw, 146px);
-  /* 1024px: 52px | 1920px: 52px */
-  height: clamp(40px, 3.385vw, 52px);
-  /* 1024px: 16px | 1920px: 16px */
-  padding-top: clamp(12px, 1.042vw, 16px);
-  /* 1024px: 24px | 1920px: 24px */
-  padding-right: clamp(18px, 1.563vw, 24px);
-  /* 1024px: 16px | 1920px: 16px */
-  padding-bottom: clamp(12px, 1.042vw, 16px);
-  /* 1024px: 24px | 1920px: 24px */
-  padding-left: clamp(18px, 1.563vw, 24px);
+  width: 146px;
+  height: 52px;
+  padding-top: 16px;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  padding-left: 24px;
   border-radius: 30px;
   border: 1px solid #caccd3;
   box-sizing: border-box;
   font-family: "Noto Sans JP";
   font-weight: 700;
-  /* 1024px: 16px | 1920px: 16px */
-  font-size: clamp(14px, 1.042vw, 16px);
+  font-size: 16px;
   line-height: 135%;
   letter-spacing: 4%;
   vertical-align: top;
@@ -472,6 +465,9 @@ width: (1106px/1400px*100%);
     transform: scaleX(1);
     transform-origin: left;
   }
+  @media (max-width:599px) {
+    display: none;
+  }
 }
 
 .works_postInfo {
@@ -481,16 +477,20 @@ width: (1106px/1400px*100%);
 .pageLink {
   color: #6c6c6c;
   text-align: center;
-  /* 1024px: 14px | 1920px: 14px */
-  font-size: clamp(12px, 0.913vw, 14px);
+  font-size: 14px;
   font-weight: 500;
   line-height: 170%; /* 23.8px */
   letter-spacing: 0.56px;
-
   &:nth-of-type(n) {
-    /* 1024px: 32px | 1920px: 32px */
-    padding-left: clamp(24px, 2.083vw, 32px);
+    padding-left: 32px;
+        @media (max-width: 420px) {
+    padding-left: 25px;
   }
+  }
+
+  // &:not(:first-child){
+  //   padding-left: 32px;
+  // }
 }
 
 .pagination {
@@ -508,28 +508,28 @@ width: (1106px/1400px*100%);
 
 .currentPage {
   position: relative;
-  /* 1024px: 40px | 1920px: 40px */
-  width: clamp(32px, 2.604vw, 40px);
-  height: clamp(32px, 2.604vw, 40px);
+  width: 40px;
+  height: 40px;
+
   color: $base-color-white;
   text-align: center;
-  /* 1024px: 14px | 1920px: 14px */
-  font-size: clamp(12px, 0.913vw, 14px);
+  font-size: 14px;
   font-weight: 500;
   line-height: 170%; /* 23.8px */
-
   &:after {
     content: "";
     position: absolute;
     background: #6d758f;
     top: 50%;
     left: 17px;
-    /* 1024px: 40px | 1920px: 40px */
-    width: clamp(32px, 2.604vw, 40px);
-    height: clamp(32px, 2.604vw, 40px);
+    width: 40px;
+    height: 40px;
     transform: translateY(-50%);
     border-radius: 50%;
     z-index: -1;
+    @media (max-width:420px) {
+      left: 9px;
+    }
   }
 }
 

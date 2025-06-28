@@ -5,6 +5,7 @@ import styles from "../../page.module.scss";
 import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
+import WorksClient from "../../WorksClient";
 
 // ページネーションの設定
 const WORKS_PER_PAGE = 9;
@@ -584,78 +585,11 @@ export default async function WorksPage({ params }) {
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <main className={styles["works-container"]}>
-        <div className={styles.works_headTitle}>
-          <span className={styles.works_subText}>作品</span>
-          <h1 className={styles.works_h1Title}>
-            ALL Works - ページ {pagination.currentPage}
-          </h1>
-        </div>
-
-        {pagination.totalWorks > 0 && (
-          <div className={styles.works_postInfo}>
-            <span className={styles.works_postCount}>
-              {pagination.totalWorks}件中 {pagination.startIndex}-
-              {pagination.endIndex}件を表示
-            </span>
-          </div>
-        )}
-
-        <span className={styles["works_separatorLine"]}></span>
-
-        <div className={styles["workCard-grid"]}>
-          {works.map((work, index) => (
-            <article key={work.id} className={styles["work-card"]}>
-              <header className={styles["work-header"]}>
-                {getCategoryName(work) && (
-                  <span className={styles["work-category"]}>
-                    {getCategoryName(work)}
-                  </span>
-                )}
-                <Link
-                  href={`/all-works/${work.slug}`}
-                  className={styles["work-imageLink"]}
-                >
-                  <Image
-                    src={
-                      work.featuredImage?.node?.sourceUrl ||
-                      "/About/PC/Icon.webp"
-                    }
-                    width={353}
-                    height={200}
-                    alt={
-                      work.featuredImage?.node?.altText ||
-                      truncateTitle(work.title) ||
-                      "作品画像"
-                    }
-                    className={styles["work-image"]}
-                    priority={false}
-                  />
-                </Link>
-              </header>
-              <footer className={styles["work-footer"]}>
-                <h2 className={styles["work-title"]}>
-                  <Link
-                    href={`/all-works/${work.slug}`}
-                    className={styles["work-titleLink"]}
-                  >
-                    {truncateTitle(work.title)}
-                  </Link>
-                </h2>
-                <p className={styles["work-skill"]}>
-                  {formatSkill(getSkill(work, skillStructure))}
-                </p>
-                <Link
-                  href={`/all-works/${work.slug}`}
-                  className={styles["work-link"]}
-                ></Link>
-              </footer>
-            </article>
-          ))}
-        </div>
-
-        <Pagination pagination={pagination} />
-      </main>
+            <WorksClient
+              works={works}
+              skillStructure={skillStructure}
+              pagination={pagination}
+            />
       <Cta />
     </div>
   );
