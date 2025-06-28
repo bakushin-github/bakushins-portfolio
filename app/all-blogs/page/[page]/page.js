@@ -214,7 +214,7 @@ export async function generateMetadata({ params }) {
 
 // SSGでビルド時に静的に生成
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 // ページネーションコンポーネント
 function Pagination({ pagination, basePath = "/all-blogs" }) {

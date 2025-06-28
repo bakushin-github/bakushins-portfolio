@@ -8,6 +8,7 @@ import styles from "./page.module.scss"; // スタイルは引き続き参照
 
 // 新しく作成するクライアントコンポーネントをインポート
 import WorksClient from "./WorksClient";
+import Link from "next/link";
 
 // ページネーションの設定
 const WORKS_PER_PAGE = 9;
@@ -305,8 +306,10 @@ export const metadata = {
 };
 
 // SSGでビルド時に静的に生成 (変更なし)
-export const dynamic = "force-static";
-export const revalidate = 3600;
+export const dynamic =
+  process.env.NODE_ENV === "development" ? "force-dynamic" : "force-static";
+export const revalidate = 86400;
+
 
 // ページネーションコンポーネント (WorksClient.jsx に移動するため、ここでは削除)
 // function Pagination({ pagination, basePath = "/all-works" }) { /* ... */ }

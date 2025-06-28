@@ -84,7 +84,7 @@ function createBreadcrumbs(slug, title) {
 
 // SSGを有効化
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 // すべてのブログ記事のスラッグを取得してSSGのパスを生成
 export async function generateStaticParams() {
