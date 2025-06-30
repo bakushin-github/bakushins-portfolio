@@ -305,9 +305,8 @@ export const metadata = {
   },
 };
 
-// SSGでビルド時に静的に生成 (変更なし)
-export const dynamic =
-  process.env.NODE_ENV === "development" ? "force-dynamic" : "force-static";
+// SSGでビルド時に静的に生成
+export const dynamic = 'force-static';
 export const revalidate = 86400;
 
 

@@ -56,9 +56,9 @@ function createBreadcrumbs(slug, title) {
 // Next.jsのSSG (Static Site Generation) 設定
 // force-static: ビルド時に静的なページを生成
 // revalidate: ページの再生成間隔 (3600秒 = 1時間)
-export const dynamic =
-  process.env.NODE_ENV === "development" ? "force-dynamic" : "force-static";
+export const dynamic = 'force-static';
 export const revalidate = 86400;
+
 
 // generateStaticParams: 動的ルーティングの静的パスをビルド時に生成
 export async function generateStaticParams() {
