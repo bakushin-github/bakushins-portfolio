@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { Noto_Sans_JP } from "next/font/google";
 import variablestyles from "../../../../app/styles/_variables.module.scss";

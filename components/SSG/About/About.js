@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef } from "react";
 import styles from "./About.module.scss";
 import H2 from "../H2/H2";

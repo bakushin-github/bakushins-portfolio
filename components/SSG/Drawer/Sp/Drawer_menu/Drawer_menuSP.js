@@ -1,4 +1,4 @@
-// Header_Sp.jsx (Header + 既存Drawer Menu 完全統合版)
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import styles from "./Drawer_menuSP.module.scss";
 import Image from "next/image";

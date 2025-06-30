@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FvTextImage from "../../../components/animation/Fv_text_image.js";
