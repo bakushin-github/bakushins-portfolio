@@ -5,7 +5,7 @@ import Image from "next/image";
 import Header_Sp from "@/components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
 import Header from "@/components/SSG/Header/Header/Header";
 
-function not_found() {
+function Not_found() {
   // ========== レスポンシブヘッダー切り替えロジック ==========
     const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
     const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
@@ -68,4 +68,4 @@ function not_found() {
   );
 }
 
-export default not_found;
+export default Not_found;
