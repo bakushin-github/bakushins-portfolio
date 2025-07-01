@@ -71,38 +71,59 @@ function About() {
   return (
     <div id="About" className={styles.about}>
       <div ref={sectionRef}>
-        {/* Lineのアニメーション: マスクアニメーションで線が少しずつ表示 */}
-        <motion.div
-          className={styles.line}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={maskAnimationVariants("right")} // 右から左へ表示に変更
-          onAnimationComplete={() => setLineAnimationComplete(true)}
-        >
-          <Image
-            src="/About/PC/line.webp"
-            width={194}
-            height={190}
-            alt="ライン"
-          />
-        </motion.div>
+       {/* 
+// Lineのアニメーション: マスクアニメーションで線が少しずつ表示
+<motion.div
+  className={styles.line}
+  initial="hidden"
+  animate={isInView ? "visible" : "hidden"}
+  variants={maskAnimationVariants("right")} // 右から左へ表示に変更
+  onAnimationComplete={() => setLineAnimationComplete(true)}
+>
+  <Image
+    src="/About/PC/line.webp"
+    width={194}
+    height={190}
+    alt="ライン"
+  />
+</motion.div>
 
-        {/* Ballのアニメーション */}
-        {lineAnimationComplete && (
-          <motion.div
-            className={styles.ball}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <Image
-              src="/About/PC/ball.webp"
-              width={44}
-              height={44}
-              alt="ball"
-            />
-          </motion.div>
-        )}
+// Ballのアニメーション
+{lineAnimationComplete && (
+  <motion.div
+    className={styles.ball}
+    initial={{ opacity: 0, scale: 0.5 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <Image
+      src="/About/PC/ball.webp"
+      width={44}
+      height={44}
+      alt="ball"
+    />
+  </motion.div>
+)}
+*/}
+
+{/* 静止画として表示 */}
+<div className={styles.line}>
+  <Image
+    src="/About/PC/line.webp"
+    width={194}
+    height={190}
+    alt="ライン"
+  />
+</div>
+
+<div className={styles.ball}>
+  <Image
+    src="/About/PC/ball.webp"
+    width={44}
+    height={44}
+    alt="ball"
+  />
+</div>
 
           <H2
             subText="私について"

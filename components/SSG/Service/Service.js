@@ -59,73 +59,84 @@ function Service() {
   return (
     <>
       <div id="Service" className={styles.service} ref={sectionRef}>
-
-          <MotionImage
+<Image
+          // {/* <MotionImage */}
             className={styles.line}
             src="/Service/PC/line.webp"
             width={256}
             height={700}
             alt="line"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeInMaskVariants("left")}
-            onAnimationComplete={() => setLineAnimationComplete(true)}
-          ></MotionImage>
-          <MotionImage
+            // initial="hidden"
+            // animate={isInView ? "visible" : "hidden"}
+            // variants={fadeInMaskVariants("left")}
+            // onAnimationComplete={() => setLineAnimationComplete(true)}
+          // ></MotionImage>
+          />
+          <Image
+          // {/* <MotionImage */}
             className={styles.lineSp}
             src="/Service/Sp/line.webp"
             width={86}
             height={642}
             alt="lineSp"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeInMaskVariants("left")}
-            onAnimationComplete={() => setLineAnimationComplete(true)}
-          ></MotionImage>
-          {lineAnimationComplete && (
+            // initial="hidden"
+            // animate={isInView ? "visible" : "hidden"}
+            // variants={fadeInMaskVariants("left")}
+            // onAnimationComplete={() => setLineAnimationComplete(true)}
+          // ></MotionImage>
+          />
+          {/* {lineAnimationComplete && ( */}
             <>
-              <MotionImage
+            <Image
+              // {/* <MotionImage */}
                 className={styles.polygon1}
                 src="/Service/PC/polygon1.webp"
                 width={103}
                 height={52}
                 alt="polygon1"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
-                onAnimationComplete={() => setBElementsComplete(true)}
-              ></MotionImage>
-              <MotionImage
+                // initial={{ opacity: 0, scale: 0.5 }}
+                // animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                // onAnimationComplete={() => setBElementsComplete(true)}
+              // ></MotionImage>
+              />
+              <Image
+              // {/* <MotionImage */}
                 className={styles.polygon1Sp}
                 src="/Service/Sp/polygon1.webp"
                 width={116}
                 height={61}
                 alt="polygon1Sp"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
-                onAnimationComplete={() => setBElementsComplete(true)}
-              ></MotionImage>
-              <MotionImage
+                // initial={{ opacity: 0, scale: 0.5 }}
+                // animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                // onAnimationComplete={() => setBElementsComplete(true)}
+              // ></MotionImage>
+              />
+              <Image
+              // {/* <MotionImage */}
                 className={styles.polygon2}
                 src="/Service/PC/polygon2.webp"
                 width={119}
                 height={69}
                 alt="polygon2"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
-                onAnimationComplete={() => setBElementsComplete(true)}
-              ></MotionImage>
-              <MotionImage
+                // initial={{ opacity: 0, scale: 0.5 }}
+                // animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                // onAnimationComplete={() => setBElementsComplete(true)}
+              // ></MotionImage>
+              />
+              <Image
+              // {/* <MotionImage */}
                 className={styles.polygon2Sp}
                 src="/Service/Sp/polygon2.webp"
                 width={125}
                 height={81}
                 alt="polygon2Sp"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
-                onAnimationComplete={() => setBElementsComplete(true)}
-              ></MotionImage>
+                // initial={{ opacity: 0, scale: 0.5 }}
+                // animate={{ opacity: 1, scale: 1, transition: { duration: 1 } }}
+                // onAnimationComplete={() => setBElementsComplete(true)}
+              // ></MotionImage>
+              />
             </>
-          )}
+          {/* )} */}
           <div className={styles.h2Content}>
             <H2
               subText="サービス"
