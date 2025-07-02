@@ -41,6 +41,14 @@ function SwiperGallery() {
           prevEl: `.${styles.swiperButtonPrev}`,
           nextEl: `.${styles.swiperButtonNext}`,
         }}
+          breakpoints={{
+    0: {
+      spaceBetween: 20, // 767x以下での間隔（例：20px）
+    },
+    768: {
+      spaceBetween: 24, // 768px以上での間隔（例：24px）
+    },
+  }}
       >
         {worksToDisplay.map((work, index) => (
           <SwiperSlide key={`${work.id}-${index}`}>

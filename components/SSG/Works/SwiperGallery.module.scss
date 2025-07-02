@@ -17,9 +17,14 @@
   padding-left: clamp(1.3125rem, -2.4067rem + 15.8685vw, 11.875rem);
   // SPでは右側にも余白を設定
   padding-right: 20px;
-
+margin-top: clamp(31px, calc(2.25vw + 23.8px), 67px);
   @media (min-width: 769px) {
     padding-right: 0; // PCでは右余白は不要
+  }
+
+    @media (max-width:767px) {
+    padding-left: clamp(10.52px, calc(17.23vw - 44.62px), 87.5px);
+    padding-right: 0;
   }
 
   // :globalセレクタはCSS Modulesエラー回避のため、この中に記述
@@ -140,7 +145,7 @@
   color: $main-color-dark_blue;
   // 320px: 8.5px, 375px: 9.36px, 1440px: 10px, 1920px: 10.5px
   padding: clamp(0.5313rem, 0.5062rem + 0.125vw, 0.6563rem);
-  font-size: 12px;
+  font-size: clamp(13.06px, calc(0.084vw + 12.79px), 14.4px);
   font-weight: 600;
   z-index: 2;
   // 320px: 2.5px, 375px: 2.809px, 1440px: 3px, 1920px: 3.2px
@@ -169,7 +174,7 @@
       position: absolute;
       top: calc(100% - 8px);
       left: 0;
-      height: 2px;
+      height: 1px;
       width: 0;
       background: $main-color-dark_blue;
       opacity: 0;

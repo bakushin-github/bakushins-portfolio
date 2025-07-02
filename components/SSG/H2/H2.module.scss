@@ -6,6 +6,9 @@
   width: 100%;
   color: $main-color-dark_blue;
   margin-left: clamp(20px, 10.63vw + 6px, 227px);
+  @media (max-width:767px) {
+    margin-left: clamp(10.52px, calc(17.23vw - 44.62px), 87.5px);
+  }
 }
 
 .h2_subText {
@@ -39,4 +42,5 @@
   margin-bottom: clamp(11.92px, 0%, 0px);
   color: $main-color-dark_blue;
   font-size: clamp(32px, 2vw + 25.6px, 85px);
+  font-family: "DM Sans";
 }

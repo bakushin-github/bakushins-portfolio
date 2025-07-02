@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Googleの認証情報 OAuth
 lib/config/credentials.json
+
+# Local Netlify folder
+.netlify

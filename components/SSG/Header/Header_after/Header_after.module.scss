@@ -18,6 +18,15 @@
   }
 }
 
+.headerAfter__contact {
+  white-space: nowrap; // テキストを1行に強制
+  width: clamp(120px, calc(3.48vw + 109px), 176px) !important;
+  height: clamp(40px, calc(1.07vw + 37px), 57px) !important;
+  font-size: clamp(14px, calc(0.18vw + 13px), 17px) !important;
+padding: clamp(12px, calc(0.36vw + 11px), 18px)
+    clamp(18px, calc(0.54vw + 16px), 27px) clamp(12px, calc(0.36vw + 11px), 18px)
+      clamp(18px, calc(0.54vw + 16px), 27px) !important;}
+
 .headerAfter__inner {
   display: flex;
   justify-content: space-between;
