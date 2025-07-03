@@ -37,12 +37,7 @@ export default function RootLayout({ children }) {
         <meta property="og:image" content="/OGP.webp" />
         <meta property="og:url" content="https://bakushin.blog" />
         <meta name="twitter:card" content="summary_large_image" />
-        {/* Google reCAPTCHA v3 */}
-        <script
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          async
-          defer
-        />
+
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>

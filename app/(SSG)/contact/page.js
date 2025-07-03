@@ -10,6 +10,7 @@ import Image from "next/image";
 import ContactForm from "./contactForm";
 import useRecaptcha from "@/hooks/useRecaptcha";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
+import Script from "next/script"; 
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
@@ -41,6 +42,13 @@ function Page() {
       // ========================================================
   return (
     <>
+            {/* Google reCAPTCHA v3 */}
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          async
+          defer
+          strategy="afterInteractive" 
+        />
       <div className={styles.contact}>
         <div className={styles.left_1stLineParent}>
         <Image
