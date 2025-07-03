@@ -5,11 +5,15 @@
   background: $base-color-off_white;
 }
 
+.service__contentWrap{
+  
+}
 .service__inner {
   position: relative;
+  max-width: 1100px;
   padding-bottom: clamp(48px, calc(48px + (96 - 48) * (100vw - 1024px) / (1440 - 1024)), 96px);
   padding-inline: clamp(104px, calc(104px + (170 - 104) * (100vw - 768px) / (1024 - 768)), 170px);
-  margin: auto;
+  // margin: auto;
 
   @media (max-width: 767px) {
     padding-inline: 20px;
@@ -102,38 +106,30 @@
   font-size: 16px;
   line-height: 180%;
   letter-spacing: 0%;
-  margin-left: 0;
+  margin-left: clamp(-3.5rem, -10.143rem + 10.38vw, 2.313rem);
   margin-right: 0;
   margin-bottom: 0;
-
+  text-align: left;
+@media (max-width:1023px) {
+  margin-left: clamp(-58px, -5.06vw + 14.88px, -24px);
+  max-width: 800px;
+  width: clamp(37.5rem, -0.147rem + 78.43vw, 50rem);
+}
   @media (max-width: 767px) {
     // 320px: 13.72px, 767px: 16px (375pxで14pxになるように調整)
     font-size: clamp(13.72px, calc(13.72px + (16 - 13.72) * (100vw - 320px) / (767 - 320)), 16px);
     margin-top: 32px;
+    margin-left: clamp(-8px, 16.33vw - 60.26px, 65px);
+    max-width: 600px;
+    width: clamp(17.5rem, 3.182rem + 71.59vw, 37.5rem);
   }
 }
-
 .figure {
-  width: clamp(328px, calc(328px + (391 - 328) * (100vw - 768px) / (1023 - 768)), 391px);
-  height: clamp(447px, calc(451px - 4 * (100vw - 768px) / 255), 451px);
-  margin: auto;
-
-  @media (min-width: 1024px) {
-    width: 391px;
-    height: 447px;
-  }
-  
-  @media (min-width: 1440px) {
-    width: clamp(391px, calc(391px + (455.9 - 391) * (100vw - 1440px) / (1920 - 1440)), 455.9px);
-    height: clamp(447px, calc(447px + (519.8 - 447) * (100vw - 1440px) / (1920 - 1440)), 519.8px);
-  }
-
-  @media (max-width: 767px) {
-    // 320px: 311.18px, 767px: 391px
-    width: clamp(311.18px, calc(311.18px + (391 - 311.18) * (100vw - 320px) / (767 - 320)), 391px);
-    // 320px: 370.6px, 767px: 447px
-    height: clamp(370.6px, calc(370.6px + (447 - 370.6) * (100vw - 320px) / (767 - 320)), 447px);
-  }
+  // 固定幅を削除し、grid枠いっぱいに拡大
+  width: 100%;
+  margin: 0; // margin: auto を削除
+  display: flex;
+  flex-direction: column;
 }
 
 .imageWrap {
@@ -144,6 +140,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%; // 親要素の幅いっぱいに
+  aspect-ratio: 391 / 252; // 画像の元のアスペクト比を維持
+  
   @media (max-width:767px) {
     border-radius: 0;
     border: none;
@@ -152,34 +151,35 @@
 }
 
 .image {
-  max-width: 391px;
-  max-height: 252px;
+  // max-widthとmax-heightを削除
   object-fit: cover;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   border-radius: 8px;
   display: block;
+  
   @media (max-width:767px) {
     display: none;
   }
 }
 
-.imageSp{
-  max-width: 391px;
-  max-height: 252px;
+.imageSp {
+  // max-widthとmax-heightを削除
   object-fit: cover;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   border-radius: 8px;
   display: block;
+  
   @media (min-width:768px) {
     display: none;
   }
 }
 
 .service__content {
+  max-width: 1100px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -187,13 +187,15 @@
   margin-top: 72px;
   position: relative;
   
-  // figureの重なり解消のため、最小gapを36pxから60pxに修正
-  grid-row-gap: clamp(60px, calc(60px + (96 - 60) * (100vw - 1024px) / (1440 - 1024)), 96px);
-  grid-column-gap: clamp(30px, calc(30px + (80 - 30) * (100vw - 1024px) / (1440 - 1024)), 80px);
+  // 余白をmarginで外側に確保
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 5vw, 60px);
+  padding-right: clamp(20px, 5vw, 60px);
   
-  padding-left: clamp(0px, calc(0px + (222 - 0) * (100vw - 1024px) / (1440 - 1024)), 375px);
-  padding-right: clamp(1px, calc(1px + 135 * (100vw - 1441px) / 479), 136px);
-
+  // gapは画面幅に依存しない設定
+  grid-row-gap: clamp(60px, 8vw, 96px);
+  grid-column-gap: clamp(40px, 6vw, 80px);
   figure {
     &:nth-child(2),
     &:nth-child(4) {
@@ -207,7 +209,7 @@
     
     @media (max-width: 767px) {
       &:nth-child(n) {
-        margin-top: 64px;
+        margin-top: clamp(1.5rem, 0.426rem + 5.37vw, 3rem);
       }
     }
   }
@@ -215,12 +217,17 @@
   @media (max-width: 767px) {
     display: block;
     margin-top: 0;
-    // 375px: 60px, 767px: 120px になるように修正
     padding-bottom: clamp(60px, calc(60px + (120 - 60) * (100vw - 375px) / (767 - 375)), 120px);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
 .figcaption {
+  padding-inline: 8px;
+  @media (max-width:767px) {
+    padding-inline: clamp(0.938rem, -0.047rem + 4.92vw, 2.313rem);
+  }
 }
 
 .title {
@@ -232,8 +239,8 @@
 }
 
 .titleSp{
-  margin-top: 32px;
-  margin-bottom: 24px;
+  margin-top: 18px;
+  margin-bottom: 16px;
   @media (min-width:768px) {
     display: none;
   }

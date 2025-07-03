@@ -9,16 +9,20 @@ import Link from "next/link";
 // マスクアニメーション（線が少しずつ表示される）を復活
 const maskAnimationVariants = (direction = "left") => ({
   hidden: {
-    clipPath: direction === "left" ? "inset(0 0 0 100%)" : 
-              direction === "right" ? "inset(0 100% 0 0)" : 
-              direction === "top" ? "inset(0 0 100% 0)" : 
-              "inset(100% 0 0 0)", // bottom
+    clipPath:
+      direction === "left"
+        ? "inset(0 0 0 100%)"
+        : direction === "right"
+        ? "inset(0 100% 0 0)"
+        : direction === "top"
+        ? "inset(0 0 100% 0)"
+        : "inset(100% 0 0 0)", // bottom
     opacity: 1,
   },
   visible: {
     clipPath: "inset(0 0 0 0)",
     opacity: 1,
-    transition: { 
+    transition: {
       duration: 1.2, // 統一された時間
       ease: "linear", // 統一されたイージング（一定速度）
     },
@@ -71,7 +75,7 @@ function About() {
   return (
     <div id="About" className={styles.about}>
       <div ref={sectionRef}>
-       {/* 
+        {/* 
 // Lineのアニメーション: マスクアニメーションで線が少しずつ表示
 <motion.div
   className={styles.line}
@@ -106,30 +110,31 @@ function About() {
 )}
 */}
 
-{/* 静止画として表示 */}
-<div className={styles.line}>
-  <Image
-    src="/About/PC/line.webp"
-    width={194}
-    height={190}
-    alt="ライン"
-  />
-</div>
-
-<div className={styles.ball}>
-  <Image
-    src="/About/PC/ball.webp"
-    width={44}
-    height={44}
-    alt="ball"
-  />
-</div>
-
-          <H2
-            subText="私について"
-            mainText="About"
-            className={styles.about__title}
+        {/* 静止画として表示 */}
+        <div className={styles.line}>
+          <Image
+            src="/About/PC/line.webp"
+            // width={194}
+            // height={190}
+            alt="ライン"
+            fill
           />
+        </div>
+
+        <div className={styles.ball}>
+          <Image
+           src="/About/PC/ball.webp"
+            // width={44}
+            // height={44}
+            alt="ball"
+            fill />
+        </div>
+
+        <H2
+          subText="私について"
+          mainText="About"
+          className={styles.about__title}
+        />
 
         <div className={styles.about__inner}>
           <motion.div
@@ -187,7 +192,9 @@ function About() {
                 </div>
                 <div className={styles.about__text}>
                   医療の現場から Web
-                  の世界へ。10年以上培った課題解決力と徹底的な技術習得で、お客様のニーズに応えます。ホームページはもちろん、決済機能付きのECサイトもご提供できます！<br />モダンなJavaScript、WordPressのスキルを駆使し、使いやすく効果的なサイトを制作します。医療で培った細やかな配慮で、お客様に寄り添ったサービスを提供します。
+                  の世界へ。10年以上培った課題解決力と徹底的な技術習得で、お客様のニーズに応えます。ホームページはもちろん、決済機能付きのECサイトもご提供できます！
+                  <br />
+                  モダンなJavaScript、WordPressのスキルを駆使し、使いやすく効果的なサイトを制作します。医療で培った細やかな配慮で、お客様に寄り添ったサービスを提供します。
                 </div>
               </div>
             </motion.div>
@@ -211,37 +218,103 @@ function About() {
                 />
                 <ul className={styles.coding__lists}>
                   <li className={styles.about__list}>
-                    <Image className={styles.wordpress} src="/About/Sp/wp.webp" width={75} height={75} alt="wordpress" />
+                    <Image
+                      className={styles.wordpress}
+                      src="/About/Sp/wp.webp"
+                      width={75}
+                      height={75}
+                      alt="wordpress"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.shopify} src="/About/Sp/shopify.webp" width={75} height={75} alt="shopify" />
+                    <Image
+                      className={styles.shopify}
+                      src="/About/Sp/shopify.webp"
+                      width={75}
+                      height={75}
+                      alt="shopify"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.nextJs} src="/About/Sp/next.webp" width={75} height={75} alt="next.js" />
+                    <Image
+                      className={styles.nextJs}
+                      src="/About/Sp/next.webp"
+                      width={75}
+                      height={75}
+                      alt="next.js"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.gsap} src="/About/Sp/gsap.webp" width={75} height={75} alt="gsap" />
+                    <Image
+                      className={styles.gsap}
+                      src="/About/Sp/gsap.webp"
+                      width={75}
+                      height={75}
+                      alt="gsap"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.jq} src="/About/Sp/jq.webp" width={75} height={75} alt="jQuery" />
+                    <Image
+                      className={styles.jq}
+                      src="/About/Sp/jq.webp"
+                      width={75}
+                      height={75}
+                      alt="jQuery"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.sass} src="/About/Sp/sass.webp" width={75} height={75} alt="sass" />
+                    <Image
+                      className={styles.sass}
+                      src="/About/Sp/sass.webp"
+                      width={75}
+                      height={75}
+                      alt="sass"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.html} src="/About/Sp/html.webp" width={75} height={75} alt="html" />
+                    <Image
+                      className={styles.html}
+                      src="/About/Sp/html.webp"
+                      width={75}
+                      height={75}
+                      alt="html"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.css} src="/About/Sp/css.webp" width={75} height={75} alt="css" />
+                    <Image
+                      className={styles.css}
+                      src="/About/Sp/css.webp"
+                      width={75}
+                      height={75}
+                      alt="css"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.js} src="/About/Sp/js.webp" width={75} height={75} alt="JavaScript" />
+                    <Image
+                      className={styles.js}
+                      src="/About/Sp/js.webp"
+                      width={75}
+                      height={75}
+                      alt="JavaScript"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.php} src="/About/Sp/php.webp" width={75} height={75} alt="php" />
+                    <Image
+                      className={styles.php}
+                      src="/About/Sp/php.webp"
+                      width={75}
+                      height={75}
+                      alt="php"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.github} src="/About/Sp/github.webp" width={75} height={75} alt="github" />
+                    <Image
+                      className={styles.github}
+                      src="/About/Sp/github.webp"
+                      width={75}
+                      height={75}
+                      alt="github"
+                    />
                   </li>
                 </ul>
               </div>
@@ -260,16 +333,40 @@ function About() {
                 />
                 <ul className={styles.design__lists}>
                   <li className={styles.about__list}>
-                    <Image className={styles.figma} src="/About/Sp/figma.webp" width={75} height={75} alt="figma" />
+                    <Image
+                      className={styles.figma}
+                      src="/About/Sp/figma.webp"
+                      width={75}
+                      height={75}
+                      alt="figma"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.xd} src="/About/Sp/xd.webp" width={75} height={75} alt="xd" />
+                    <Image
+                      className={styles.xd}
+                      src="/About/Sp/xd.webp"
+                      width={75}
+                      height={75}
+                      alt="xd"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.ps} src="/About/Sp/ps.webp" width={75} height={75} alt="Photoshop" />
+                    <Image
+                      className={styles.ps}
+                      src="/About/Sp/ps.webp"
+                      width={75}
+                      height={75}
+                      alt="Photoshop"
+                    />
                   </li>
                   <li className={styles.about__list}>
-                    <Image className={styles.ai} src="/About/Sp/ai.webp" width={75} height={75} alt="Adobe Illustrator" />
+                    <Image
+                      className={styles.ai}
+                      src="/About/Sp/ai.webp"
+                      width={75}
+                      height={75}
+                      alt="Adobe Illustrator"
+                    />
                   </li>
                 </ul>
               </div>

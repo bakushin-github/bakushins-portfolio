@@ -10,19 +10,38 @@
 .line {
   position: absolute;
   top: 0;
-  right: 221px;
+  right: clamp(108px, 16.81vw - 21.1px, 302px);
+  width: 194px;
+  height: 190px;
+  @media (max-width:767px) {
+width: clamp(100px, 23.98vw, 194px);
+height: clamp(97px, 23.72vw, 190px);
+top: clamp(-6px, 1.34vw, 0px);
+right: clamp(56px, 11.63vw, 108px); }
 }
 
 .ball {
   position: absolute;
   top: 126px;
-  right: 137px;
+  right:clamp(31px, 15.77vw - 90.1px, 213px);
+  width: 44px;
+  height: 44px;
+    @media (max-width:767px) {
+width: clamp(26px, 5.74vw, 44px);
+height: clamp(26px, 5.74vw, 44px);
+top: clamp(60px, 16.55vw, 126px);
+right: clamp(21px, 2.24vw, 31px);
+  }
 }
 
 .about__inner {
   padding-bottom: 96px;
   // ① 320px-1023px: 23px ~ 170px
   padding-inline: clamp(23px, -43.91px + 20.91vw, 170px);
+  @media (max-width:767px) {
+    padding-inline: clamp(10.52px, calc(17.23vw - 44.62px), 87.5px);
+    padding-bottom: 60px;
+  }
 
   @media (min-width: 1024px) {
     // ② 1024px-1920px: 40px ~ 320px (1440pxで170pxを通る)
@@ -132,10 +151,13 @@
   letter-spacing: 0%;
   // ① 320px-1023px: 14px ~ 16px (375pxで14pxを通る)
   font-size: clamp(14px, 12.84px + 0.309vw, 16px);
-
+padding-left: 16px;
   @media (min-width: 1024px) {
     // ② 1024px-1920px: 16pxで固定
     font-size: 16px;
+  }
+  @media (max-width:1023px) {
+    padding-left: unset;
   }
 }
 
@@ -169,8 +191,8 @@
 }
 
 .about__codingTitleSp {
-  padding: 4px 20px 4px 16px;
-  box-sizing: border-box;
+  // padding: 4px 20px 4px 16px;
+  // box-sizing: border-box;
   width: 175px;
   height: 40px;
 
@@ -219,8 +241,8 @@
 }
 
 .about__designTitleSp {
-  padding: 6px 20px 6px 16px;
-  box-sizing: border-box;
+  // padding: 6px 20px 6px 16px;
+  // box-sizing: border-box;
   width: 138px;
   height: 40px;
 
