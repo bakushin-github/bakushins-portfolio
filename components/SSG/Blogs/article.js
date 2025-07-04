@@ -37,8 +37,10 @@ const GET_LATEST_POSTS = gql`
 // タイトルが長い場合に切り詰める関数
 const truncateTitle = (title, maxLength = 25) => {
   if (!title) return '';
-  if (title.length <= maxLength) return title;
-  return title.substring(0, maxLength) + '...';
+  // HTMLタグを除去
+  const plainText = String(title).replace(/<[^>]*>?/gm, "");
+  if (plainText.length <= maxLength) return plainText;
+  return plainText.substring(0, maxLength) + '...';
 };
 
 // 日付をフォーマットする関数
@@ -86,19 +88,6 @@ function LatestPosts() {
     <>
       <div className={styles.worksContents}>
         {data.posts.nodes.map((post) => {
-          // 画像URLの処理
-          let imageUrl = "/About/PC/Icon.webp"; // デフォルト画像
-          if (post.featuredImage?.node?.sourceUrl) {
-            // 画像がある場合はNext.jsのブラーハッシュかローカル画像を使用
-            try {
-              // ローカルの画像を使用するか、Next Image Optimizationを無効化
-              imageUrl = post.featuredImage.node.sourceUrl;
-            } catch (e) {
-              console.error("画像読み込みエラー:", e);
-              imageUrl = "/About/PC/Icon.webp";
-            }
-          }
-          
           // モバイル時のみScrollMotionを適用
           if (isMobile) {
             return (
@@ -110,52 +99,91 @@ function LatestPosts() {
                 threshold={0.3}
                 once={true}
               >
-                <article className={styles.postCard}>
-                  <header className={styles.postHeader}>
-                    <span className={styles.Category}>{getCategoryName(post)}</span>
-                    <Image
-                      src={imageUrl}
-                      width={150}
-                      height={150}
-                      alt={post.featuredImage?.node?.altText || post.title || "ブログ画像"}
-                      unoptimized={imageUrl !== "/About/PC/Icon.webp"}
-                    />
-                  </header>
-                  <footer className={styles.postFooter}>
-                    <h3 className={styles.title}>{truncateTitle(post.title)}</h3>
-                    <p className={styles.caption}>{formatDate(post.date)}</p>
-                    <Link
-                      href={`/all-blogs/${post.slug}`}
-                      className={styles.worksLink}
-                    ></Link>
-                  </footer>
-                </article>
+                <Link
+                  href={`/all-blogs/${post.slug}`}
+                  className={styles["blog-imageLink"]}
+                >
+                  <article className={styles["blog-card"]}>
+                    <header className={styles["blog-header"]}>
+                      {getCategoryName(post) && (
+                        <span className={styles["blog-category"]}>
+                          {getCategoryName(post)}
+                        </span>
+                      )}
+
+                      <Image
+                        src={
+                          post.featuredImage?.node?.sourceUrl ||
+                          "/About/PC/Icon.webp"
+                        }
+                        width={353}
+                        height={200}
+                        alt={
+                          post.featuredImage?.node?.altText ||
+                          truncateTitle(post.title) ||
+                          "記事画像"
+                        }
+                        className={styles["blog-image"]}
+                        priority={true}
+                      />
+                    </header>
+                    <footer className={styles["blog-footer"]}>
+                      <h2 className={styles["blog-title"]}>
+                        {truncateTitle(post.title)}
+                      </h2>
+                      <time className={styles["blog-date"]} dateTime={post.date}>
+                        {formatDate(post.date)}
+                      </time>
+                      <div className={styles["blog-link"]}></div>
+                    </footer>
+                  </article>
+                </Link>
               </ScrollMotion>
             );
           }
 
           // デスクトップ時はアニメーションなし
           return (
-            <article key={post.id} className={styles.postCard}>
-              <header className={styles.postHeader}>
-                <span className={styles.Category}>{getCategoryName(post)}</span>
-                <Image
-                  src={imageUrl}
-                  width={150}
-                  height={150}
-                  alt={post.featuredImage?.node?.altText || post.title || "ブログ画像"}
-                  unoptimized={imageUrl !== "/About/PC/Icon.webp"}
-                />
-              </header>
-              <footer className={styles.postFooter}>
-                <h3 className={styles.title}>{truncateTitle(post.title)}</h3>
-                <p className={styles.caption}>{formatDate(post.date)}</p>
-                <Link
-                  href={`/all-blogs/${post.slug}`}
-                  className={styles.worksLink}
-                ></Link>
-              </footer>
-            </article>
+            <Link
+              key={post.id}
+              href={`/all-blogs/${post.slug}`}
+              className={styles["blog-imageLink"]}
+            >
+              <article className={styles["blog-card"]}>
+                <header className={styles["blog-header"]}>
+                  {getCategoryName(post) && (
+                    <span className={styles["blog-category"]}>
+                      {getCategoryName(post)}
+                    </span>
+                  )}
+
+                  <Image
+                    src={
+                      post.featuredImage?.node?.sourceUrl ||
+                      "/About/PC/Icon.webp"
+                    }
+                    width={353}
+                    height={200}
+                    alt={
+                      post.featuredImage?.node?.altText ||
+                      truncateTitle(post.title) ||
+                      "記事画像"
+                    }
+                    className={styles["blog-image"]}
+                    priority={true}
+                  />
+                </header>
+                <footer className={styles["blog-footer"]}>
+                  <h2 className={styles["blog-title"]}>
+                    {truncateTitle(post.title)}
+                  </h2>
+                  <time className={styles["blog-date"]} dateTime={post.date}>
+                    {formatDate(post.date)}
+                  </time>
+                  <div className={styles["blog-link"]}></div>
+                </footer>
+              </article>
+            </Link>
           );
         })}
       </div>

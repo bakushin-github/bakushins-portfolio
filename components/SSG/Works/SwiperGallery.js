@@ -18,15 +18,33 @@ const GET_WORKS_QUERY = gql`
     }
   }
 `;
-const truncateTitle = (title, maxLength = 25) => { if (!title) return ""; const plainText = String(title).replace(/<[^>]*>?/gm, ""); return plainText.length <= maxLength ? plainText : plainText.substring(0, maxLength) + "..."; };
-const formatSkill = (skillValue) => { if (!skillValue) return ""; return Array.isArray(skillValue) ? skillValue.filter((s) => s).join(", ") : String(skillValue); };
-const getCategoryName = (work) => { if (!work?.categories?.nodes?.length) return ""; return work.categories.nodes[0].name; };
+
+const truncateTitle = (title, maxLength = 25) => { 
+  if (!title) return ""; 
+  const plainText = String(title).replace(/<[^>]*>?/gm, ""); 
+  return plainText.length <= maxLength ? plainText : plainText.substring(0, maxLength) + "..."; 
+};
+
+const formatSkill = (skillValue) => { 
+  if (!skillValue) return ""; 
+  return Array.isArray(skillValue) ? skillValue.filter((s) => s).join(", ") : String(skillValue); 
+};
+
+const getCategoryName = (work) => { 
+  if (!work?.categories?.nodes?.length) return ""; 
+  return work.categories.nodes[0].name; 
+};
 
 function SwiperGallery() {
   const [isClient, setIsClient] = useState(false);
   const { loading, error, data } = useQuery(GET_WORKS_QUERY, { skip: !isClient });
+  
   useEffect(() => { setIsClient(true); }, []);
-  if (!isClient || loading || error || !data?.works?.nodes) { return <div className={styles.worksContents}><p style={{ textAlign: 'center' }}>Loading...</p></div>; }
+  
+  if (!isClient || loading || error || !data?.works?.nodes) { 
+    return <div className={styles.worksContents}><p style={{ textAlign: 'center' }}>Loading...</p></div>; 
+  }
+  
   const worksToDisplay = data.works.nodes;
 
   return (
@@ -41,28 +59,41 @@ function SwiperGallery() {
           prevEl: `.${styles.swiperButtonPrev}`,
           nextEl: `.${styles.swiperButtonNext}`,
         }}
-          breakpoints={{
-    0: {
-      spaceBetween: 20, // 767x以下での間隔（例：20px）
-    },
-    768: {
-      spaceBetween: 24, // 768px以上での間隔（例：24px）
-    },
-  }}
+        breakpoints={{
+          0: {
+            spaceBetween: 20, // 767px以下での間隔（例：20px）
+          },
+          768: {
+            spaceBetween: 24, // 768px以上での間隔（例：24px）
+          },
+        }}
       >
         {worksToDisplay.map((work, index) => (
           <SwiperSlide key={`${work.id}-${index}`}>
-            <article className={styles.workCard}>
-              <header className={styles.workHeader}>
-                <span className={styles.workCategory}>{getCategoryName(work)}</span>
-                <Image src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"} alt={work.featuredImage?.node?.altText || "作品画像"} fill style={{ objectFit: "cover" }} priority={index < 3} sizes="(max-width: 768px) 100vw, 50vw" />
-              </header>
-              <footer className={styles.workFooter}>
-                <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
-                <p className={styles.skill}>{formatSkill(work.works?.skill || work.skill || "")}</p>
-                <Link href={`/all-works/${work.slug}`} className={styles.worksLink} aria-label={`${truncateTitle(work.title)}の詳細へ`}></Link>
-              </footer>
-            </article>
+            <Link
+              href={`/all-works/${work.slug}`}
+              className={styles["work-imageLink"]}
+              aria-label={`${truncateTitle(work.title)}の詳細へ`}
+            >
+              <article className={styles.workCard}>
+                <header className={styles.workHeader}>
+                  <span className={styles.workCategory}>{getCategoryName(work)}</span>
+                  <Image 
+                    src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"} 
+                    alt={work.featuredImage?.node?.altText || "作品画像"} 
+                    fill 
+                    style={{ objectFit: "cover" }} 
+                    priority={index < 3} 
+                    sizes="(max-width: 768px) 100vw, 50vw" 
+                  />
+                </header>
+                <footer className={styles.workFooter}>
+                  <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
+                  <p className={styles.skill}>{formatSkill(work.works?.skill || work.skill || "")}</p>
+                  <div className={styles.worksLink}></div>
+                </footer>
+              </article>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -71,9 +102,9 @@ function SwiperGallery() {
           <div className={styles.swiperButtonPrev}></div>
           <div className={styles.swiperButtonNext}></div>
         </div>
-              <Link href="/all-works" className={styles.listLink}>
-        <button className={styles.ListViewButton}>一覧をみる</button>
-      </Link>
+        <Link href="/all-works" className={styles.listLink}>
+          <button className={styles.ListViewButton}>一覧をみる</button>
+        </Link>
       </div>
     </div>
   );

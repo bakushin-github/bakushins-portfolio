@@ -145,10 +145,10 @@
     height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
   }
   @media (max-width: 767px) {
-    /* 320px: 283px | 767px: 353px */
-    width: clamp(283px, 15.64vw + 233px, 353px);
-    /* 320px: 301px | 767px: 376px */
-    height: clamp(301px, 12.83vw + 280px, 376px);
+    /* 320px: 310px | 375px: 330px | 767px: 380px */
+    width: clamp(310px, 36.36vw + 193.6px, 380px);
+    /* 320px: 332px | 375px: 352px | 767px: 405px */
+    height: clamp(332px, 36.36vw + 213.6px, 405px);
   }
   border-radius: 8px;
   overflow: hidden;
@@ -193,9 +193,9 @@
     }
 
     @media (max-width: 767px) {
-      /* 320px: 160px | 767px: 200px */
-      width: clamp(283px, 15.64vw + 233px, 353px);
-      height: clamp(160px, 8.95vw + 131px, 200px);
+      /* 320px: 175px | 375px: 187px | 767px: 215px */
+      width: clamp(310px, 36.36vw + 193.6px, 380px);
+      height: clamp(175px, 30.61vw + 77.2px, 215px);
     }
     img {
       width: 100%;
@@ -235,6 +235,18 @@
     @media screen and (min-width: 768px) and (max-width: 1023px) {
       height: clamp(1.438rem, 0.12rem + 2.75vw, 1.875rem);
     }
+    @media (max-width: 767px) {
+      /* 320px: 22px | 375px: 24px | 767px: 28px */
+      height: clamp(22px, 1.53vw + 17.1px, 28px);
+      /* 320px: 12px | 375px: 13px | 767px: 16px */
+      top: clamp(12px, 1.02vw + 8.74px, 16px);
+      /* 320px: 12px | 375px: 13px | 767px: 16px */
+      right: clamp(12px, 1.02vw + 8.74px, 16px);
+      /* 320px: 6px | 375px: 7px | 767px: 9px */
+      padding: clamp(6px, 0.76vw + 3.56px, 9px);
+      /* 320px: 11px | 375px: 12px | 767px: 14px */
+      font-size: clamp(11px, 0.76vw + 8.56px, 14px);
+    }
   }
 
   .blog-footer {
@@ -251,8 +263,8 @@
       height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
     }
     @media (max-width: 767px) {
-      /* 320px: 117px | 767px: 146px */
-      height: clamp(117px, 6.49vw + 96px, 146px);
+      /* 320px: 142px | 375px: 150px | 767px: 175px */
+      height: clamp(142px, 20.41vw + 76.73px, 175px);
     }
     h2 {
       @media (max-width: 1440px) {
@@ -266,7 +278,12 @@
       box-sizing: border-box;
       font-size: clamp(12px, 1.337vw, 24px);
       @media (max-width:767px) {
-        font-size: clamp(15.7px, 14.1px + 0.5vw, 18px);
+        /* 320px: 20px | 375px: 22px | 767px: 26px */
+        padding-top: clamp(20px, 1.53vw + 15.1px, 26px);
+        /* 320px: 22px | 375px: 25px | 767px: 32px */
+        padding-bottom: clamp(22px, 2.55vw + 13.84px, 32px);
+        /* 320px: 16px | 375px: 17px | 767px: 19px */
+        font-size: clamp(16px, 0.76vw + 13.56px, 19px);
       }
     }
     time {
@@ -275,7 +292,8 @@
       box-sizing: border-box;
       font-size: clamp(11px, 1.228vw, 22px);
       @media (max-width:767px) {
-        font-size: clamp(12px, 0.8vw + 10px, 16px);
+        /* 320px: 13px | 375px: 14px | 767px: 16px */
+        font-size: clamp(13px, 0.76vw + 10.56px, 16px);
       }
     }
   }
@@ -301,6 +319,13 @@
   background-size: 200% 100%; // アニメーションのために幅を2倍に
   background-position: 100% 0; // 初期状態ではグラデーションの左側を隠す
   transition: background-position 0.4s ease-in-out; // グラデーションの出現アニメーション
+
+  @media (max-width: 767px) {
+    /* 320px: 18px | 375px: 20px | 767px: 25px */
+    right: clamp(18px, 1.78vw + 12.3px, 25px);
+    /* 320px: 15px | 375px: 17px | 767px: 22px */
+    bottom: clamp(15px, 1.78vw + 9.3px, 22px);
+  }
 
   // 矢印アイコンと内側背景のコンテナ
   &::before {

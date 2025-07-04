@@ -6,98 +6,105 @@
   display: flex;
   gap: 24px;
   justify-content: center;
-  // 768pxで40px、1440pxで1px、1920pxで1px(下限)に変化
-  padding-top: clamp(1px, -3.39vw + 66px, 40px);
+  padding-top: 40px;
+  
   @media (max-width: 767px) {
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    // 320px->1px, 500px->10px, 767px->20px
-padding-inline: clamp(1px, 4.26vw - 12.63px, 20px);
+    padding-inline: clamp(1px, 4.26vw - 12.63px, 20px);
   }
 }
 
-
-.postCard {
+// BlogPostsClientと同じスタイルを適用
+.blog-card {
   position: relative;
-  margin: 0;
-  // width: 768px->230px, 1440px->353px, 1920px->441px(推論)
-  width: clamp(230px, 18.47vw + 88.57px, 441px);
-  // height: 768px->259px, 1440px->397px, 1920px->496px(推論)
-  height: clamp(259px, 20.75vw + 100px, 496px);
-  gap: 10px;
-  border-radius: 8px;
-  background: $base-color-white;
-  text-align: center;
-  overflow: hidden;
-  cursor: pointer;
-  @media (max-width: 767px) {
-    // 修正：320px->230px, 500px->260px, 767px->300px（正しい増加）
-    width: clamp(230px, 15.64vw + 180px, 300px);
-    // 修正：320px->259px, 500px->290px, 767px->320px（正しい増加）
-    height: clamp(259px, 13.64vw + 215.5px, 320px);
+  /* 1024px: 251px | 1920px: 471px */
+  width: clamp(251px, 24.514vw, 471px);
+  /* 1024px: 282px | 1920px: 529px */
+  height: clamp(282px, 27.57vw, 529px);
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: clamp(16.563rem, -0.002rem + 34.51vw, 22.063rem);
+    height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
   }
-
+  @media (max-width: 767px) {
+    /* 320px: 310px | 375px: 330px | 767px: 380px */
+    width: clamp(310px, 36.36vw + 193.6px, 380px);
+    /* 320px: 332px | 375px: 352px | 767px: 405px */
+    height: clamp(332px, 36.36vw + 213.6px, 405px);
+  }
+  border-radius: 8px;
+  overflow: hidden;
+  background: $base-color-white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  
   &:hover {
-    .title {
+    .blog-title {
       &::after {
         animation: titleLine 0.4s ease-in-out;
         opacity: 1;
       }
     }
 
-    .worksLink {
+    .blog-link {
       background-position: 0 0;
     }
 
-    .worksLink::before {
+    .blog-link::before {
       background-color: transparent;
       background-image: url("../../../public/Works/PC/ArrowWhite.webp");
       animation: arrow-cycle 0.4s ease-in-out 0.4s forwards;
     }
   }
 
-  &:hover .postHeader {
+  &:hover .blog-header img {
     transform: scale(1.05);
   }
 
-  /* header内の画像 */
-  .postHeader {
-    transition: 0.3s ease-in-out;
-    // height: 768px->130px, 1440px->200px, 1920px->250px(推論)
-    height: clamp(130px, 10.53vw + 49.47px, 250px);
+  .blog-header {
+    position: relative;
     width: 100%;
-    @media (max-width: 767px) {
-      // 修正：320px->130px, 500px->150px, 767px->170px（正しい増加）
-      height: clamp(130px, 8.94vw + 101.4px, 170px);
+    /* 1024px: 142px | 1920px: 267px */
+    height: clamp(142px, 13.889vw, 267px);
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      height: clamp(9.375rem, -0.037rem + 19.61vw, 12.5rem);
     }
+
+    @media (max-width: 767px) {
+      /* 320px: 175px | 375px: 187px | 767px: 215px */
+      width: clamp(310px, 36.36vw + 193.6px, 380px);
+      height: clamp(175px, 30.61vw + 77.2px, 215px);
+    }
+    
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: 0.3s ease-in-out;
+      transform: translateZ(0);
     }
   }
-
-  .Category {
+  
+  .blog-category {
     position: absolute;
     max-width: 300px;
     width: auto;
-    // height: 768px->20px, 1440px->30px, 1920px->37px(推論)
-    height: clamp(20px, 1.49vw + 8.6px, 37px);
-    // top: 768px->7px, 1440px->16px, 1920px->22px(推論)
-    top: clamp(7px, 1.32vw + -3.05px, 22px);
-    // right: 768px->7px, 1440px->19px, 1920px->28px(推論)
-    right: clamp(7px, 1.84vw + -7.16px, 28px);
+    z-index: 2;
+    /* 1024px: 21px | 1920px: 40px */
+    height: clamp(21px, 2.083vw, 40px);
+    top: clamp(11px, 1.114vw, 21px);
+    right: clamp(13px, 1.337vw, 25px);
     border-radius: 3px;
     border-width: 1px;
-    // padding: 768px->5px, 1440px->10px, 1920px->14px(推論)
-    padding: clamp(5px, 0.79vw + -1.05px, 14px);
+    /* 1024px: 7px | 1920px: 13px */
+    padding: clamp(7px, 0.694vw, 13px);
     color: $main-color-dark_blue;
     background: $base-color-white;
     font-family: "Inter";
     font-weight: 600;
-    // font-size: 768px->12px(仮), 1440px->14px. 1920px->15.4px(推論)
-    font-size: clamp(12px, 0.3vw + 9.6px, 15.4px);
+    /* 1024px: 10px | 1920px: 19px */
+    font-size: clamp(10px, 0.972vw, 19px);
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
@@ -106,73 +113,79 @@ padding-inline: clamp(1px, 4.26vw - 12.63px, 20px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      height: clamp(1.438rem, 0.12rem + 2.75vw, 1.875rem);
+    }
     @media (max-width: 767px) {
-      // 修正：320px->20px, 500px->23px, 767px->26px（正しい増加）
-      height: clamp(20px, 1.34vw + 15.7px, 26px);
-      // 修正：320px->7px, 500px->8.5px, 767px->10px（正しい増加）
-      top: clamp(7px, 0.67vw + 4.85px, 10px);
-      // 修正：320px->7px, 500px->8.5px, 767px->10px（正しい増加）
-      right: clamp(7px, 0.67vw + 4.85px, 10px);
-      // 修正：320px->5px, 500px->6.5px, 767px->8px（正しい増加）
-      padding: clamp(5px, 0.67vw + 2.85px, 8px);
+      /* 320px: 22px | 375px: 24px | 767px: 28px */
+      height: clamp(22px, 1.53vw + 17.1px, 28px);
+      /* 320px: 12px | 375px: 13px | 767px: 16px */
+      top: clamp(12px, 1.02vw + 8.74px, 16px);
+      /* 320px: 12px | 375px: 13px | 767px: 16px */
+      right: clamp(12px, 1.02vw + 8.74px, 16px);
+      /* 320px: 6px | 375px: 7px | 767px: 9px */
+      padding: clamp(6px, 0.76vw + 3.56px, 9px);
+      /* 320px: 11px | 375px: 12px | 767px: 14px */
+      font-size: clamp(11px, 0.76vw + 8.56px, 14px);
     }
   }
 
-  .postFooter {
-    // height: 768px->128px, 1440px->197px, 1920px->246px(推論)
-    height: clamp(128px, 10.35vw + 48.98px, 246px);
-    // padding-inline: 768px->10px, 1440px->31.5px, 1920px->47px(推論)
-    padding-inline: clamp(10px, 3.25vw + -14.84px, 47px);
-    text-align: left;
-    box-sizing: border-box;
-    @media (max-width: 767px) {
-      // 修正：320px->128px, 500px->140px, 767px->150px（正しい増加）
-      height: clamp(128px, 4.92vw + 112.24px, 150px);
+  .blog-footer {
+    padding-inline: clamp(17.5px, 3.37vw - 17px, 47.5px);
+    @media (min-width: 1024px) {
+      /* 1024px: 104px | 1920px: 195px */
+      height: clamp(104px, 10.139vw, 195px);
     }
-
-    h3 {
-      // padding-top: 768px->18px, 1440px->24px, 1920px->28px(推論)
-      padding-top: clamp(18px, 0.88vw + 11.26px, 28px);
-      // 【再修正】768px->30px, 1440px->50px, 1920px->64px(推論)
-      padding-bottom: clamp(30px, 2.95vw + 7.34px, 64px);
+    padding: clamp(17px, 1.667vw, 32px) clamp(22px, 2.188vw, 42px);
+    box-sizing: border-box;
+    @media screen and (min-width: 768px) and (max-width: 1023.98px) {
+      height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
+    }
+    @media (max-width: 767px) {
+      /* 320px: 142px | 375px: 150px | 767px: 175px */
+      height: clamp(142px, 20.41vw + 76.73px, 175px);
+    }
+    
+    h2 {
+      @media (max-width: 1440px) {
+        padding-top: clamp(2px, 0.96vw - 8px, 6px);
+      }
+      @media (min-width: 1441px) {
+        padding-top: clamp(6px, 1.25vw - 12px, 12px);
+      }
+      padding-bottom: clamp(26px, 2.45vw + 1px, 48px);
       margin: 0;
       box-sizing: border-box;
-      // 768px->14px, 1440px->18px, 1920px->21px(推論)
-      font-size: clamp(14px, 0.61vw + 9.3px, 21px);
-      @media (max-width: 767px) {
-        // 修正：320px->18px, 500px->20px, 767px->22px（正しい増加）
-        padding-top: clamp(18px, 0.89vw + 15.15px, 22px);
-        // 修正：320px->20px, 500px->25px, 767px->30px（正しい増加）
-        padding-bottom: clamp(20px, 2.24vw + 12.83px, 30px);
-        // 修正：320px->14px, 500px->15px, 767px->16px（正しい増加）
-        font-size: clamp(14px, 0.45vw + 12.56px, 16px);
+      font-size: clamp(12px, 1.337vw, 24px);
+      @media (max-width:767px) {
+        /* 320px: 20px | 375px: 22px | 767px: 26px */
+        padding-top: clamp(20px, 1.53vw + 15.1px, 26px);
+        /* 320px: 22px | 375px: 25px | 767px: 32px */
+        padding-bottom: clamp(22px, 2.55vw + 13.84px, 32px);
+        /* 320px: 16px | 375px: 17px | 767px: 19px */
+        font-size: clamp(16px, 0.76vw + 13.56px, 19px);
       }
     }
-    p {
+    
+    time {
       margin: 0;
-      // 元のautoを考慮し、postFooterの高さに比例する形で高さを推論
-      // height: 768px->53px, 1440px->82px, 1920px->102px
-      height: clamp(53px, 4.3vw + 20.04px, 102px);
+      height: 82px;
       box-sizing: border-box;
-      // font-size: 768px->14px, 1440px->16px(仮), 1920px->17.4px(推論)
-      font-size: clamp(14px, 0.3vw + 11.6px, 17.4px);
-      @media (max-width: 767px) {
-        // 修正：320px->12px, 500px->12.5px, 767px->13px（正しい増加）
-        font-size: clamp(12px, 0.22vw + 11.3px, 13px);
+      font-size: clamp(11px, 1.228vw, 22px);
+      @media (max-width:767px) {
+        /* 320px: 13px | 375px: 14px | 767px: 16px */
+        font-size: clamp(13px, 0.76vw + 10.56px, 16px);
       }
     }
   }
 }
 
-.worksLink {
+.blog-link {
   position: absolute;
   width: 40px;
   height: 40px;
-  // right: 768px->14px, 1440px->31px, 1920px->43px(推論)
-  right: clamp(14px, 2.54vw + -5.53px, 43px);
-  // 768px->9px, 1440px->35px, 1920px->54px(推論)
-  bottom: clamp(9px, 3.91vw - 21px, 54px);
+  right: clamp(18px, 1.53vw + 5px, 32px);
+  bottom: 10%;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -183,11 +196,12 @@ padding-inline: clamp(1px, 4.26vw - 12.63px, 20px);
   background-size: 200% 100%;
   background-position: 100% 0;
   transition: background-position 0.4s ease-in-out;
+  
   @media (max-width: 767px) {
-    // 修正：320px->14px, 500px->17px, 767px->20px（正しい増加）
-    right: clamp(14px, 1.34vw + 9.7px, 20px);
-    // 修正：320px->9px, 500px->12px, 767px->15px（正しい増加）
-    bottom: clamp(9px, 1.34vw + 4.7px, 15px);
+    /* 320px: 18px | 375px: 20px | 767px: 25px */
+    right: clamp(18px, 1.78vw + 12.3px, 25px);
+    /* 320px: 15px | 375px: 17px | 767px: 22px */
+    bottom: clamp(15px, 1.78vw + 9.3px, 22px);
   }
 
   &::before {
@@ -235,3 +249,10 @@ padding-inline: clamp(1px, 4.26vw - 12.63px, 20px);
     opacity: 1;
   }
 }
+
+// 旧スタイルは削除（互換性のため残しておく場合はコメントアウト）
+/*
+.postCard {
+  // 旧スタイル
+}
+*/
