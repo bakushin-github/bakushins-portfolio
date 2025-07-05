@@ -532,33 +532,35 @@ function WorkOthers({ currentWorkId }) {
             yOffset={50} // 下から上へのアニメーション
             xOffset={0}
           >
-            <article className={styles.workCard}>
-              <header className={styles.workHeader}>
-                <span className={styles.workCategory}>{getCategoryName(work)}</span>
-                <Image
-                  src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
-                  width={300}
-                  height={200}
-                  alt={
-                    work.featuredImage?.node?.altText ||
-                    truncateTitle(work.title) ||
-                    "作品画像"
-                  }
-                  className={styles.thumbnailImage}
-                />
-              </header>
-              <footer className={styles.workFooter}>
-                <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
-                <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
-                <Link
-                  href={`/all-works/${work.slug}`}
-                  className={styles.worksLink}
-                  aria-label={`${truncateTitle(work.title)}の詳細へ`}
-                >
-                  {/* リンク全体をカードに重ねる */}
-                </Link>
-              </footer>
-            </article>
+            <Link
+              href={`/all-works/${work.slug}`}
+              className={styles["work-imageLink"]}
+              aria-label={`${truncateTitle(work.title)}の詳細へ`}
+            >
+              <article className={styles.workCard}>
+                <header className={styles.workHeader}>
+                  <span className={styles.workCategory}>{getCategoryName(work)}</span>
+                  <Image
+                    src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
+                    width={300}
+                    height={200}
+                    alt={
+                      work.featuredImage?.node?.altText ||
+                      truncateTitle(work.title) ||
+                      "作品画像"
+                    }
+                    className={styles.thumbnailImage}
+                  />
+                </header>
+                <footer className={styles.workFooter}>
+                  <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
+                  <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
+                  <div className={styles.worksLink}>
+                    {/* 装飾的な矢印要素（実際のリンク機能は親のLinkが担当） */}
+                  </div>
+                </footer>
+              </article>
+            </Link>
           </ScrollMotion>
         );
       })}

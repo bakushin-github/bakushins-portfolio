@@ -167,13 +167,13 @@ export default async function WorkDetailPage({ params }) {
   // 作品データが取得できた場合、クライアントコンポーネントをレンダリング
   // 必要なデータをpropsとして渡します
   return (
-    <>
+    <><div className={styles.allWorks}>
       <ResponsiveHeaderWrapper className={styles.worksHeader} />
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
       </div>
       {/* データをWorkDetailClientに渡してレンダリング */}
-      <WorkDetailClient work={work} slug={slug} breadcrumbItems={breadcrumbItems} />
+      <WorkDetailClient work={work} slug={slug} breadcrumbItems={breadcrumbItems} /></div>
     </>
   );
 }
