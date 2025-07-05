@@ -100,7 +100,7 @@ padding: clamp(12px, calc(0.36vw + 11px), 18px)
   }
   
   // 768px専用ルール追加
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     display: none;
   }
 }

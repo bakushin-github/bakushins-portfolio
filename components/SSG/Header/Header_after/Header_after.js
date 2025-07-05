@@ -5,7 +5,7 @@ import styles from "./Header_after.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Contact_button from "../../Contact_button/Contact_button";
-import Drawer_button from "../../Drawer/Drawer_button/Drawer_button";
+import Drawer_button from "../../Drawer/Sp/Drawer_button/Drawer_buttonSP";
 
 // toggleMenuプロパティを受け取るようにする
 function Header_after({ toggleMenu }) {

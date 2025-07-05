@@ -180,6 +180,8 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+  opacity: 0.3;
+  filter: blur(2.5px);
 
   @media (max-width: 767px) {
     top: 43.28px;
@@ -193,6 +195,8 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+  opacity: 0.3;
+  filter: blur(2.5px);
 
   @media (max-width: 767px) {
     top: clamp(159.26px, 17.55vw + 93.45px, 250px);
@@ -206,6 +210,8 @@
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
+  opacity: 0.3;
+  filter: blur(2.5px);
 
   @media (max-width: 767px) {
     top: clamp(586.84px, -1.73vw + 592.39px, 580px);
@@ -285,6 +291,11 @@
     /* ★変更点：375pxで30px、767pxで110pxになるようclamp()で可変に修正 */
     padding-inline: clamp(30px, 20.41vw - 46.53px, 110px);
   }
+
+    @media (max-width:400px) {
+    padding-top: 150px;
+    box-sizing: border-box;
+  }
 }
 
 .Drawer_menu__List {
@@ -319,6 +330,11 @@
     letter-spacing: 0.48px;
     padding-top: 10px;
     padding-bottom: 10px;
+  }
+
+    @media (max-width:400px) {
+        box-sizing: border-box;
+padding-block: 30px;
   }
 }
 
@@ -387,7 +403,7 @@
   }
   
   // 768px専用ルール追加
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     display: flex;
   }
 }

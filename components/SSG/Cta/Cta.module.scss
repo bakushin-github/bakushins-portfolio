@@ -32,7 +32,8 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+  opacity: 0.3;
+  filter: blur(2.5px);
   @media (max-width: 767px) {
     display: none;
   }
@@ -49,7 +50,9 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+    opacity: 0.3;
+  filter: blur(2.5px);
+
   @media (min-width: 768px) {
     display: none;
   }
@@ -65,7 +68,9 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+    opacity: 0.3;
+  filter: blur(2.5px);
+
   @media (max-width: 767px) {
     display: none;
   }
@@ -82,7 +87,9 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+    opacity: 0.3;
+  filter: blur(2.5px);
+
   @media (min-width: 768px) {
     display: none;
   }
@@ -98,7 +105,9 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+    opacity: 0.3;
+  filter: blur(2.5px);
+
   // 1440pxでのみtop配置に変更
   @media (min-width: 1440px) {
     top: 18px;
@@ -121,7 +130,9 @@
   animation-duration: 6s;
   animation-iteration-count: infinite;
   z-index: 1;
-  
+    opacity: 0.3;
+  filter: blur(2.5px);
+
   @media (min-width: 768px) {
     display: none;
   }
