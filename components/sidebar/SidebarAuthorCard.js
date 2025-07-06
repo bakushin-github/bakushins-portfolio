@@ -13,16 +13,27 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
   const authorData = {
     name: 'バクシン', 
     avatar: '/avatar.webp', // 158x158のアバター画像
-    description: '医療現場で培った細やかな心配りを、Webの世界でも大切にしています。お客様一人ひとりのご要望に丁寧に耳を傾け、ホームページ制作から決済機能付きECサイトまで、安心してお任せいただけるよう心を込めてサポートいたします。'
+    description: '医療現場で培った心配りを活かし、Webでも一人ひとりの想いに寄り添います。ホームページや決済対応のECサイトも、安心してお任せください。心を込めてサポートします。'
   };
 
   // Xシェア用URL
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(articleTitle || 'おすすめの記事')}&url=${encodeURIComponent(articleUrl || '')}`;
 
+  // blog-thumbnailBoxとY軸を揃え、スクロール時はヘッダーとの距離を保つ
+  const getAlignedTop = () => {
+    if (windowWidth >= 1024) {
+      // スクロール処理でsidebarTopが動的に設定されている場合はそれを使用
+      return `${sidebarTop}px`;
+    } else {
+      // 1024px未満: 通常の計算を使用
+      return `${sidebarTop}px`;
+    }
+  };
+
   // スタイル定義
   const sidebarWidgetStyle = {
     position: 'fixed',
-    top: `${sidebarTop}px`,
+    top: getAlignedTop(),
     transition: 'top 0.2s ease-out',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif',
     width: '100%',
@@ -31,7 +42,7 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
     color: '#333',
     marginBottom: '24px',
     animation: 'slideInRight 0.5s ease-out',
-    zIndex: 2,
+    zIndex: 1,
     margin: windowWidth >= 1024 && windowWidth < 1280 ? '0' : '0',
     backgroundColor: 'transparent'
   };
@@ -41,7 +52,7 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
     sidebarTop,
     windowWidth,
     isTargetWidth: windowWidth >= 1024 && windowWidth < 1280,
-    appliedTop: `${sidebarTop}px`
+    appliedTop: getAlignedTop()
   });
 
   const authorBlockStyle = {
@@ -164,91 +175,116 @@ export default function SidebarAuthorCard({ articleTitle, articleUrl }) {
       const documentHeight = document.documentElement.scrollHeight;
       const currentWindowWidth = window.innerWidth;
       
-      // スクリーンショットの「separatorLine」に対応する要素のセレクタを指定
-      // 実際のHTML構造に合わせて、正確なセレクタを設定してください。
-      // 例: アイキャッチ画像の直後に来る要素、または特定のクラスを持つ要素
-      const separatorLineElement = document.querySelector('span.span_variables_singleBlog_separatorLine__d8DxW'); 
-      const eyecatchImageElement = document.querySelector('.eyecatch-image-container'); // アイキャッチ画像のコンテナ、または img タグ自体
-
-      let dynamicInitialTop = 370; // デフォルト値
-
-      if (eyecatchImageElement) {
-        // アイキャッチ画像の下端位置 + separatorLineのmargin-bottom
-        const eyecatchBottom = eyecatchImageElement.getBoundingClientRect().bottom + window.scrollY;
-        // スクリーンショットから読み取ったseparatorLineのmargin-bottom
-        const separatorMarginBottom = 48; 
-        dynamicInitialTop = eyecatchBottom + separatorMarginBottom;
-        console.log('🎯 Dynamic initialTop (from eyecatch):', dynamicInitialTop);
-      } else if (separatorLineElement) {
-        // separatorLineが存在する場合
-        const separatorBottom = separatorLineElement.getBoundingClientRect().bottom + window.scrollY;
-        dynamicInitialTop = separatorBottom;
-        console.log('🎯 Dynamic initialTop (from separatorLine):', dynamicInitialTop);
-      } else {
-        // アイキャッチもseparatorLineも見つからない場合、従来の計算を使用
-        if (currentWindowWidth >= 1024 && currentWindowWidth < 1280) {
-          dynamicInitialTop = 410;
-        } else {
-          dynamicInitialTop = currentWindowWidth >= 1920 
-            ? 400 
-            : currentWindowWidth <= 1440 
-              ? 370 
-              : 370 + ((currentWindowWidth - 1440) / (1920 - 1440)) * 30;
+      if (currentWindowWidth >= 1024) {
+        // 1024px以上の場合：ヘッダーとの距離を考慮した位置調整
+        
+        // blog-thumbnailBox要素の初期位置を取得
+        const thumbnailBox = document.querySelector('.blog-thumbnailBox') || 
+                            document.querySelector('[class*="thumbnail"]') ||
+                            document.querySelector('[class*="blog-thumbnail"]') ||
+                            document.querySelector('.post-thumbnail') ||
+                            document.querySelector('.featured-image');
+        
+        let initialSidebarTop = 370; // フォールバック値
+        
+        if (thumbnailBox) {
+          const rect = thumbnailBox.getBoundingClientRect();
+          initialSidebarTop = rect.top + window.scrollY;
         }
-        console.log('🎯 Fallback initialTop:', dynamicInitialTop);
-      }
-
-      // Calculate sidebar's total height including its margin-bottom
-      const sidebarElement = document.querySelector('.sidebar-author-card-container');
-      const sidebarHeight = sidebarElement ? sidebarElement.offsetHeight : 0;
-      const sidebarMarginBottom = 24; 
-      const totalSidebarHeight = sidebarHeight + sidebarMarginBottom;
-
-      // Define scroll thresholds and target fixed positions
-      const initialScrollThreshold = 220; 
-      let fixedTopOffset; 
-
-      if (currentWindowWidth >= 1024 && currentWindowWidth < 1280) {
-        fixedTopOffset = 180;
+        
+        // ヘッダーの高さを取得（一般的なヘッダーセレクタで検索）
+        const header = document.querySelector('header') ||
+                      document.querySelector('.header') ||
+                      document.querySelector('[class*="header"]') ||
+                      document.querySelector('nav') ||
+                      document.querySelector('.navbar');
+        
+        const headerHeight = header ? header.offsetHeight : 60; // フォールバック: 60px
+        const headerMargin = 20; // ヘッダーとの間隔
+        const minTopPosition = headerHeight + headerMargin; // ヘッダー + 20px
+        
+        // 現在のスクロール位置での理想的なサイドバー位置
+        const idealTopPosition = initialSidebarTop - scrollY;
+        
+        // ヘッダーとの衝突を回避する最終位置
+        const finalTopPosition = Math.max(minTopPosition, idealTopPosition);
+        
+        setSidebarTop(finalTopPosition);
+        
+        console.log('🔍 Desktop Scroll Debug:', {
+          scrollY,
+          windowWidth: currentWindowWidth,
+          headerHeight,
+          minTopPosition,
+          initialSidebarTop,
+          idealTopPosition,
+          finalTopPosition
+        });
+        
       } else {
-        fixedTopOffset = 150;
-      }
-      
-      // フッター/CTAエリアを考慮した計算（下部310px手前で止める）
-      const footerOffset = 310; 
-      const stopScrollingAt = documentHeight - windowHeight - footerOffset;
+        // 1024px未満の場合は従来のスクロール処理を実行
+        const separatorLineElement = document.querySelector('span.span_variables_singleBlog_separatorLine__d8DxW'); 
+        const eyecatchImageElement = document.querySelector('.eyecatch-image-container');
 
-      // サイドバーが停止するドキュメント内の絶対位置を計算
-      const absoluteStopPosition = documentHeight - totalSidebarHeight - footerOffset;
+        let dynamicInitialTop = 370; // デフォルト値
 
-      if (scrollY <= initialScrollThreshold) {
-        // dynamicInitialTop から fixedTopOffset へスムーズに遷移
-        const progress = scrollY / initialScrollThreshold;
-        const currentTop = dynamicInitialTop - ((dynamicInitialTop - fixedTopOffset) * progress);
-        setSidebarTop(Math.max(fixedTopOffset, currentTop)); 
-      } else if (scrollY > initialScrollThreshold && scrollY < stopScrollingAt) {
-        // 固定位置
-        setSidebarTop(fixedTopOffset);
-      } else if (scrollY >= stopScrollingAt) {
-        // フッター付近でコンテンツと共に移動
-        const newTopRelativeToDocument = absoluteStopPosition;
-        setSidebarTop(newTopRelativeToDocument - scrollY); 
+        if (eyecatchImageElement) {
+          const eyecatchBottom = eyecatchImageElement.getBoundingClientRect().bottom + window.scrollY;
+          const separatorMarginBottom = 48; 
+          dynamicInitialTop = eyecatchBottom + separatorMarginBottom;
+          console.log('🎯 Dynamic initialTop (from eyecatch):', dynamicInitialTop);
+        } else if (separatorLineElement) {
+          const separatorBottom = separatorLineElement.getBoundingClientRect().bottom + window.scrollY;
+          dynamicInitialTop = separatorBottom;
+          console.log('🎯 Dynamic initialTop (from separatorLine):', dynamicInitialTop);
+        } else {
+          if (currentWindowWidth >= 1024 && currentWindowWidth < 1280) {
+            dynamicInitialTop = 410;
+          } else {
+            dynamicInitialTop = currentWindowWidth >= 1920 
+              ? 400 
+              : currentWindowWidth <= 1440 
+                ? 370 
+                : 370 + ((currentWindowWidth - 1440) / (1920 - 1440)) * 30;
+          }
+          console.log('🎯 Fallback initialTop:', dynamicInitialTop);
+        }
+
+        const sidebarElement = document.querySelector('.sidebar-author-card-container');
+        const sidebarHeight = sidebarElement ? sidebarElement.offsetHeight : 0;
+        const sidebarMarginBottom = 24; 
+        const totalSidebarHeight = sidebarHeight + sidebarMarginBottom;
+
+        const initialScrollThreshold = 220; 
+        let fixedTopOffset; 
+
+        if (currentWindowWidth >= 1024 && currentWindowWidth < 1280) {
+          fixedTopOffset = 180;
+        } else {
+          fixedTopOffset = 150;
+        }
+        
+        const footerOffset = 310; 
+        const stopScrollingAt = documentHeight - windowHeight - footerOffset;
+        const absoluteStopPosition = documentHeight - totalSidebarHeight - footerOffset;
+
+        if (scrollY <= initialScrollThreshold) {
+          const progress = scrollY / initialScrollThreshold;
+          const currentTop = dynamicInitialTop - ((dynamicInitialTop - fixedTopOffset) * progress);
+          setSidebarTop(Math.max(fixedTopOffset, currentTop)); 
+        } else if (scrollY > initialScrollThreshold && scrollY < stopScrollingAt) {
+          setSidebarTop(fixedTopOffset);
+        } else if (scrollY >= stopScrollingAt) {
+          const newTopRelativeToDocument = absoluteStopPosition;
+          setSidebarTop(newTopRelativeToDocument - scrollY); 
+        }
+        
+        console.log('🔍 Mobile Debug Info:', {
+          scrollY,
+          windowWidth: currentWindowWidth,
+          calculatedSidebarTop: sidebarTop
+        });
       }
-      
-      console.log('🔍 Debug Info:', {
-        scrollY,
-        windowWidth: currentWindowWidth,
-        isTargetWidth: currentWindowWidth >= 1024 && currentWindowWidth < 1280,
-        documentHeight,
-        windowHeight,
-        footerOffset: footerOffset,
-        sidebarHeight: sidebarHeight,
-        totalSidebarHeight: totalSidebarHeight,
-        stopScrollingAt: stopScrollingAt,
-        absoluteStopPosition: absoluteStopPosition,
-        fixedTopOffset: fixedTopOffset,
-        calculatedSidebarTop: sidebarTop
-      });
     };
 
     // 初期実行

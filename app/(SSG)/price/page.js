@@ -80,7 +80,7 @@ export default function Price() {
         </div>
         <div className={styles.price__title}>
           <h1 className={styles.price__h1}>費用のめやす</h1>
-          <h2 className={styles.price__h2}>price</h2>
+          <h2 className={styles.price__h2}>Price</h2>
         </div>
         <div className={styles.price__text}>
           <p className={styles.price__explanation}>

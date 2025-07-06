@@ -125,7 +125,8 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-
+  opacity: 0.3;
+  filter: blur(2.5px);
   @media (min-width: 768px) {
     top: clamp(55.11px, 4.23vw + 22.62px, 103.8px);
     left: clamp(15.09px, 1.16vw + 6.17px, 28.4px);
@@ -137,7 +138,8 @@
   animation-name: y-loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-
+  opacity: 0.3;
+  filter: blur(2.5px);
   @media (min-width: 768px) {
     top: clamp(90.86px, 6.98vw + 37.38px, 171.1px);
     left: clamp(253.22px, 19.45vw + 104.01px, 476.9px);
@@ -149,7 +151,8 @@
   animation-name: y--loop;
   animation-duration: 6s;
   animation-iteration-count: infinite;
-
+  opacity: 0.3;
+  filter: blur(2.5px);
   @media (min-width: 768px) {
     bottom: 0;
     left: clamp(179.13px, 13.75vw + 73.57px, 337.3px);
@@ -239,9 +242,9 @@
   transform: translateX(-50%);
 
   @media (max-width: 767px) {
-    top: clamp(118px, -34.95vw + 386.06px, 255px);
-    width: clamp(31.27px, 15.15vw - 17.22px, 99px);
-    height: clamp(124.75px, 60.46vw - 68.72px, 395px);
+    top: 31%;
+     width: clamp(54.61px, 13.33vw + 11.95px, 64px);
+    height: clamp(143.37px, 35vw + 31.37px, 168px);
   }
 }
 

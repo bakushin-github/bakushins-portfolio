@@ -13,7 +13,7 @@
   padding-bottom: clamp(60px, 2.54vw + 40.5px, 77px); // 768px:60px → 1440px:77px
   overflow: hidden;
   box-sizing: border-box;
-  
+  z-index: 1;//Sidebarと重なるので回避目的
   @media (max-width: 767px) {
     height: auto;
     padding-top: 60px;

@@ -73,6 +73,7 @@ width: (1106px/1400px*100%);
   /* 1024px: 96px | 1920px: 96px */
   height: clamp(60px, 6.25vw, 96px);
   color: $main-color-dark_blue;
+  font-size: clamp(34.55px, 2.63vw + 26.13px, 76.62px);
 }
 
 .workCard-grid {

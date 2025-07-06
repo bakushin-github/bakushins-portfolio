@@ -261,6 +261,13 @@ z-index: -1;
       grid-area: d;
     }
   }
+  @media (max-width:374px) {
+        grid-template-areas:
+      "a a"
+      "b b"
+      "c c"
+      "d d";
+  }
 }
 
 .checkbox {
@@ -331,6 +338,7 @@ z-index: -1;
   border-width: 1px;
   padding: 16px;
   box-sizing: border-box;
+    border:  1px solid #CACCD3;
   margin-top: 22px;
   @media (max-width: 767px) {
     width: clamp(232.88px, -47.13px + 87.5vw, 624px);
@@ -356,6 +364,8 @@ z-index: -1;
   width: 624px;
   height: 51px;
   box-sizing: border-box;
+  border:  1px solid #CACCD3;
+  border-radius: 6px;
   margin-top: 12px;
   @media (max-width: 767px) {
     width: clamp(232.88px, -47.13px + 87.5vw, 624px);
@@ -444,6 +454,7 @@ z-index: -1;
 }
 
 .contact__click {
+  button{border: none;}
 }
 
 .contact__pp {
