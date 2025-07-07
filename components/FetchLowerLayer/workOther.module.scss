@@ -9,6 +9,7 @@
   grid-column-gap: clamp(17px, 1.667vw, 32px);
   /* 1024px: 40px | 1920px: 75px */
   grid-row-gap: clamp(40px, 3.889vw, 75px);
+  padding-top: clamp(47.59px, 45.18px + 0.75vw, 59.61px);
   @media (max-width: 1023px) {
     place-items: center;
     grid-template-columns: repeat(2, 1fr);
