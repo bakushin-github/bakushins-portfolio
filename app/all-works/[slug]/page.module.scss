@@ -185,6 +185,9 @@ padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
     margin-top: clamp(66px, 112.53px - 14.54vw, 1px);
     
   }
+  @media (max-width:419px) {
+    padding-inline: clamp(0.625rem, -4.702rem + 22.73vw, 1.25rem);
+  }
   @media (max-width: 370px) {
     margin-top: clamp(125px, 236px - 30vw, 140px);
   }
@@ -195,7 +198,12 @@ padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
     box-sizing: border-box;
     color: $text-black;
     /* 1024px: 11px | 1920px: 21px */
-    font-size: clamp(11px, 1.111vw, 21px);
+    font-size: clamp(10px, 7.273vw - 13.273px, 13.6px);
+
+
+@media (min-width: 370px) {
+  font-size: clamp(14.0px, 0.188vw + 13.296px, 16.9px);
+}
     letter-spacing: 0%;
     /* 1024px: 40px | 1920px: 75px */
     margin-bottom: clamp(40px, 3.889vw, 75px);

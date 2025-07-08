@@ -97,13 +97,15 @@
     border-radius: 3px;
     border-width: 1px;
     /* 1024px: 7px | 1920px: 13px */
-    padding: clamp(7px, 0.694vw, 13px);
+    padding: clamp(9.3269px, 9.1346px + 0.0601vw, 10.2885px);
+    padding-top: clamp(10.3269px, 10.1346px + 0.0601vw, 11.2885px);
+padding-bottom: clamp(8.3269px, 8.1346px + 0.0601vw, 9.2885px);
     color: $main-color-dark_blue;
     background: $base-color-white;
     font-family: "Inter";
     font-weight: 600;
     /* 1024px: 10px | 1920px: 19px */
-    font-size: clamp(10px, 0.972vw, 19px);
+    font-size: clamp(13.0535px, 12.7831px + 0.0845vw, 14.4056px);;
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
