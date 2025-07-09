@@ -24,7 +24,7 @@
   padding-top: clamp(59.69px, 57.89px + 0.56vw, 68.71px) !important;
   /* 1024px: 68px | 1920px: 127px */
   margin-left: clamp(68px, 6.597vw, 127px) !important;
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     margin-left: clamp(17.5px, -5.76px + 7.27vw, 50px) !important;
   }
 }
@@ -49,15 +49,21 @@
     background-position: center;
     /* 1024px: 971px | 1920px: 1820px */
     width: 0; /* ★★★ ここを width: 0; に戻します ★★★ */
-  height: clamp(314px, 23.177vw + 136px, 581px);
+    height: clamp(165.4883px, 81.0563px + 26.38498vw, 587.6479px);
     /* 1024px: 93px | 1920px: 175px */
-    top: clamp(93px, 9.097vw, 175px);
+    top: clamp(71px, -43.2857px + 11.1607vw, 171px);
     left: 0;
     overflow: hidden;
     // transition: width 0s linear; /* ★★★ これは不要なので削除 ★★★ */
-
+    @media (max-width: 1023px) {
+      top: clamp(72px, 284.6235px - 20.7843vw, 125px);
+    }
     @media (max-width: 767px) {
       height: clamp(11.25rem, 2.424rem + 37.66vw, 20.5rem);
+      top: clamp(54px, 28.1709px + 6.8878vw, 81px);
+    }
+    @media (max-width: 370px) {
+      height: clamp(183px, 55px + 40vw, 203px);
     }
   }
 
@@ -103,15 +109,18 @@
   align-items: center;
   /* 1024px: 17px | 1920px: 32px */
   gap: clamp(17px, 1.667vw, 32px);
-padding-top: clamp(15.39px, 8.36px + 2.20vw, 50.54px);
-padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
-  padding-left: clamp(6.938rem, -0.063rem + 14.58vw, 17.438rem);
+  padding-top: clamp(15.39px, 8.36px + 2.2vw, 50.54px);
+  padding-bottom: clamp(38.35px, 28.74px + 3vw, 86.41px);
+  padding-left: clamp(154px, 18.6154px + 13.2212vw, 272.4615px);
   /* 1024px: 16px | 1920px: 31px */
   height: clamp(16px, 1.597vw, 31px);
   // margin-top: clamp(1.25rem, 0.583rem + 1.39vw, 2.25rem);
+  @media (max-width: 1023px) {
+    padding-left: clamp(68px, -191.0118px + 33.7255vw, 154px);
+  }
   @media (max-width: 767px) {
     padding-left: clamp(1.938rem, -1.634rem + 17.86vw, 6.938rem);
-    margin-top: clamp(0.313rem, -16.359rem + 37.25vw, 1.5rem);
+    // margin-top: clamp(0.313rem, -16.359rem + 37.25vw, 1.5rem);
   }
   @media (max-width: 715px) {
     margin-top: 0;
@@ -120,8 +129,8 @@ padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
     display: flex;
     gap: 6px;
     flex-direction: column;
-    padding: 0;
-    margin-top: 15px;
+    padding-top: clamp(15.4px, 8.36px + 2.2vw, 16.5px);
+    padding-bottom: clamp(38.4px, 28.16px + 3.2vw, 40px);
     justify-content: flex-start;
     align-items: start;
     padding-left: 30px;
@@ -175,21 +184,20 @@ padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
   margin-top: clamp(51px, 5vw, 96px);
   /* 1024px: 82px | 1920px: 155px */
   margin-bottom: clamp(82px, 8.056vw, 155px);
-  /* 1024px: 199px | 1920px: 373px */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-left: clamp(1.25rem, -7.607rem + 18.45vw, 9rem);
   @media (max-width: 767px) {
     padding-inline: clamp(1.094rem, -0.308rem + 5.98vw, 2.563rem);
-    margin-top: clamp(66px, 112.53px - 14.54vw, 1px);
-    
+    margin-top: 48px;
   }
-  @media (max-width:419px) {
+  @media (max-width: 419px) {
     padding-inline: clamp(0.625rem, -4.702rem + 22.73vw, 1.25rem);
   }
   @media (max-width: 370px) {
-    margin-top: clamp(125px, 236px - 30vw, 140px);
+    margin-top: 24px;
+    padding-top: 48px;
   }
 
   figure {
@@ -197,17 +205,15 @@ padding-bottom: clamp(38.35px, 28.74px + 3.00vw, 86.41px);
     font-family: "Noto Sans JP";
     box-sizing: border-box;
     color: $text-black;
-    /* 1024px: 11px | 1920px: 21px */
     font-size: clamp(10px, 7.273vw - 13.273px, 13.6px);
-
-
-@media (min-width: 370px) {
-  font-size: clamp(14.0px, 0.188vw + 13.296px, 16.9px);
-}
     letter-spacing: 0%;
-    /* 1024px: 40px | 1920px: 75px */
-    margin-bottom: clamp(40px, 3.889vw, 75px);
-
+    margin-bottom: clamp(51px, 5vw, 96px);
+    @media (max-width:767px) {
+      margin-bottom: 48px;
+    }
+    @media (min-width: 370px) {
+      font-size: clamp(14px, 0.188vw + 13.296px, 16.9px);
+    }
     tr {
       &:not(:last-child) {
         /* 1024px: 37px | 1920px: 69px */
