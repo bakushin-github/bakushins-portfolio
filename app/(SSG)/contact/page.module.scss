@@ -279,7 +279,7 @@ z-index: -1;
   vertical-align: middle;
   padding-left: 28px;
   cursor: pointer;
-  
+  -webkit-text-size-adjust: 100%;
   &:not(:nth-child(3)) {
     padding-right: 24px;
   }
