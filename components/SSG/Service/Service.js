@@ -208,7 +208,7 @@ function Service() {
               variants={contentItemVariants}
             ><div className={styles.imageWrap}>
               <img
-                className={styles.image}
+                className={styles.imageEc}
                 src="/Service/PC/ec.webp"
                 loading="lazy"
                 alt="ec"

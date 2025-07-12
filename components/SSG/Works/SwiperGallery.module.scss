@@ -216,7 +216,7 @@ margin-top: clamp(31px, calc(2.25vw + 23.8px), 67px);
   box-sizing: border-box;
   font-family: "Noto Sans JP";
   font-weight: 700;
-  line-height: 135%;
+  line-height: 100%;
   letter-spacing: 4%;
   vertical-align: top;
   text-align: center;
@@ -227,7 +227,7 @@ margin-top: clamp(31px, calc(2.25vw + 23.8px), 67px);
   transition: color 0.5s ease;
   z-index: 1;
   overflow: hidden;
-
+white-space: nowrap;
   &:hover{
     color: $base-color-white;
   }

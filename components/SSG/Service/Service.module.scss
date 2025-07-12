@@ -17,7 +17,7 @@
 
   @media (max-width: 767px) {
     padding-inline: 20px;
-    padding-bottom: 0;
+    padding-bottom: 64px;
   }
 }
 
@@ -163,6 +163,19 @@
     display: none;
   }
 }
+.imageEc {
+  // max-widthとmax-heightを削除
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: block;
+   object-position: -2px;
+  @media (max-width:767px) {
+    display: none;
+  }
+}
 
 .imageSp {
   // max-widthとmax-heightを削除
@@ -208,8 +221,11 @@
     }
     
     @media (max-width: 767px) {
-      &:nth-child(n) {
+         &:nth-child(n) {
         margin-top: clamp(1.5rem, 0.426rem + 5.37vw, 3rem);
+      }
+         &:first-child{
+        margin-top: 0;
       }
     }
   }

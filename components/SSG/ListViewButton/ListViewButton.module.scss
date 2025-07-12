@@ -1,12 +1,10 @@
 @use "../../../app/styles/variables.module" as *;
 
 .listLink {
-
-
 }
 
 .ListViewButton {
-    display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: clamp(116px, 22.32vw + 44.57px, 131px);
@@ -32,19 +30,21 @@
   transition: color 0.5s ease;
   z-index: 1;
   overflow: hidden;
-    position: relative;;
+  white-space: nowrap;
+
+  position: relative;
   z-index: 2;
   @media (max-width: 768px) {
-      width: 121px;
-  height: 48px;
-  font-size: 14px;
+    width: 121px;
+    height: 48px;
+    font-size: 14px;
   }
 
-  &:hover{
+  &:hover {
     color: $base-color-white;
   }
 
-    &::before {
+  &::before {
     content: "";
     position: absolute;
     transform: scaleX(0);
@@ -62,7 +62,5 @@
   &:hover::before {
     transform: scaleX(1);
     transform-origin: left;
-
-
   }
 }

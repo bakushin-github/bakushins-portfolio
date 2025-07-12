@@ -110,7 +110,7 @@ export default function ContactForm() {
   const inquiryOptions = [
     "ホームページ制作",
     "ホームページ修正",
-    "ECサイト制作・修正",
+    "ECサイト制作・修正\n",
     "その他"
   ];
 

@@ -279,6 +279,7 @@ z-index: -1;
   vertical-align: middle;
   padding-left: 28px;
   cursor: pointer;
+  
   &:not(:nth-child(3)) {
     padding-right: 24px;
   }

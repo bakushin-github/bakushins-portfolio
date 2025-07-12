@@ -16,7 +16,11 @@
     grid-template-rows: repeat(3, 1fr);
   }
   @media (max-width: 767px) {
-    display: block;
+    // display: block;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(6, auto);
+    padding-top: clamp(5.69px, 0.74vw + 3.32px, 9px);
+    grid-row-gap: 0;
   }
 }
 
@@ -102,7 +106,7 @@
 padding-bottom: clamp(8.3269px, 8.1346px + 0.0601vw, 9.2885px);
     color: $main-color-dark_blue;
     background: $base-color-white;
-    font-family: "Inter";
+    font-family: "Noto Sans JP";
     font-weight: 600;
     /* 1024px: 10px | 1920px: 19px */
     font-size: clamp(13.0535px, 12.7831px + 0.0845vw, 14.4056px);;
