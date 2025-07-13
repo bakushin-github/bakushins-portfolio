@@ -1,20 +1,23 @@
 @use "../../app/styles/variables.module" as *;
 
-// ベース変数定義（clamp()対応）
 $loading-bg-start: #424242;
 $loading-bg-end: #424242;
 $loading-text-color: #fff;
 $container-max-width: 1440px;
 
-// メインローディング画面
 .loading-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  // レスポンシブpadding（120px → 107px）
   padding-left: clamp(107px, 8vw, 120px);
+  @media (max-width: 479px) {
+    padding-left: clamp(68.23px, calc(8.6735vw + 40.47px), 107px);
+  }
+  @media (max-width: 370px) {
+    padding-left: 30px;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,12 +26,6 @@ $container-max-width: 1440px;
   z-index: 9999;
   overflow: hidden;
 
-  // 小画面では左寄せ
-  @media (max-width: 767px) {
-    align-items: flex-start;
-  }
-
-  // 完了時のアニメーション用の擬似要素（黒いカーテン）
   &::before,
   &::after {
     content: "";
@@ -51,24 +48,20 @@ $container-max-width: 1440px;
     transform-origin: center top;
   }
 
-  // コンテンツエリア
   & > * {
     position: relative;
     z-index: 2;
   }
 
-  // 完了時のアニメーション
   &--completing {
     &::before {
       transform: translateY(-100%);
     }
-
     &::after {
       transform: translateY(100%);
     }
   }
 
-  // プログレス数字のコンテナ
   &__progress-container {
     position: relative;
     display: flex;
@@ -80,99 +73,118 @@ $container-max-width: 1440px;
     top: 50%;
     transform: translateY(-50%);
 
-    // 小画面では縦配置
     @media (max-width: 479px) {
       position: static !important;
-      display: block !important;
       width: 100% !important;
       max-width: none !important;
       transform: none !important;
       top: auto !important;
       height: auto !important;
       padding-top: 50vh !important;
-      margin-top: -100px !important;
+
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      padding-left: clamp(24px, 5vw, 40px);
     }
   }
 
-  // プログレス表示エリア（数字 + ロゴ）
   &__progress-display {
     display: flex;
-    align-items: center;
+    align-items: baseline; // ベースライン揃えに変更
     justify-content: left;
-    // レスポンシブgap（1.5rem → 適応）
-    gap: clamp(0.5rem, 2vw, 1.5rem);
+    gap: clamp(20px, 1.67vw, 24px); // 375px:20px → 1440px:24px
     flex-wrap: wrap;
 
-    // 小画面ではblock表示
-    @media (max-width: 767px) {
-      display: block !important;
-      width: fit-content !important;
-      margin: 0 !important;
-      position: static !important;
+    @media (max-width: 479px) {
+      justify-content: flex-start !important;
+      text-align: left !important;
+      align-items: baseline !important; // モバイルでもベースライン揃え
     }
   }
 
-  // プログレス数字
   &__progress-number {
     color: $loading-text-color;
-    // レスポンシブフォントサイズ（4rem → 9rem）
-    font-size: clamp(4rem, 8vw, 9rem);
+    // 数字部分: 375px:44px → 1440px:64px (480px-1920px対応)
+    font-size: clamp(44px, 1.88vw + 36.96px, 64px);
     font-weight: 500;
     font-family: "DM Sans";
-    line-height: 170%;
+    line-height: 1;
     user-select: none;
     letter-spacing: -0.02em;
     font-feature-settings: "tnum" 1;
     animation: numberPulse 0.1s ease-out;
+    display: inline-block; // inline-blockに変更
 
-    // 小画面では固定幅・下マージン
-    @media (max-width: 767px) {
-      width: 170.18px;
+    @media (max-width: 479px) {
+      font-size: 44px; // 375px幅で44px固定
       text-align: left;
-      margin-bottom: clamp(8px, 2vw, 10px);
+      margin-bottom: 0;
+      width: auto;
+      line-height: 1;
     }
   }
 
-  // ロゴ表示エリア
+  &__progress-percent {
+    color: $loading-text-color;
+    // %部分: 375px:24px → 1440px:40px (480px-1920px対応)
+    font-size: clamp(24px, 1.5vw + 18.38px, 40px);
+    font-weight: 500;
+    font-family: "DM Sans";
+    line-height: 1;
+    user-select: none;
+    letter-spacing: -0.02em;
+    font-feature-settings: "tnum" 1;
+    display: inline-block; // inline-blockに変更してベースライン揃えが効くように
+    margin-left: -12px; // 数字との間隔をもっと詰める
+
+    @media (max-width: 479px) {
+      font-size: 24px; // 375px幅で24px固定
+      text-align: left;
+      margin-bottom: 0;
+      width: auto;
+      line-height: 1;
+      margin-left: -10px; // モバイルでももっと詰める
+    }
+  }
+
   &__logo {
     display: flex;
-    align-items: center;
+    align-items: baseline; // ベースライン揃えに変更
     justify-content: center;
     opacity: 0;
     transform: translateY(-50px);
     animation: logoSlideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 
-    // 小画面では左寄せblock
-    @media (max-width: 767px) {
-      display: block;
-      text-align: left;
-      width: 170.18px;
-    }
-
     img {
       display: block;
-      // レスポンシブ画像サイズ
-      max-width: clamp(170.18px, 25vw, 316px);
-      width: 100%;
-      max-height: clamp(48px, 8vw, 109px);
-      height: 100%;
+      // ロゴサイズ: 375px幅でwidth:140px, height:39px → 1440px幅でもう少し大きく
+      // 140/39 = 約3.59の比率を維持
+      width: clamp(140px, 10.38vw + 20.72px, 220px);
+      height: clamp(39px, 2.71vw + 9.01px, 61px);
 
-      // 小画面では固定サイズ
-      @media (max-width: 767px) {
-        transform: none;
-        width: 170.18px;
-        height: 48px;
-        margin: 0 auto;
+      max-width: none;
+      max-height: none;
+
+      @media (max-width: 479px) {
+        width: 140px;
+        height: 39px;
+        margin: 0;
       }
     }
   }
 }
 
-// キーフレームアニメーション定義
 @keyframes numberPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes logoSlideDown {
@@ -190,19 +202,16 @@ $container-max-width: 1440px;
   }
 }
 
-// パフォーマンス最適化
 .loading-screen,
 .loading-screen__progress-number,
 .loading-screen__logo {
   will-change: transform, opacity;
 }
 
-// プリロード用スタイル
 .loading-screen {
   font-display: swap;
 }
 
-// アクセシビリティ対応
 @media (prefers-contrast: high) {
   .loading-screen {
     background: #000;
@@ -220,16 +229,22 @@ $container-max-width: 1440px;
       animation: none;
       opacity: 1;
       transform: translateY(0);
-      img { transform: none !important; }
+      img {
+        transform: none !important;
+      }
     }
   }
-  
+
   @keyframes numberPulse {
-    0%, 100% { transform: scale(1); }
+    0%,
+    100% {
+      transform: scale(1);
+    }
   }
-  
+
   @keyframes logoSlideDown {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
       transform: translateY(0);
     }

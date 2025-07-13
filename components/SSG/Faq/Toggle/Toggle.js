@@ -2,21 +2,14 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./Toggle.module.scss";
 
-export default function Toggle({ content, className, isFirst = false }) {
-  // 最初のアイテムは閉じた状態、それ以外は開いた状態に設定
-  const [isOpen, setIsOpen] = useState(!isFirst);
+export default function Toggle({ content, className }) {
+  const [isOpen, setIsOpen] = useState(false); // 初期状態は全て閉じる
   const answerRef = useRef(null);
   const [height, setHeight] = useState("auto");
-  
-  // 初期状態の設定
-  useEffect(() => {
-    setIsOpen(!isFirst); // 最初のアイテムは閉じる、それ以外は開く
-  }, [isFirst]);
 
-  // アニメーション用の高さ設定
   useEffect(() => {
     if (!answerRef.current) return;
-    
+
     if (isOpen) {
       const answerHeight = answerRef.current.scrollHeight;
       setHeight(`${answerHeight}px`);
@@ -41,10 +34,11 @@ export default function Toggle({ content, className, isFirst = false }) {
           <span className={styles.qa_box__dash2}></span>
         </div>
       </div>
-      
+
       <div 
         className={styles.qa_box__body} 
         ref={answerRef}
+        style={{ height, overflow: "hidden", transition: "height 0.3s ease" }}
       >
         <div className={styles.qa_box__a}>
           <p className={styles.qa_box__a_text}>{content.content}</p>
