@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Script from "next/script";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +26,7 @@ const contactSchema = z.object({
 export default function ContactForm() {
   const router = useRouter();
   const { recaptchaLoaded, executeRecaptcha } = useRecaptcha();
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(null);
   const formRef = React.useRef(null);
@@ -119,6 +121,14 @@ export default function ContactForm() {
     : "⏳ セキュリティ機能を読み込み中...";
 
   return (
+    <>
+          {/* ✅ reCAPTCHA スクリプトを限定的に読み込む */}
+      <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+        strategy="afterInteractive"
+        onLoad={() => console.log("✅ reCAPTCHA スクリプト読み込み完了")}
+        onError={() => console.error("❌ reCAPTCHA スクリプト読み込み失敗")}
+      />
     <form 
       ref={formRef}
       className={styles.contact__form} 
@@ -335,5 +345,6 @@ export default function ContactForm() {
         />
       </div>
     </form>
+    </>
   );
 }

@@ -1,40 +1,39 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function useRecaptcha() {
   const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
+  const didTimeout = useRef(false);
 
   useEffect(() => {
     const checkRecaptcha = () => {
-      if (window.grecaptcha && window.grecaptcha.ready) {
+      if (window.grecaptcha && window.grecaptcha.ready && !didTimeout.current) {
         window.grecaptcha.ready(() => {
-          console.log('reCAPTCHA読み込み完了');
-          setRecaptchaLoaded(true);
+          if (!didTimeout.current) {
+            console.log('✅ reCAPTCHA読み込み完了');
+            setRecaptchaLoaded(true);
+          }
         });
-        return true; // 読み込み完了
+        return true;
       }
-      return false; // まだ読み込み中
+      return false;
     };
 
-    // 最初のチェック
-    if (checkRecaptcha()) {
-      return; // 既に読み込まれている場合は終了
-    }
+    if (checkRecaptcha()) return;
 
-    // 読み込みを待つためのポーリング
     const interval = setInterval(() => {
       if (checkRecaptcha()) {
         clearInterval(interval);
+        clearTimeout(timeout);
       }
-    }, 100); // 100ms間隔でチェック
+    }, 100);
 
-    // タイムアウト設定（10秒後に諦める）
     const timeout = setTimeout(() => {
+      didTimeout.current = true;
       clearInterval(interval);
-      console.error('reCAPTCHAスクリプトの読み込みがタイムアウトしました');
+      console.error('❌ reCAPTCHAスクリプトの読み込みがタイムアウトしました');
     }, 10000);
 
-    // クリーンアップ
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
@@ -43,23 +42,23 @@ export default function useRecaptcha() {
 
   const executeRecaptcha = async (action) => {
     if (!recaptchaLoaded) {
-      console.error('reCAPTCHAが読み込まれていません');
+      console.error('⚠️ reCAPTCHAが読み込まれていません');
       return null;
     }
 
     const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
     if (!siteKey) {
-      console.error('reCAPTCHAサイトキーが設定されていません');
+      console.error('❌ reCAPTCHAサイトキーが設定されていません');
       return null;
     }
 
     try {
       console.log(`reCAPTCHA実行: ${action}`);
       const token = await window.grecaptcha.execute(siteKey, { action });
-      console.log('reCAPTCHAトークン取得成功');
+      console.log('✅ reCAPTCHAトークン取得成功');
       return token;
     } catch (error) {
-      console.error('reCAPTCHA実行エラー:', error);
+      console.error('❌ reCAPTCHA実行エラー:', error);
       return null;
     }
   };
