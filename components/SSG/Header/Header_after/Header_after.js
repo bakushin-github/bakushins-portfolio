@@ -8,7 +8,7 @@ import Contact_button from "../../Contact_button/Contact_button";
 import Drawer_button from "../../Drawer/Sp/Drawer_button/Drawer_buttonSP";
 
 // toggleMenuプロパティを受け取るようにする
-function Header_after({ toggleMenu }) {
+function Header_after({ toggleMenu, isMenuOpen }) {
   return (
     <div className={styles.headerAfter}>
       <div className={styles.headerAfter__inner}>
@@ -26,6 +26,7 @@ function Header_after({ toggleMenu }) {
           <Contact_button className={styles.headerAfter__contact} />
           {/* toggleDrawerプロパティにtoggleMenu関数を渡す */}
           <Drawer_button
+          isOpen={isMenuOpen}
             toggleDrawer={toggleMenu}
             className={styles.headerAfter__drawerButton}
           />

@@ -10,87 +10,117 @@ import Image from "next/image";
 import ContactForm from "./contactForm";
 import useRecaptcha from "@/hooks/useRecaptcha";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
-import Script from "next/script"; 
+import Script from "next/script";
+import Header_after from "@/components/SSG/Header/Header_after/Header_after";
+import Drawer_menu from "@/components/SSG/Drawer/Drawer_menu/Drawer_menu";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
 
 function Page() {
-       // ========== レスポンシブヘッダー切り替えロジック ==========
-      const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
-      const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
-      const BREAKPOINT_SP = 768; // PC/SP切り替え境界値
-    
-      // SPメニュー開閉切り替え関数
-      const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-    
-      // 画面幅監視とリサイズイベント処理
-      useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-    
-        if (typeof window !== "undefined") {
-          setWindowWidth(window.innerWidth);
-          window.addEventListener("resize", handleResize);
-        }
-    
-        return () => {
-          if (typeof window !== "undefined") {
-            window.removeEventListener("resize", handleResize);
-          }
-        };
-      }, []);
-      // ========================================================
+  // ========== レスポンシブヘッダー切り替えロジック ==========
+  const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
+  const [showHeaderAfter, setShowHeaderAfter] = useState(false);
+  const BREAKPOINT_SP = 767; // PC/SP切り替え境界値
+
+  // SPメニュー開閉切り替え関数
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  // 画面幅監視とリサイズイベント処理
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+  // ========================================================
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const shouldShow = scrollTop >= 110;
+      setShowHeaderAfter(shouldShow);
+    };
+
+    setTimeout(handleScroll, 1000); // 初期スクロール確認
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-            {/* Google reCAPTCHA v3 */}
-        <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          async
-          defer
-          strategy="afterInteractive" 
-        />
+      {/* Google reCAPTCHA v3 */}
+      <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        async
+        defer
+        strategy="afterInteractive"
+      />
       <div className={styles.contact}>
         <div className={styles.left_1stLineParent}>
-        <Image
-          className={styles.left_1stLine}
-          src="/LowerLayer/PC/left_1stLine.webp"
-          alt="left_1stLine"
-          fill
-        /></div>
+          <Image
+            className={styles.left_1stLine}
+            src="/LowerLayer/PC/left_1stLine.webp"
+            alt="left_1stLine"
+            fill
+          />
+        </div>
         <div className={styles.left_2ndLineParent}>
-        <Image
-          className={styles.left_2ndLine}
-          src="/LowerLayer/PC/left_2ndLine.webp"
-          alt="left_2ndLine"
-          fill
-        /></div>
+          <Image
+            className={styles.left_2ndLine}
+            src="/LowerLayer/PC/left_2ndLine.webp"
+            alt="left_2ndLine"
+            fill
+          />
+        </div>
         <div className={styles.right_1stLineParent}>
-        <Image
-          className={styles.right_1stLine}
-          src="/LowerLayer/PC/right_1stLine.webp"
-          alt="right_1stLine"
-          fill
-        /></div>
+          <Image
+            className={styles.right_1stLine}
+            src="/LowerLayer/PC/right_1stLine.webp"
+            alt="right_1stLine"
+            fill
+          />
+        </div>
         <div className={styles.ballParent}>
-        <Image
-          className={styles.ball}
-          src="/LowerLayer/PC/ball.webp"
-          alt="ball"
-          fill
-        /></div>
-          <div className={styles.right_2ndParent}>
-      <Image
-        className={styles.right_2nd}
-        src="/LowerLayer/PC/right_2nd.webp"
-        alt="right_2nd"
-        fill
-      /></div>
+          <Image
+            className={styles.ball}
+            src="/LowerLayer/PC/ball.webp"
+            alt="ball"
+            fill
+          />
+        </div>
+        <div className={styles.right_2ndParent}>
+          <Image
+            className={styles.right_2nd}
+            src="/LowerLayer/PC/right_2nd.webp"
+            alt="right_2nd"
+            fill
+          />
+        </div>
 
-        {windowWidth > BREAKPOINT_SP ? (
-          <Header className={styles.thanksHeader} />
-        ) : (
-          <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-        )}
+{windowWidth > BREAKPOINT_SP ? (
+  showHeaderAfter ? (
+    <Header_after className={styles.thanksHeader} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>
+  ) : (
+    <Header className={styles.thanksHeader} toggleMenu={toggleMenu} />
+  )
+) : (
+  <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+)}
+<Drawer_menu
+  isOpen={isMenuOpen}
+  toggleMenu={toggleMenu}
+  closeDrawer={() => setIsMenuOpen(false)}
+/>
 
         <div className={styles.contact__inner}>
           <div className={styles.Bread}>
@@ -101,21 +131,20 @@ function Page() {
             <h1 className={styles.contact__h1}>お問い合わせ</h1>
             <h2 className={styles.contact__h2}>Contact</h2>
           </div>
-    <ScrollMotion
-      delay={0.2}
-      duration={0.6}
-      yOffset={30}
-      threshold={0.3}
-      once={true}
-    >
-          <p className={styles.contact____explanation}>
-            無料でご相談、お見積もりを承っております。
-            <br />
-            お気軽にご相談ください。
-          </p>
+          <ScrollMotion
+            delay={0.2}
+            duration={0.6}
+            yOffset={30}
+            threshold={0.3}
+            once={true}
+          >
+            <p className={styles.contact____explanation}>
+              無料でご相談、お見積もりを承っております。
+              <br />
+              お気軽にご相談ください。
+            </p>
           </ScrollMotion>
-<ContactForm />
-         
+          <ContactForm />
         </div>
       </div>
     </>

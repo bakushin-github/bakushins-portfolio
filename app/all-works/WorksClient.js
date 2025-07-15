@@ -12,6 +12,7 @@ import styles from "./page.module.scss"; // 同じディレクトリのスタイ
 // import Breadcrumb from "@/components/Breadcrumb/index";
 // import Cta from "@/components/SSG/Cta/Cta";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion"; // ScrollMotionをインポート
+import { useRouter } from "next/navigation";
 
 // ヘルパー関数（page.jsx から移動）
 const truncateTitle = (title, maxLength = 25) => {
@@ -158,6 +159,30 @@ function Pagination({ pagination, basePath = "/all-works" }) {
 
 // WorksClient: 作品一覧のメインコンポーネント (クライアントコンポーネント)
 export default function WorksClient({ works, skillStructure, pagination }) {
+    const router = useRouter(); // ✅ useRouter フック
+  const [clickedWorkSlug, setClickedWorkSlug] = useState(null);
+
+const handleCardClick = (e, slug) => {
+  e.preventDefault();
+  if (clickedWorkSlug) return; // 多重クリック防止
+  setClickedWorkSlug(slug);
+
+  const target = e.currentTarget;
+  const workLink = target.querySelector(`.${styles["work-link"]}`);
+
+  if (workLink) {
+    workLink.classList.add(styles.clicked); // ← SCSSに `.work-link.clicked::before { ... }` 追加しておくこと
+    workLink.addEventListener(
+      "animationend",
+      () => {
+        router.push(`/all-works/${slug}`);
+      },
+      { once: true }
+    );
+  } else {
+    router.push(`/all-works/${slug}`); // fallback
+  }
+};
   // 列数を検出するためのstateとeffect（ブログ記事一覧と同様）
   const [columns, setColumns] = useState(3); // デフォルトはPCの3列
 
@@ -223,45 +248,48 @@ export default function WorksClient({ works, skillStructure, pagination }) {
               yOffset={50} // 下から上へのアニメーション
               xOffset={0}
             >
-              <Link
-                href={`/all-works/${work.slug}`}
-                className={styles["work-imageLink"]}
-              >
-                <article className={styles["work-card"]}>
-                  <header className={styles["work-header"]}>
-                    {getCategoryName(work) && (
-                      <span className={styles["work-category"]}>
-                        {getCategoryName(work)}
-                      </span>
-                    )}
+             <div
+  className={styles["work-imageLink"]}
+  onClick={(e) => handleCardClick(e, work.slug)}
+  role="link"
+  tabIndex={0}
+>
+  <article className={styles["work-card"]}>
+    <header className={styles["work-header"]}>
+      {getCategoryName(work) && (
+        <span className={styles["work-category"]}>
+          {getCategoryName(work)}
+        </span>
+      )}
 
-                    <Image
-                      src={
-                        work.featuredImage?.node?.sourceUrl ||
-                        "/About/PC/Icon.webp"
-                      }
-                      width={353}
-                      height={200}
-                      alt={
-                        work.featuredImage?.node?.altText ||
-                        truncateTitle(work.title) ||
-                        "作品画像"
-                      }
-                      className={styles["work-image"]}
-                      priority={index < 4}
-                    />
-                  </header>
-                  <footer className={styles["work-footer"]}>
-                    <h2 className={styles["work-title"]}>
-                      {truncateTitle(work.title)}
-                    </h2>
-                    <p className={styles["work-skill"]}>
-                      {formatSkill(getSkill(work, skillStructure))}
-                    </p>
-                    <div className={styles["work-link"]}></div>
-                  </footer>
-                </article>
-              </Link>
+      <Image
+        src={
+          work.featuredImage?.node?.sourceUrl ||
+          "/About/PC/Icon.webp"
+        }
+        width={353}
+        height={200}
+        alt={
+          work.featuredImage?.node?.altText ||
+          truncateTitle(work.title) ||
+          "作品画像"
+        }
+        className={styles["work-image"]}
+        priority={index < 4}
+      />
+    </header>
+    <footer className={styles["work-footer"]}>
+      <h2 className={styles["work-title"]}>
+        {truncateTitle(work.title)}
+      </h2>
+      <p className={styles["work-skill"]}>
+        {formatSkill(getSkill(work, skillStructure))}
+      </p>
+      <div className={styles["work-link"]}></div>
+    </footer>
+  </article>
+</div>
+
             </ScrollMotion>
           );
         })}

@@ -39,6 +39,7 @@ const getCategoryName = (work) => {
 function SwiperGallery() {
   const router = useRouter();
 const [isClicked, setIsClicked] = useState(false);
+const [clickedSlug, setClickedSlug] = useState(null);
 
 const handleClick = () => {
   if (isClicked) return;
@@ -84,30 +85,41 @@ const handleTransitionEnd = (e) => {
       >
         {worksToDisplay.map((work, index) => (
           <SwiperSlide key={`${work.id}-${index}`}>
-            <Link
-              href={`/all-works/${work.slug}`}
-              className={styles["work-imageLink"]}
-              aria-label={`${truncateTitle(work.title)}の詳細へ`}
-            >
-              <article className={styles.workCard}>
-                <header className={styles.workHeader}>
-                  <span className={styles.workCategory}>{getCategoryName(work)}</span>
-                  <Image 
-                    src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"} 
-                    alt={work.featuredImage?.node?.altText || "作品画像"} 
-                    fill 
-                    style={{ objectFit: "cover" }} 
-                    priority={index < 3} 
-                    sizes="(max-width: 768px) 100vw, 50vw" 
-                  />
-                </header>
-                <footer className={styles.workFooter}>
-                  <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
-                  <p className={styles.skill}>{formatSkill(work.works?.skill || work.skill || "")}</p>
-                  <div className={styles.worksLink}></div>
-                </footer>
-              </article>
-            </Link>
+           <div
+  className={styles["work-imageLink"]}
+  role="link"
+  tabIndex={0}
+  onClick={() => setClickedSlug(work.slug)}
+>
+  <article className={styles.workCard}>
+    <header className={styles.workHeader}>
+      <span className={styles.workCategory}>{getCategoryName(work)}</span>
+      <Image
+        src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
+        alt={work.featuredImage?.node?.altText || "作品画像"}
+        fill
+        style={{ objectFit: "cover" }}
+        priority={index < 3}
+        sizes="(max-width: 768px) 100vw, 50vw"
+      />
+    </header>
+    <footer className={styles.workFooter}>
+      <h3
+        className={`${styles.title} ${clickedSlug === work.slug ? styles.animate : ""}`}
+        onAnimationEnd={() => {
+          if (clickedSlug === work.slug) {
+            router.push(`/all-works/${work.slug}`);
+          }
+        }}
+      >
+        {truncateTitle(work.title)}
+      </h3>
+      <p className={styles.skill}>{formatSkill(work.works?.skill || work.skill || "")}</p>
+      <div className={styles.worksLink}></div>
+    </footer>
+  </article>
+</div>
+
           </SwiperSlide>
         ))}
       </Swiper>

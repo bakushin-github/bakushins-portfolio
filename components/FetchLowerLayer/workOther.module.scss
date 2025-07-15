@@ -260,6 +260,11 @@ padding-bottom: clamp(8.3269px, 8.1346px + 0.0601vw, 9.2885px);
   }
 }
 
+.worksLink.clicked::before {
+  animation: arrow-cycle 0.4s ease-in-out forwards;
+}
+
+
 // 矢印のアニメーション（変更なし）
 @keyframes arrow-cycle {
   0% {

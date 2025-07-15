@@ -73,7 +73,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
         <ul className={styles.Drawer_menu__boxInner}>
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#Fv"
+              href="/#Fv"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >
@@ -84,7 +84,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
 
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#Works"
+              href="/#Works"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >
@@ -95,7 +95,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
 
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#About"
+              href="/#About"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >
@@ -106,7 +106,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
 
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#Service"
+              href="/#Service"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >
@@ -117,7 +117,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
 
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#Flow"
+              href="/#Flow"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >
@@ -128,7 +128,7 @@ function Drawer_menu({ isOpen, closeDrawer, toggleMenu }) {
 
           <li className={styles.Drawer_menu__List}>
             <Link
-              href="#Blogs"
+              href="/#Blogs"
               onClick={closeDrawer}
               className={styles.Drawer_menu__list}
             >

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useQuery, gql } from "@apollo/client"; // useQuery と gql をインポート
 import styles from "./workOther.module.scss"; // CSSモジュールをインポート
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion"; // ScrollMotionをインポート
+import { useRouter } from "next/navigation";
 
 console.log("WorkOther.js module loaded");
 
@@ -194,8 +195,34 @@ const getCategoryName = (work) => {
   return work.categories.nodes.length > 0 ? work.categories.nodes[0].name : "";
 };
 
+
+
+
+
 // --- WorkOthers コンポーネント ---
 function WorkOthers({ currentWorkId }) {
+  const [clickedSlug, setClickedSlug] = useState(null);
+const router = useRouter();
+
+const handleCardClick = (e, slug) => {
+  e.preventDefault();
+  if (clickedSlug) return;
+  setClickedSlug(slug);
+
+  const workLink = e.currentTarget.querySelector(`.${styles.worksLink}`);
+  if (workLink) {
+    workLink.classList.add(styles.clicked); // `.worksLink.clicked::before` にアニメーションが定義されている前提
+    workLink.addEventListener(
+      "animationend",
+      () => {
+        router.push(`/all-works/${slug}`);
+      },
+      { once: true }
+    );
+  } else {
+    router.push(`/all-works/${slug}`);
+  }
+};
   console.log("WorkOthers component rendering with currentWorkId:", currentWorkId);
 
   const [isClient, setIsClient] = useState(false);
@@ -532,35 +559,36 @@ function WorkOthers({ currentWorkId }) {
             yOffset={50} // 下から上へのアニメーション
             xOffset={0}
           >
-            <Link
-              href={`/all-works/${work.slug}`}
-              className={styles["work-imageLink"]}
-              aria-label={`${truncateTitle(work.title)}の詳細へ`}
-            >
-              <article className={styles.workCard}>
-                <header className={styles.workHeader}>
-                  <span className={styles.workCategory}>{getCategoryName(work)}</span>
-                  <Image
-                    src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
-                    width={300}
-                    height={200}
-                    alt={
-                      work.featuredImage?.node?.altText ||
-                      truncateTitle(work.title) ||
-                      "作品画像"
-                    }
-                    className={styles.thumbnailImage}
-                  />
-                </header>
-                <footer className={styles.workFooter}>
-                  <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
-                  <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
-                  <div className={styles.worksLink}>
-                    {/* 装飾的な矢印要素（実際のリンク機能は親のLinkが担当） */}
-                  </div>
-                </footer>
-              </article>
-            </Link>
+           <div
+  className={styles["work-imageLink"]}
+  role="link"
+  tabIndex={0}
+  onClick={(e) => handleCardClick(e, work.slug)}
+  aria-label={`${truncateTitle(work.title)}の詳細へ`}
+>
+  <article className={styles.workCard}>
+    <header className={styles.workHeader}>
+      <span className={styles.workCategory}>{getCategoryName(work)}</span>
+      <Image
+        src={work.featuredImage?.node?.sourceUrl || "/About/PC/Icon.webp"}
+        width={300}
+        height={200}
+        alt={
+          work.featuredImage?.node?.altText ||
+          truncateTitle(work.title) ||
+          "作品画像"
+        }
+        className={styles.thumbnailImage}
+      />
+    </header>
+    <footer className={styles.workFooter}>
+      <h3 className={styles.title}>{truncateTitle(work.title)}</h3>
+      <p className={styles.skill}>{formatSkill(getSkill(work))}</p>
+      <div className={`${styles.worksLink} ${clickedSlug === work.slug ? styles.clicked : ""}`}></div>
+    </footer>
+  </article>
+</div>
+
           </ScrollMotion>
         );
       })}

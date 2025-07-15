@@ -25,33 +25,58 @@ export default function HeaderScrollLayout() {
     setIsDrawerOpen(false);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // 複数のIDを試してみる
-      const worksSection = document.getElementById("Works") || 
-                          document.getElementById("works") || 
-                          document.querySelector("[data-section='works']");
+  // ↓Works sectionをトリガー
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     // 複数のIDを試してみる
+  //     const worksSection = document.getElementById("Works") || 
+  //                         document.getElementById("works") || 
+  //                         document.querySelector("[data-section='works']");
       
-      if (worksSection) {
-        const worksTop = worksSection.getBoundingClientRect().top;
-        const shouldShow = worksTop <= 100;
+  //     if (worksSection) {
+  //       const worksTop = worksSection.getBoundingClientRect().top;
+  //       const shouldShow = worksTop <= 100;
         
-        if (shouldShow !== showHeaderAfter) {
-          setShowHeaderAfter(shouldShow);
-        }
-      }
-    };
+  //       if (shouldShow !== showHeaderAfter) {
+  //         setShowHeaderAfter(shouldShow);
+  //       }
+  //     }
+  //   };
 
-    // 初期状態をチェック
-    setTimeout(() => {
-      handleScroll();
-    }, 1000);
+  //   // 初期状態をチェック
+  //   setTimeout(() => {
+  //     handleScroll();
+  //   }, 1000);
 
-    // スクロールイベントリスナーを追加
-    window.addEventListener("scroll", handleScroll, { passive: true });
+  //   // スクロールイベントリスナーを追加
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
     
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [shouldTriggerAnimation, showHeaderAfter]);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [shouldTriggerAnimation, showHeaderAfter]);
+
+
+  useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+    // 110px(headerのheight) スクロールしたらヘッダー切り替え
+    const shouldShow = scrollTop >= 110;
+
+    if (shouldShow !== showHeaderAfter) {
+      setShowHeaderAfter(shouldShow);
+    }
+  };
+
+  // 初期チェック（描画直後）
+  setTimeout(() => {
+    handleScroll();
+  }, 1000);
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [shouldTriggerAnimation, showHeaderAfter]);
+
 
   return (
     <>

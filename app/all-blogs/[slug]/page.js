@@ -15,6 +15,7 @@ import {
 import Cta from "@/components/SSG/Cta/Cta";
 import BlogLayoutWithSidebar from "@/components/sidebar/BlogLayoutWithSidebar";
 
+
 // GraphQLクライアントの初期化
 const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL,

@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import styles from "../../page.module.scss";
-import Header_otherPage from "@/components/SSG/Header/Header_fetch/Header_fetchPage";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 
 // ページネーションの設定
 const POSTS_PER_PAGE = 12;
@@ -359,7 +359,7 @@ export default async function BlogPostsPage({ params }) {
   if (error) {
     return (
       <div className={styles.allBlogs}>
-        <Header_otherPage className={styles.blogsHeader} />
+        <ResponsiveHeaderWrapper className={styles.blogsHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -385,7 +385,7 @@ export default async function BlogPostsPage({ params }) {
   if (posts.length === 0) {
     return (
       <div className={styles.allBlogs}>
-        <Header_otherPage className={styles.blogsHeader} />
+        <ResponsiveHeaderWrapper className={styles.blogsHeader} />
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -406,7 +406,7 @@ export default async function BlogPostsPage({ params }) {
   // 記事データがある場合のレンダリング
   return (
     <div className={styles.allBlogs}>
-      <Header_otherPage className={styles.blogsHeader} />
+      <ResponsiveHeaderWrapper className={styles.blogsHeader} />
       <div className={styles.breadcrumbWrapper}>
         <Breadcrumb items={breadcrumbItems} />
       </div>

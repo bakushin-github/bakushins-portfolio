@@ -15,7 +15,7 @@ export default function ResponsiveHeaderWrapper({ headerClassName }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // PCとSPのブレイクポイントを定義 (サイト全体で共通にすると良いでしょう)
-  const BREAKPOINT_SP = 768;
+  const BREAKPOINT_SP = 767;
 
   // メニューの開閉を切り替える関数
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);

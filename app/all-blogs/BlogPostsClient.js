@@ -9,6 +9,7 @@ import Breadcrumb from "@/components/Breadcrumb/index";
 import Cta from "@/components/SSG/Cta/Cta";
 import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion"; // ScrollMotionをインポート
+import { useRouter } from "next/navigation";
 
 // ヘルパー関数（再定義するか、共通のユーティリティファイルからインポート）
 // app/all-blogs/page.jsx からコピーしてください
@@ -161,6 +162,20 @@ export default function BlogPostsClient({ posts, pagination }) {
     return () => window.removeEventListener('resize', calculateColumns);
   }, []);
 
+  const [clickedSlug, setClickedSlug] = useState(null);
+const router = useRouter();
+
+const handleClick = (slug) => {
+  if (!clickedSlug) {
+    setClickedSlug(slug);
+  }
+};
+
+const handleAnimationEnd = (slug) => {
+  if (clickedSlug === slug) {
+    router.push(`/all-blogs/${slug}`);
+  }
+};
 
   return (
     <div className={styles.allBlogs}>
@@ -224,11 +239,12 @@ export default function BlogPostsClient({ posts, pagination }) {
                 yOffset={50} // 下から上へのアニメーション
                 xOffset={0}
               >
-                <Link
-                  href={`/all-blogs/${post.slug}`}
-                  className={styles["blog-imageLink"]}
-                >
-                  <article className={styles["blog-card"]}>
+           <article
+  className={`${styles["blog-card"]} ${clickedSlug === post.slug ? styles.clicked : ""}`}
+  role="link"
+  tabIndex={0}
+  onClick={() => handleClick(post.slug)}
+>
                     <header className={styles["blog-header"]}>
                       {getCategoryName(post) && (
                         <span className={styles["blog-category"]}>
@@ -252,17 +268,19 @@ export default function BlogPostsClient({ posts, pagination }) {
                         priority={index < 4}
                       />
                     </header>
-                    <footer className={styles["blog-footer"]}>
-                      <h2 className={styles["blog-title"]}>
-                        {truncateTitle(post.title)}
-                      </h2>
-                      <time className={styles["blog-date"]} dateTime={post.date}>
-                        {formatDate(post.date)}
-                      </time>
-                      <div className={styles["blog-link"]}></div>
-                    </footer>
-                  </article>
-                </Link>
+                     <footer className={styles["blog-footer"]}>
+    <h2 className={styles["blog-title"]}>
+      {truncateTitle(post.title)}
+    </h2>
+    <time className={styles["blog-date"]} dateTime={post.date}>
+      {formatDate(post.date)}
+    </time>
+    <div
+      className={styles["blog-link"]}
+      onAnimationEnd={() => handleAnimationEnd(post.slug)}
+    ></div>
+  </footer>
+</article>
               </ScrollMotion>
             );
           })}

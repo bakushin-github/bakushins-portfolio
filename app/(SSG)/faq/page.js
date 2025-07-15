@@ -10,8 +10,10 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumb/index";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
+import Header_after from "@/components/SSG/Header/Header_after/Header_after";
+import Drawer_menu from "@/components/SSG/Drawer/Drawer_menu/Drawer_menu";
 
-const breadcrumbItems = generateBreadcrumb('/faq');
+const breadcrumbItems = generateBreadcrumb("/faq");
 
 async function getData() {
   return [
@@ -46,10 +48,11 @@ async function getData() {
 export default function FaqPage() {
   const [faqItems, setFaqItems] = useState([]);
   const [windowWidth, setWindowWidth] = useState(0);
+    const [showHeaderAfter, setShowHeaderAfter] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
+    setIsMenuOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -65,17 +68,29 @@ export default function FaqPage() {
 
     if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
     }
 
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
 
-  const BREAKPOINT_SP = 768;
+  useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const shouldShow = scrollTop >= 110;
+    setShowHeaderAfter(shouldShow);
+  };
+
+  setTimeout(handleScroll, 500); // 初期表示チェック
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+  const BREAKPOINT_SP = 767;
 
   return (
     <div className={styles.faq}>
@@ -121,10 +136,20 @@ export default function FaqPage() {
       </div>
 
       {windowWidth > BREAKPOINT_SP ? (
-        <Header />
+        showHeaderAfter ? (
+          <Header_after className={styles.thanksHeader}   toggleMenu={toggleMenu}
+      isMenuOpen={isMenuOpen}  />
+        ) : (
+          <Header className={styles.thanksHeader} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>
+        )
       ) : (
         <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
       )}
+      <Drawer_menu
+  isOpen={isMenuOpen}
+  toggleMenu={toggleMenu}
+  closeDrawer={() => setIsMenuOpen(false)}
+/>
 
       <div className={styles.faq__inner}>
         <div className={styles.Bread}>
@@ -136,7 +161,7 @@ export default function FaqPage() {
         </div>
         <div className={styles.faq__items}>
           {faqItems.map((item, index) => (
-            <ScrollMotion 
+            <ScrollMotion
               key={index}
               delay={0.2}
               duration={0.6}
@@ -144,10 +169,7 @@ export default function FaqPage() {
               threshold={0.3}
               once={true}
             >
-              <Toggle
-                className={styles.faq__itemsToggle}
-                content={item}
-              />
+              <Toggle className={styles.faq__itemsToggle} content={item} />
             </ScrollMotion>
           ))}
         </div>

@@ -355,6 +355,11 @@
   }
 }
 
+.blog-link.clicked::before {
+  animation: arrow-cycle 0.4s ease-in-out forwards;
+}
+
+
 // 矢印の連続アニメーションのキーフレーム
 @keyframes arrow-cycle {
   // アニメーション開始時 (白い矢印が中央にある状態)
