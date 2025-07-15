@@ -10,6 +10,7 @@ import styles from "./SwiperGallery.module.scss";
 import Link from "next/link";
 import { useQuery, gql } from "@apollo/client";
 import ListViewButton from "../ListViewButton/ListViewButton";
+import { useRouter } from "next/navigation";
 
 const GET_WORKS_QUERY = gql`
   query GetWorksQuery {
@@ -36,6 +37,19 @@ const getCategoryName = (work) => {
 };
 
 function SwiperGallery() {
+  const router = useRouter();
+const [isClicked, setIsClicked] = useState(false);
+
+const handleClick = () => {
+  if (isClicked) return;
+  setIsClicked(true);
+};
+
+const handleTransitionEnd = (e) => {
+  if (isClicked && e.propertyName === "transform") {
+    router.push("/all-works");
+  }
+};
   const [isClient, setIsClient] = useState(false);
   const { loading, error, data } = useQuery(GET_WORKS_QUERY, { skip: !isClient });
   
@@ -102,9 +116,15 @@ function SwiperGallery() {
           <div className={styles.swiperButtonPrev}></div>
           <div className={styles.swiperButtonNext}></div>
         </div>
-        <Link href="/all-works" className={styles.listLink}>
-          <button className={styles.ListViewButton}>一覧をみる</button>
-        </Link>
+         <div className={styles.listLink}>
+    <button
+      className={styles.ListViewButton}
+      onClick={handleClick}
+      onTransitionEnd={handleTransitionEnd}
+    >
+      一覧をみる
+    </button>
+  </div>
       </div>
     </div>
   );
