@@ -91,21 +91,22 @@ $container-max-width: 1440px;
 
   &__progress-display {
     display: flex;
-    align-items: baseline; // ベースライン揃えに変更
+    align-items: center; // baselineからcenterに変更
     justify-content: left;
-    gap: clamp(20px, 1.67vw, 24px); // 375px:20px → 1440px:24px
+    gap: clamp(20px, 1.67vw, 24px);
     flex-wrap: wrap;
+    // 共通の基準線を設定
+    line-height: 1;
 
     @media (max-width: 479px) {
       justify-content: flex-start !important;
       text-align: left !important;
-      align-items: baseline !important; // モバイルでもベースライン揃え
+      align-items: center !important; // centerに変更
     }
   }
 
   &__progress-number {
     color: $loading-text-color;
-    // 数字部分: 375px:44px → 1440px:64px (480px-1920px対応)
     font-size: clamp(44px, 1.88vw + 36.96px, 64px);
     font-weight: 500;
     font-family: "DM Sans";
@@ -114,20 +115,21 @@ $container-max-width: 1440px;
     letter-spacing: -0.02em;
     font-feature-settings: "tnum" 1;
     animation: numberPulse 0.1s ease-out;
-    display: inline-block; // inline-blockに変更
+    display: flex; // flexに変更
+    align-items: center; // 中心揃え
+    height: clamp(44px, 1.88vw + 36.96px, 64px); // 高さを明示的に設定
 
     @media (max-width: 479px) {
-      font-size: 44px; // 375px幅で44px固定
+      font-size: 44px;
+      height: 44px;
       text-align: left;
       margin-bottom: 0;
       width: auto;
-      line-height: 1;
     }
   }
 
   &__progress-percent {
     color: $loading-text-color;
-    // %部分: 375px:24px → 1440px:40px (480px-1920px対応)
     font-size: clamp(24px, 1.5vw + 18.38px, 40px);
     font-weight: 500;
     font-family: "DM Sans";
@@ -135,36 +137,42 @@ $container-max-width: 1440px;
     user-select: none;
     letter-spacing: -0.02em;
     font-feature-settings: "tnum" 1;
-    display: inline-block; // inline-blockに変更してベースライン揃えが効くように
-    margin-left: -12px; // 数字との間隔をもっと詰める
+    display: flex; // flexに変更
+    align-items: center; // 中心揃え
+    height: clamp(44px, 1.88vw + 36.96px, 64px); // 数字と同じ高さに設定
+    margin-left: -12px;
 
     @media (max-width: 479px) {
-      font-size: 24px; // 375px幅で24px固定
+      font-size: 24px;
+      height: 44px; // 数字と同じ高さ
       text-align: left;
       margin-bottom: 0;
       width: auto;
-      line-height: 1;
-      margin-left: -10px; // モバイルでももっと詰める
+      margin-left: -10px;
     }
   }
 
   &__logo {
     display: flex;
-    align-items: baseline; // ベースライン揃えに変更
+    align-items: center; // centerに変更
     justify-content: center;
     opacity: 0;
     transform: translateY(-50px);
     animation: logoSlideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    height: clamp(44px, 1.88vw + 36.96px, 64px); // 数字と同じ高さに設定
+
+    @media (max-width: 479px) {
+      height: 44px; // 数字と同じ高さ
+    }
 
     img {
       display: block;
-      // ロゴサイズ: 375px幅でwidth:140px, height:39px → 1440px幅でもう少し大きく
-      // 140/39 = 約3.59の比率を維持
       width: clamp(140px, 10.38vw + 20.72px, 220px);
       height: clamp(39px, 2.71vw + 9.01px, 61px);
-
       max-width: none;
       max-height: none;
+      // 画像の中心を揃えるための調整
+      object-fit: contain;
 
       @media (max-width: 479px) {
         width: 140px;
