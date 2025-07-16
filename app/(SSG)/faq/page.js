@@ -1,20 +1,16 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Breadcrumb from "@/components/Breadcrumb";
+import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
+import Cta from "@/components/SSG/Cta/Cta";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
 import Toggle from "@/components/SSG/Faq/Toggle/Toggle";
 import styles from "./page.module.scss";
-import Cta from "@/components/SSG/Cta/Cta";
-import Header from "../../../components/SSG/Header/Header/Header";
-import Header_Sp from "../../../components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
-import Image from "next/image";
-import Breadcrumb from "@/components/Breadcrumb/index";
-import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
-import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
-import Header_after from "@/components/SSG/Header/Header_after/Header_after";
-import Drawer_menu from "@/components/SSG/Drawer/Drawer_menu/Drawer_menu";
 
+// パンくずリスト用
 const breadcrumbItems = generateBreadcrumb("/faq");
 
+// 静的にFAQを取得
 async function getData() {
   return [
     {
@@ -25,7 +21,7 @@ async function getData() {
     {
       title: "制作期間はどのくらいかかりますか？",
       content:
-        "シンプルな1ページのサイトであれば1ヶ月ほどです。複数のページにわたる本格的な企業サイトの場合は2−3ヶ月ほどです。詳細はお打ち合わせの際にお見積もりと合わせてご提示いたします。。",
+        "シンプルな1ページのサイトであれば1ヶ月ほどです。複数のページにわたる本格的な企業サイトの場合は2−3ヶ月ほどです。詳細はお打ち合わせの際にお見積もりと合わせてご提示いたします。",
     },
     {
       title: "ホームページの保守や運用はどんなサービスですか？",
@@ -45,55 +41,12 @@ async function getData() {
   ];
 }
 
-export default function FaqPage() {
-  const [faqItems, setFaqItems] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(0);
-    const [showHeaderAfter, setShowHeaderAfter] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const fetchFaqData = async () => {
-      const data = await getData();
-      setFaqItems(data);
-    };
-    fetchFaqData();
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-  const handleScroll = () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const shouldShow = scrollTop >= 110;
-    setShowHeaderAfter(shouldShow);
-  };
-
-  setTimeout(handleScroll, 500); // 初期表示チェック
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-  const BREAKPOINT_SP = 767;
+export default async function FaqPage() {
+  const faqItems = await getData();
 
   return (
     <div className={styles.faq}>
+      {/* 背景画像 */}
       <div className={styles.left_1stLineParent}>
         <Image
           className={styles.left_1stLine}
@@ -135,30 +88,19 @@ export default function FaqPage() {
         />
       </div>
 
-      {windowWidth > BREAKPOINT_SP ? (
-        showHeaderAfter ? (
-          <Header_after className={styles.thanksHeader}   toggleMenu={toggleMenu}
-      isMenuOpen={isMenuOpen}  />
-        ) : (
-          <Header className={styles.thanksHeader} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>
-        )
-      ) : (
-        <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-      )}
-      <Drawer_menu
-  isOpen={isMenuOpen}
-  toggleMenu={toggleMenu}
-  closeDrawer={() => setIsMenuOpen(false)}
-/>
+      {/* ヘッダー＋ドロワー */}
+      <ResponsiveHeaderWrapper className={styles.thanksHeader} />
 
       <div className={styles.faq__inner}>
         <div className={styles.Bread}>
           <Breadcrumb items={breadcrumbItems} />
         </div>
+
         <div className={styles.faq__title}>
           <h1 className={styles.faq__h1}>よくある質問</h1>
           <h2 className={styles.faq__h2}>FAQ</h2>
         </div>
+
         <div className={styles.faq__items}>
           {faqItems.map((item, index) => (
             <ScrollMotion
@@ -174,6 +116,7 @@ export default function FaqPage() {
           ))}
         </div>
       </div>
+
       <Cta />
     </div>
   );

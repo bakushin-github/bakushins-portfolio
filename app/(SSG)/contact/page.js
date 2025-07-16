@@ -1,71 +1,28 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Header from "@/components/SSG/Header/Header/Header";
-import Header_Sp from "@/components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
-import Link from "next/link";
-import styles from "./page.module.scss";
-import Breadcrumb from "@/components/Breadcrumb/index";
-import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
-import Image from "next/image";
-import ContactForm from "./contactForm";
-import useRecaptcha from "@/hooks/useRecaptcha";
-import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
 import Script from "next/script";
-import Header_after from "@/components/SSG/Header/Header_after/Header_after";
-import Drawer_menu from "@/components/SSG/Drawer/Drawer_menu/Drawer_menu";
+import Image from "next/image";
+import Breadcrumb from "@/components/Breadcrumb";
+import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
+import Cta from "@/components/SSG/Cta/Cta";
+import ContactForm from "./contactForm";
+import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
+import styles from "./page.module.scss";
 
-// パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/contact");
 
-function Page() {
-  // ========== レスポンシブヘッダー切り替えロジック ==========
-  const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
-  const [showHeaderAfter, setShowHeaderAfter] = useState(false);
-  const BREAKPOINT_SP = 767; // PC/SP切り替え境界値
-
-  // SPメニュー開閉切り替え関数
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-
-  // 画面幅監視とリサイズイベント処理
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-
-    if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
-  // ========================================================
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const shouldShow = scrollTop >= 110;
-      setShowHeaderAfter(shouldShow);
-    };
-
-    setTimeout(handleScroll, 1000); // 初期スクロール確認
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+export default function ContactPage() {
   return (
     <>
-      {/* Google reCAPTCHA v3 */}
+      {/* ✅ Google reCAPTCHA v3 Script */}
       <Script
         src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
         async
         defer
         strategy="afterInteractive"
       />
+
       <div className={styles.contact}>
+        {/* 背景レイヤー画像 */}
         <div className={styles.left_1stLineParent}>
           <Image
             className={styles.left_1stLine}
@@ -107,20 +64,8 @@ function Page() {
           />
         </div>
 
-{windowWidth > BREAKPOINT_SP ? (
-  showHeaderAfter ? (
-    <Header_after className={styles.thanksHeader} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>
-  ) : (
-    <Header className={styles.thanksHeader} toggleMenu={toggleMenu} />
-  )
-) : (
-  <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-)}
-<Drawer_menu
-  isOpen={isMenuOpen}
-  toggleMenu={toggleMenu}
-  closeDrawer={() => setIsMenuOpen(false)}
-/>
+        {/* ✅ ドロワー付きレスポンシブヘッダー */}
+        <ResponsiveHeaderWrapper className={styles.thanksHeader} />
 
         <div className={styles.contact__inner}>
           <div className={styles.Bread}>
@@ -131,6 +76,7 @@ function Page() {
             <h1 className={styles.contact__h1}>お問い合わせ</h1>
             <h2 className={styles.contact__h2}>Contact</h2>
           </div>
+
           <ScrollMotion
             delay={0.2}
             duration={0.6}
@@ -144,11 +90,12 @@ function Page() {
               お気軽にご相談ください。
             </p>
           </ScrollMotion>
+
+          {/* ✅ クライアント動作含む ContactForm */}
           <ContactForm />
         </div>
+        <Cta />
       </div>
     </>
   );
 }
-
-export default Page;

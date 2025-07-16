@@ -1,60 +1,19 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Header from "@/components/SSG/Header/Header/Header";
-import Header_Sp from "@/components/SSG/Drawer/Sp/Drawer_menu/Drawer_menuSP";
-import Link from "next/link";
-import styles from "./page.module.scss";
 import Image from "next/image";
-import Breadcrumb from "@/components/Breadcrumb/index";
+import Link from "next/link";
+import Breadcrumb from "@/components/Breadcrumb";
 import { generateBreadcrumb } from "@/lib/utils/generateBreadcrumb";
 import Cta from "@/components/SSG/Cta/Cta";
 import { ScrollMotion } from "@/components/animation/Stagger/ScrollMotion";
-import Header_after from "@/components/SSG/Header/Header_after/Header_after";
-import Drawer_menu from "@/components/SSG/Drawer/Drawer_menu/Drawer_menu";
+import ResponsiveHeaderWrapper from "@/components/ResponsiveHeaderWrapper";
+import styles from "./page.module.scss";
 
 // パスを静的に渡して生成
 const breadcrumbItems = generateBreadcrumb("/price");
 
 export default function Price() {
-  // ========== レスポンシブヘッダー切り替えロジック ==========
-  const [windowWidth, setWindowWidth] = useState(0); // 画面幅管理
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // SPメニュー開閉状態
-  const [showHeaderAfter, setShowHeaderAfter] = useState(false);
-  const BREAKPOINT_SP = 767; // PC/SP切り替え境界値
-
-  // SPメニュー開閉切り替え関数
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-
-  // 画面幅監視とリサイズイベント処理
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-
-    if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
-  // ========================================================
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const shouldShow = scrollTop >= 110;
-      setShowHeaderAfter(shouldShow);
-    };
-
-    setTimeout(handleScroll, 500); // 初期表示チェック
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className={styles.price}>
+      {/* 背景レイヤー画像 */}
       <div className={styles.left_1stLineParent}>
         <Image
           className={styles.left_1stLine}
@@ -87,21 +46,10 @@ export default function Price() {
           fill
         />
       </div>
-      {windowWidth > BREAKPOINT_SP ? (
-        showHeaderAfter ? (
-          <Header_after className={styles.thanksHeader}   toggleMenu={toggleMenu}
-      isMenuOpen={isMenuOpen}  />
-        ) : (
-          <Header className={styles.thanksHeader} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>
-        )
-      ) : (
-        <Header_Sp toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-      )}
-      <Drawer_menu
-  isOpen={isMenuOpen}
-  toggleMenu={toggleMenu}
-  closeDrawer={() => setIsMenuOpen(false)}
-/>
+
+      {/* レスポンシブ対応ヘッダー（CSRで描画） */}
+      <ResponsiveHeaderWrapper className={styles.thanksHeader} />
+
       <div className={styles.price__inner}>
         <div className={styles.Bread}>
           <Breadcrumb items={breadcrumbItems} />
@@ -115,6 +63,7 @@ export default function Price() {
             ご依頼内容に応じた料金の目安を掲載しています。デザイン・原稿・アニメーションをご希望の場合、別途料金を承ります。詳細なお見積もりは、ヒアリング後にご案内いたします。
           </p>
         </div>
+
         <ScrollMotion
           delay={0.3}
           duration={0.6}
@@ -122,9 +71,7 @@ export default function Price() {
           threshold={0.3}
           once={true}
         >
-          {" "}
           <div className={styles.price__tableContent}>
-            {" "}
             <table className={styles.price_table} role="table">
               <thead className={styles.visually_hidden}>
                 <tr>
@@ -132,7 +79,7 @@ export default function Price() {
                   <th scope="col">料金</th>
                 </tr>
               </thead>
-              <tbody class={styles.price__tableBody}>
+              <tbody className={styles.price__tableBody}>
                 <tr>
                   <td>横長の1ページ</td>
                   <td>150,000円〜</td>
@@ -154,6 +101,7 @@ export default function Price() {
           </div>
         </ScrollMotion>
       </div>
+
       <Cta />
     </div>
   );
