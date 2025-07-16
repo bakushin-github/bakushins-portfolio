@@ -24,8 +24,8 @@
   /* 1024px: 282px | 1920px: 529px */
   height: clamp(282px, 27.57vw, 529px);
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: clamp(16.563rem, -0.002rem + 34.51vw, 22.063rem);
-    height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
+  width: clamp(195px, calc(195px + 55 * (100vw - 768px) / 255), 250px);
+  height: clamp(219px, calc(219px + 62 * (100vw - 768px) / 255), 281px);
   }
   @media (max-width: 767px) {
     /* 320px: 310px | 375px: 330px | 767px: 380px */
@@ -68,7 +68,7 @@
     /* 1024px: 142px | 1920px: 267px */
     height: clamp(142px, 13.889vw, 267px);
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-      height: clamp(9.375rem, -0.037rem + 19.61vw, 12.5rem);
+      height: clamp(110px, calc(110px + 32 * (100vw - 768px) / 255), 142px);
     }
 
     @media (max-width: 767px) {
@@ -114,7 +114,11 @@
     justify-content: center;
     align-items: center;
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-      height: clamp(1.438rem, 0.12rem + 2.75vw, 1.875rem);
+      height: clamp(16px, calc(16px + 5 * (100vw - 768px) / 255), 21px);
+      top: clamp(8px, calc(8px + 3 * (100vw - 768px) / 255), 11px);
+      right: clamp(10px, calc(10px + 3 * (100vw - 768px) / 255), 13px);
+      padding: clamp(5px, calc(5px + 2 * (100vw - 768px) / 255), 7px);
+      font-size: clamp(8px, calc(8px + 2 * (100vw - 768px) / 255), 10px);
     }
     @media (max-width: 767px) {
       /* 320px: 22px | 375px: 24px | 767px: 28px */
@@ -138,8 +142,9 @@
     }
     padding: clamp(17px, 1.667vw, 32px) clamp(22px, 2.188vw, 42px);
     box-sizing: border-box;
-    @media screen and (min-width: 768px) and (max-width: 1023.98px) {
-      height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      height: clamp(77px, calc(77px + 27 * (100vw - 768px) / 255), 104px);
+      padding: clamp(13px, calc(13px + 4 * (100vw - 768px) / 255), 17px) clamp(17px, calc(17px + 5 * (100vw - 768px) / 255), 22px);
     }
     @media (max-width: 767px) {
       /* 320px: 142px | 375px: 150px | 767px: 175px */
@@ -157,6 +162,11 @@
       margin: 0;
       box-sizing: border-box;
       font-size: clamp(12px, 1.337vw, 24px);
+      @media screen and (min-width: 768px) and (max-width: 1023px) {
+        padding-top: clamp(2px, calc(2px + 0 * (100vw - 768px) / 255), 2px);
+        padding-bottom: clamp(20px, calc(20px + 6 * (100vw - 768px) / 255), 26px);
+        font-size: clamp(9px, calc(9px + 3 * (100vw - 768px) / 255), 12px);
+      }
       @media (max-width:767px) {
         /* 320px: 20px | 375px: 22px | 767px: 26px */
         padding-top: clamp(20px, 1.53vw + 15.1px, 26px);
@@ -172,6 +182,9 @@
       height: 82px;
       box-sizing: border-box;
       font-size: clamp(11px, 1.228vw, 22px);
+      @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: clamp(8px, calc(8px + 3 * (100vw - 768px) / 255), 11px);
+      }
       @media (max-width:767px) {
         /* 320px: 13px | 375px: 14px | 767px: 16px */
         font-size: clamp(13px, 0.76vw + 10.56px, 16px);
@@ -197,6 +210,12 @@
   background-position: 100% 0;
   transition: background-position 0.4s ease-in-out;
   
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: clamp(31px, calc(31px + 9 * (100vw - 768px) / 255), 40px);
+    height: clamp(31px, calc(31px + 9 * (100vw - 768px) / 255), 40px);
+    right: clamp(14px, calc(14px + 4 * (100vw - 768px) / 255), 18px);
+  }
+  
   @media (max-width: 767px) {
     /* 320px: 18px | 375px: 20px | 767px: 25px */
     right: clamp(18px, 1.78vw + 12.3px, 25px);
@@ -220,6 +239,11 @@
       opacity 0.3s ease-out;
     transform: translateX(0%);
     opacity: 1;
+    
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      background-size: clamp(14px, calc(14px + 4 * (100vw - 768px) / 255), 18px);
+      border-radius: clamp(5px, calc(5px + 2 * (100vw - 768px) / 255), 7px);
+    }
   }
 }
 
@@ -249,10 +273,3 @@
     opacity: 1;
   }
 }
-
-// 旧スタイルは削除（互換性のため残しておく場合はコメントアウト）
-/*
-.postCard {
-  // 旧スタイル
-}
-*/
