@@ -15,13 +15,12 @@
 
 .works-container {
   /* 1024px: 1106px | 1920px: 1106px (固定値を維持) */
-width: (1106px/1400px*100%);
+  width: (1106px/1400px * 100%);
   margin: auto;
   /* 1024px: 96px | 1920px: 96px */
   padding-bottom: clamp(60px, 6.25vw, 96px);
   @media (max-width: 767px) {
     width: 90%;
-    
   }
 }
 
@@ -96,7 +95,7 @@ width: (1106px/1400px*100%);
   @media (max-width: 767px) {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 0px;
   }
 }
 
@@ -120,12 +119,12 @@ width: (1106px/1400px*100%);
     height: clamp(16.25rem, 0.062rem + 33.73vw, 21.625rem);
   }
   @media (max-width: 767px) {
-    /* 320px: 283px | 767px: 353px */
-    width: clamp(283px, 15.64vw + 233px, 353px);
-    /* 320px: 277px | 767px: 346px */
-    height: clamp(277px, 15.43vw + 227px, 346px);
-    margin-top: 30px;
-    max-width: 353px;
+    /* 320px: 283px | 767px: 706px */
+    width: clamp(283px, 94.64vw - 19.36px, 706px);
+    /* 320px: 277px | 767px: 692px */
+    height: clamp(277px, 92.86vw - 20.12px, 692px);
+    margin-top: clamp(35.1px, 10.2vw + 2.5px, 80px);
+    max-width: 706px;
   }
   &:hover {
     .work-title {
@@ -167,8 +166,8 @@ width: (1106px/1400px*100%);
       height: clamp(9.375rem, -0.037rem + 19.61vw, 12.5rem);
     }
     @media (max-width: 767px) {
-      /* 320px: 160px | 767px: 200px */
-      height: clamp(160px, 8.95vw + 131px, 200px);
+      /* 320px: 160px | 767px: 400px */
+      height: clamp(160px, 53.69vw + 7.31px, 400px);
     }
 
     img {
@@ -184,10 +183,10 @@ width: (1106px/1400px*100%);
         width: clamp(16.563rem, -0.002rem + 34.51vw, 22.063rem);
       }
       @media (max-width: 767px) {
-        /* 320px: 160px | 767px: 200px */
-        height: clamp(160px, 8.95vw + 131px, 200px);
-        /* 320px: 283px | 767px: 353px */
-        width: clamp(283px, 15.64vw + 233px, 353px);
+        /* 320px: 160px | 767px: 400px */
+        height: clamp(160px, 53.69vw + 7.31px, 400px);
+        /* 320px: 283px | 767px: 706px */
+        width: clamp(283px, 94.64vw - 19.36px, 706px);
       }
     }
   }
@@ -211,6 +210,11 @@ width: (1106px/1400px*100%);
     font-weight: 600;
     /* 1024px: 10px | 1920px: 19px */
     font-size: clamp(10px, 0.972vw, 19px);
+    @media (max-width: 767px) {
+      font-size: clamp(10.76px, 4.08vw - 2.3px, 29px);
+      height: clamp(25.77px, 5.87vw + 6.99px, 52px);
+      padding: clamp(7.87px, 2.71vw - 0.82px, 20px);
+    }
     line-height: 160%;
     letter-spacing: 0%;
     border: 1px solid #caccd3;
@@ -241,9 +245,12 @@ width: (1106px/1400px*100%);
       height: clamp(6.875rem, 0.099rem + 14.12vw, 9.125rem);
     }
     @media (max-width: 767px) {
-      /* 320px: 117px | 767px: 146px */
-      height: clamp(117px, 6.49vw + 96px, 146px);
-      padding: 15px 20px;
+      /* 320px: 117px | 767px: 292px */
+      height: clamp(117px, 39.15vw - 8.28px, 292px);
+      /* 320px: 16px | 767px: 30px */
+      padding-top: clamp(16px, 3.13vw + 6px, 30px);
+      /* 320px: 27px | 767px: 40px */
+      padding-inline: clamp(27px, 2.91vw + 17.69px, 40px);
     }
 
     h2 {
@@ -260,8 +267,8 @@ width: (1106px/1400px*100%);
         font-size: clamp(0.875rem, 0.122rem + 1.57vw, 1.125rem);
       }
       @media (max-width: 767px) {
-        /* 320px: 14px | 767px: 18px */
-        font-size: clamp(14px, 0.89vw + 11px, 18px);
+        /* 320px: 13.2px | 767px: 36px */
+        font-size: clamp(13.2px, 5.1vw - 3.13px, 36px);
       }
 
       &::before,
@@ -270,6 +277,9 @@ width: (1106px/1400px*100%);
         position: absolute;
         /* 1024px: 20px | 1920px: 37px */
         top: clamp(20px, 1.944vw, 37px);
+        @media (max-width: 767px) {
+          top: clamp(15.79px, 7.65vw - 8.69px, 50px);
+        }
         left: 0;
         width: 100%;
         height: 0.5px;
@@ -292,8 +302,8 @@ width: (1106px/1400px*100%);
         font-size: clamp(0.688rem, 0.123rem + 1.18vw, 0.875rem);
       }
       @media (max-width: 767px) {
-        /* 320px: 11px | 767px: 14px */
-        font-size: clamp(11px, 0.67vw + 9px, 14px);
+        /* 320px: 10.89px | 767px: 28px */
+        font-size: clamp(10.89px, 3.83vw - 1.37px, 28px);
       }
     }
   }
@@ -323,8 +333,13 @@ width: (1106px/1400px*100%);
     right: 23px;
   }
   @media (max-width: 767px) {
-    right: 20px;
-    bottom: 15px;
+    /* 320px: 35.79px | 767px: 70px */
+    width: clamp(35.79px, 7.65vw + 11.31px, 70px);
+    height: clamp(35.79px, 7.65vw + 11.31px, 70px);
+    /* 320px: 20px | 767px: 42px */
+    right: clamp(20px, 4.92vw + 4.26px, 42px);
+    /* 320px: 15px | 767px: 32px */
+    bottom: clamp(15px, 3.8vw + 2.83px, 32px);
   }
   border-radius: 8px;
   display: flex;
@@ -352,6 +367,9 @@ width: (1106px/1400px*100%);
     background-image: url("../../public/Works/PC/ArrowBlue.webp"); // 通常時の矢印
     /* 1024px: 13px | 1920px: 24px */
     background-size: clamp(13px, 1.25vw, 24px);
+    @media (max-width: 767px) {
+      background-size: clamp(16.41px, 0.8vw + 13.84px, 20px);
+    }
     background-position: center;
     background-repeat: no-repeat;
 
@@ -373,7 +391,6 @@ width: (1106px/1400px*100%);
 .work-link.clicked::before {
   animation: arrow-cycle 0.8s ease-in-out forwards;
 }
-
 
 // 矢印の連続アニメーションのキーフレーム
 @keyframes arrow-cycle {
@@ -471,7 +488,7 @@ width: (1106px/1400px*100%);
     transform: scaleX(1);
     transform-origin: left;
   }
-  @media (max-width:599px) {
+  @media (max-width: 599px) {
     display: none;
   }
 }
@@ -489,9 +506,9 @@ width: (1106px/1400px*100%);
   letter-spacing: 0.56px;
   &:nth-of-type(n) {
     padding-left: 32px;
-        @media (max-width: 420px) {
-    padding-left: 25px;
-  }
+    @media (max-width: 420px) {
+      padding-left: 25px;
+    }
   }
 
   // &:not(:first-child){
@@ -533,7 +550,7 @@ width: (1106px/1400px*100%);
     transform: translateY(-50%);
     border-radius: 50%;
     z-index: -1;
-    @media (max-width:420px) {
+    @media (max-width: 420px) {
       left: 9px;
     }
   }
@@ -608,7 +625,7 @@ width: (1106px/1400px*100%);
      768px以下のスタイルをここに集約・上書きすることも可能です。 */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .swiper-slide {
     width: auto !important;
 

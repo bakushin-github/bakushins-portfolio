@@ -58,7 +58,6 @@ const getSkill = (work, structure) => {
   return "";
 };
 
-
 // ページネーションコンポーネント（page.jsxから移動）
 function Pagination({ pagination, basePath = "/all-works" }) {
   const { currentPage, totalPages, hasNextPage, hasPreviousPage } = pagination;
@@ -156,33 +155,32 @@ function Pagination({ pagination, basePath = "/all-works" }) {
   );
 }
 
-
 // WorksClient: 作品一覧のメインコンポーネント (クライアントコンポーネント)
 export default function WorksClient({ works, skillStructure, pagination }) {
-    const router = useRouter(); // ✅ useRouter フック
+  const router = useRouter(); // ✅ useRouter フック
   const [clickedWorkSlug, setClickedWorkSlug] = useState(null);
 
-const handleCardClick = (e, slug) => {
-  e.preventDefault();
-  if (clickedWorkSlug) return; // 多重クリック防止
-  setClickedWorkSlug(slug);
+  const handleCardClick = (e, slug) => {
+    e.preventDefault();
+    if (clickedWorkSlug) return; // 多重クリック防止
+    setClickedWorkSlug(slug);
 
-  const target = e.currentTarget;
-  const workLink = target.querySelector(`.${styles["work-link"]}`);
+    const target = e.currentTarget;
+    const workLink = target.querySelector(`.${styles["work-link"]}`);
 
-  if (workLink) {
-    workLink.classList.add(styles.clicked); // ← SCSSに `.work-link.clicked::before { ... }` 追加しておくこと
-    workLink.addEventListener(
-      "animationend",
-      () => {
-        router.push(`/all-works/${slug}`);
-      },
-      { once: true }
-    );
-  } else {
-    router.push(`/all-works/${slug}`); // fallback
-  }
-};
+    if (workLink) {
+      workLink.classList.add(styles.clicked); // ← SCSSに `.work-link.clicked::before { ... }` 追加しておくこと
+      workLink.addEventListener(
+        "animationend",
+        () => {
+          router.push(`/all-works/${slug}`);
+        },
+        { once: true }
+      );
+    } else {
+      router.push(`/all-works/${slug}`); // fallback
+    }
+  };
   // 列数を検出するためのstateとeffect（ブログ記事一覧と同様）
   const [columns, setColumns] = useState(3); // デフォルトはPCの3列
 
@@ -199,10 +197,9 @@ const handleCardClick = (e, slug) => {
     };
 
     calculateColumns(); // 初回計算
-    window.addEventListener('resize', calculateColumns);
-    return () => window.removeEventListener('resize', calculateColumns);
+    window.addEventListener("resize", calculateColumns);
+    return () => window.removeEventListener("resize", calculateColumns);
   }, []);
-
 
   return (
     <main className={styles["works-container"]}>
@@ -232,11 +229,11 @@ const handleCardClick = (e, slug) => {
           const columnDelay = 0.05; // 列ごとの追加遅延
 
           // モバイル（1列）の場合は列の遅延を無効にするか、rowDelayに含める
-          const currentColumnDelay = columns === 1 ? 0 : columnDelay; 
+          const currentColumnDelay = columns === 1 ? 0 : columnDelay;
           const currentRowDelay = columns === 1 ? 0.1 : rowDelay; // モバイルでは行ごとにシンプルに遅延
 
-          const calculatedDelay = initialDelay + (row * currentRowDelay) + (col * currentColumnDelay);
-
+          const calculatedDelay =
+            initialDelay + row * currentRowDelay + col * currentColumnDelay;
 
           return (
             <ScrollMotion
@@ -248,48 +245,47 @@ const handleCardClick = (e, slug) => {
               yOffset={50} // 下から上へのアニメーション
               xOffset={0}
             >
-             <div
-  className={styles["work-imageLink"]}
-  onClick={(e) => handleCardClick(e, work.slug)}
-  role="link"
-  tabIndex={0}
->
-  <article className={styles["work-card"]}>
-    <header className={styles["work-header"]}>
-      {getCategoryName(work) && (
-        <span className={styles["work-category"]}>
-          {getCategoryName(work)}
-        </span>
-      )}
+              <div
+                className={styles["work-imageLink"]}
+                onClick={(e) => handleCardClick(e, work.slug)}
+                role="link"
+                tabIndex={0}
+              >
+                <article className={styles["work-card"]}>
+                  <header className={styles["work-header"]}>
+                    {getCategoryName(work) && (
+                      <span className={styles["work-category"]}>
+                        {getCategoryName(work)}
+                      </span>
+                    )}
 
-      <Image
-        src={
-          work.featuredImage?.node?.sourceUrl ||
-          "/About/PC/Icon.webp"
-        }
-        width={353}
-        height={200}
-        alt={
-          work.featuredImage?.node?.altText ||
-          truncateTitle(work.title) ||
-          "作品画像"
-        }
-        className={styles["work-image"]}
-        priority={index < 4}
-      />
-    </header>
-    <footer className={styles["work-footer"]}>
-      <h2 className={styles["work-title"]}>
-        {truncateTitle(work.title)}
-      </h2>
-      <p className={styles["work-skill"]}>
-        {formatSkill(getSkill(work, skillStructure))}
-      </p>
-      <div className={styles["work-link"]}></div>
-    </footer>
-  </article>
-</div>
-
+                    <Image
+                      src={
+                        work.featuredImage?.node?.sourceUrl ||
+                        "/About/PC/Icon.webp"
+                      }
+                      width={353}
+                      height={200}
+                      alt={
+                        work.featuredImage?.node?.altText ||
+                        truncateTitle(work.title) ||
+                        "作品画像"
+                      }
+                      className={styles["work-image"]}
+                      priority={index < 4}
+                    />
+                  </header>
+                  <footer className={styles["work-footer"]}>
+                    <h2 className={styles["work-title"]}>
+                      {truncateTitle(work.title)}
+                    </h2>
+                    <p className={styles["work-skill"]}>
+                      {formatSkill(getSkill(work, skillStructure))}
+                    </p>
+                    <div className={styles["work-link"]}></div>
+                  </footer>
+                </article>
+              </div>
             </ScrollMotion>
           );
         })}
