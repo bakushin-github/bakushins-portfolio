@@ -16,6 +16,11 @@
   @media (max-width: 767px) {
     padding-inline: 0;
   }
+
+a{
+  color: $main-color-blue;
+  text-decoration: underline;
+}
 }
 
 .work__h2 {
