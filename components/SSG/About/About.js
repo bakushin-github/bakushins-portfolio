@@ -123,11 +123,12 @@ function About() {
 
         <div className={styles.ball}>
           <Image
-           src="/About/PC/ball.webp"
+            src="/About/PC/ball.webp"
             // width={44}
             // height={44}
             alt="ball"
-            fill />
+            fill
+          />
         </div>
 
         <H2
@@ -264,6 +265,24 @@ function About() {
                   </li>
                   <li className={styles.about__list}>
                     <Image
+                      className={styles.threeJs}
+                      src="/About/PC/three.js.webp"
+                      width={75}
+                      height={75}
+                      alt="threeJs"
+                    />
+                  </li>
+                  <li className={styles.about__list}>
+                    <Image
+                      className={styles.js}
+                      src="/About/Sp/js.webp"
+                      width={75}
+                      height={75}
+                      alt="JavaScript"
+                    />
+                  </li>
+                  <li className={styles.about__list}>
+                    <Image
                       className={styles.sass}
                       src="/About/Sp/sass.webp"
                       width={75}
@@ -287,15 +306,6 @@ function About() {
                       width={75}
                       height={75}
                       alt="css"
-                    />
-                  </li>
-                  <li className={styles.about__list}>
-                    <Image
-                      className={styles.js}
-                      src="/About/Sp/js.webp"
-                      width={75}
-                      height={75}
-                      alt="JavaScript"
                     />
                   </li>
                   <li className={styles.about__list}>
