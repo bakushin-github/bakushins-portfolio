@@ -14,6 +14,7 @@ import {
 } from "../../../lib/utils/sidebar-utils";
 import Cta from "@/components/SSG/Cta/Cta";
 import BlogLayoutWithSidebar from "@/components/sidebar/BlogLayoutWithSidebar";
+import { notFound } from "next/navigation";
 
 
 // GraphQLクライアントの初期化
@@ -150,26 +151,7 @@ export default async function BlogDetailPage({ params }) {
 
     // 記事が見つからない場合
     if (!blog) {
-      return (
-        <>
-          <ResponsiveHeaderWrapper className={styles.blogsHeader} />
-          <div className={styles.breadcrumbWrapper}>
-            <Breadcrumb
-              items={createBreadcrumbs(slug, "記事が見つかりません")}
-            />
-          </div>
-
-          <main className={styles.container}>
-            <div className={styles.notFound}>
-              <h1>ブログが見つかりませんでした</h1>
-              <p>スラッグ: {slug}</p>
-              <Link href="/all-blogs" className={styles.backButton}>
-                全ブログ一覧に戻る
-              </Link>
-            </div>
-          </main>
-        </>
-      );
+      notFound();
     }
 
     // コンテンツ処理（blogが定義された後）
@@ -266,25 +248,8 @@ export default async function BlogDetailPage({ params }) {
       </>
     );
   } catch (error) {
-    // エラーが発生した場合
-    return (
-      <>
-        <ResponsiveHeaderWrapper className={styles.blogsHeader} />
-        <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb items={createBreadcrumbs(slug, "エラーが発生しました")} />
-        </div>
-
-        <main className={styles.container}>
-          <div className={styles.error}>
-            <h1>エラーが発生しました</h1>
-            <p>スラッグ: {slug}</p>
-            <p>エラー: {error.message}</p>
-            <Link href="/all-blogs" className={styles.backButton}>
-              全ブログ一覧に戻る
-            </Link>
-          </div>
-        </main>
-      </>
-    );
-  }
+  // 🔴 変更: エラーが発生した場合も404ページを表示
+  console.error("Error fetching blog post:", error);
+  notFound(); // 🔴 変更: 独自エラーUIを削除してnotFound()を使用
+}
 }
